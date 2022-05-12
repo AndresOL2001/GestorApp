@@ -1,0 +1,150 @@
+<nav class="sidebar close">
+    <header>
+      <div class="image-text">
+        <span class="image">
+          <img src="../../../assets/logo-dark.png" alt="icon">
+        </span>
+
+        <div class="text logo-text">
+          <span class="name">Tittle</span>
+          <span class="profession">empresa</span>
+        </div>
+      </div>
+
+      <i  class='bx bx-chevron-right toggle'></i>
+    </header>
+
+    <div class="menu-bar">
+      <div class="menu">
+        <ul class="menu-links">
+          <li class="nav-link">
+            <a href="#">
+              <i class='bx bx-home-alt icon'></i>
+              <span class="text nav-text">Dashboard</span>
+            </a>
+          </li>
+
+          <li class="nav-link">
+            <a href="#">
+              <i class='bx bx-import icon'></i>
+              <span class="text nav-text">Importar Layout</span>
+            </a>
+          </li>
+
+          <li class="nav-link">
+            <a href="#">
+              <i class='bx bx-export icon'></i>
+              <span class="text nav-text">Exportar</span>
+            </a>
+          </li>
+
+          <li class="nav-link dropd">
+            <div class="dropdown ">
+            <a [routerLink]="'/dashboard'" class="feat-btn link">
+              <i class='bx bx-grid-small icon'></i>
+              <span class="text nav-text ">Configuracion</span>
+              <span class='bx bx-chevron-down icone'></span>
+            </a>
+            <div class="dropdown-menu">
+              <a [routerLink]="'/estados'">Estatus ABC</a>
+            </div>
+          </div>
+          </li>
+        </ul>
+      </div>
+      
+      <div class="menu-bottom">
+        <div>
+          <li class="nav-link">
+            <a href="#">
+              <i class='bx bx-help-circle icon'></i>
+              <span class="text nav-text">Help</span>
+            </a>
+          </li>
+        </div>
+        <li class="mode">
+          <div class="sun-moon">
+            <i class='bx bx-moon icon moon'></i>
+            <i class='bx bx-sun icon sun'></i>
+          </div>
+          <span *ngIf="!oscuro" class="text nav-text">Dark mode</span>
+          <span *ngIf="oscuro" class="text nav-text">Light mode</span>
+          <div class="toggle-switch">
+            <span class="switch"></span>
+          </div>
+        </li>
+    </div>
+    </div>
+  </nav>
+
+  <!-- sidebar-->
+  <!-- <div class="sidebar">
+      <button class="sidebar__close">
+        <svg class="icon icon-close">
+          <use xlink:href="#icon-close"></use>
+        </svg>
+      </button><a class="sidebar__logo" href="index.html"><img class="some-icon" src="img/logo-dark.png" alt="Core"><img class="some-icon-dark" src="img/logo-light.png" alt="Core"></a>
+      <div class="sidebar__menu"><a class="sidebar__item active" href="index.html">
+          <svg class="icon icon-home">
+            <use xlink:href="#icon-home"></use>
+          </svg><span class="nombreElem">Dashboard</span></a>
+        <div class="sidebar__item sidebar__item_dropdown">
+          <div class="sidebar__top">
+            <button class="sidebar__head">
+              <svg class="icon icon-diamond">
+                <use xlink:href="#icon-diamond"></use>
+              </svg><span class="nombreElem">Importar Layout</span>
+            </button>
+          </div>
+       
+        </div>
+        <div class="sidebar__item sidebar__item_dropdown">
+          <button class="sidebar__head">
+            <svg class="icon icon-profile-circle">
+              <use xlink:href="#icon-profile-circle"></use>
+            </svg><span class="nombreElem">Exportar</span>
+          </button>
+      
+        </div>
+
+        <div class="sidebar__item sidebar__item_dropdown">
+          <button class="sidebar__head">
+            <svg class="icon icon-pie-chart">
+              <use xlink:href="#icon-pie-chart"></use>
+            </svg><span class="nombreElem">Confriguracion</span></a>
+            <svg class="icon icon-arrow-down">
+              <use xlink:href="icon-arrow-down"></use>
+            </svg>
+          </button>
+          <div class="sidebar__body"><a class="sidebar__link" href="/income-earning.html">Estatus
+            <svg class="icon icon-arrow-next">
+              <use xlink:href="#icon-arrow-next"></use>
+            </svg>
+          </div>
+       
+        </div>
+      </div>
+      <button class="sidebar__toggle">
+        <svg class="icon icon-arrow-right">
+          <use xlink:href="#icon-arrow-right"></use>
+        </svg>
+        <svg class="icon icon-close">
+          <use xlink:href="#icon-close"></use>
+        </svg>
+      </button>
+      <div class="sidebar__foot">
+        <label class="theme js-theme">
+          <input class="theme__input" type="checkbox"/><span class="theme__inner"><span class="theme__box">
+              <svg class="icon icon-sun">
+                <use xlink:href="#icon-sun"></use>
+              </svg></span><span class="theme__box">
+              <svg class="icon icon-moon">
+                <use xlink:href="#icon-moon"></use>
+              </svg></span></span>
+        </label>
+      </div>
+    </div>-->
+
+
+
+   
