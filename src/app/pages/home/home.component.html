@@ -1,1 +1,162 @@
-<p>home works!</p>
+<!-- inner-->
+<div class="page__inner">
+    <div class="page__container">
+      <div class="page__title h3">Nuevo Estatus</div>
+      <div class="create">
+        <div class="create__row">
+          <div class="create__col">
+            <div class="create__card card">
+              <div class="card__head">
+                <div class="title-green card__title">Nombre y Descripción</div><a class="button-stroke button-small card__button" href="products-dashboard.html">
+                  <svg class="icon icon-arrow-left">
+                    <use xlink:href="#icon-arrow-left"></use>
+                  </svg><span>Back</span></a>
+              </div>
+              <div class="field">
+                <div class="field__label">Abreviatura
+                  <div class="tooltip" title="Maximum 100 characters. No HTML or emoji allowed">
+                    <svg class="icon icon-info">
+                      <use xlink:href="#icon-info"></use>
+                    </svg>
+                  </div>
+                </div>
+                <div class="field__wrap">
+                  <input class="field__input" type="text" name="title" required>
+                </div>
+              </div>
+              <div class="field">
+                <div class="field__label">Nombre del estatus
+                  <div class="tooltip" title="Maximum 100 characters. No HTML or emoji allowed">
+                    <svg class="icon icon-info">
+                      <use xlink:href="#icon-info"></use>
+                    </svg>
+                  </div>
+                </div>
+                <div class="field__wrap">
+                  <input class="field__input" type="text" name="title" required>
+                </div>
+              </div>
+              <div class="editor">
+                <div class="editor__label">Descripción
+                  <div class="tooltip" title="Description">
+                    <svg class="icon icon-info">
+                      <use xlink:href="#icon-info"></use>
+                    </svg>
+                  </div>
+                </div>
+                <div class="richText">
+                    <div class="richText-toolbar">
+                        <ul>
+                            <li>
+                                <a class="richText-btn" data-command="bold" title="Bold">
+                                    <span class="fa fa-bold"></span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="richText-btn" data-command="italic" title="Italic">
+                                    <span class="fa fa-italic"></span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="richText-btn" data-command="underline" title="Underline">
+                                    <span class="fa fa-underline">
+                                    </span>
+                                </a>
+                            </li>
+                            <li><a class="richText-btn" data-command="justifyCenter" title="Align centered">
+                                <span class="fa fa-align-center"></span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="richText-btn" data-command="insertUnorderedList" title="Add unordered list">
+                                    <span class="fa fa-list"></span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="richText-btn" title="Add URL">
+                                    <span class="fa fa-link"></span>
+                                    <div class="richText-dropdown-outer">
+                                        <div class="richText-dropdown">
+                                            <span class="richText-dropdown-close">
+                                                <span title="Close">
+                                                    <span class="fa fa-times"></span>
+                                                </span>
+                                            </span>
+                                            <div class="richText-form" id="richText-URL" data-editor="richText-4auz7e">
+                                                <div class="richText-form-item">
+                                                    <label for="url">URL</label>
+                                                    <input type="text" id="url">
+                                                </div>
+                                                <div class="richText-form-item">
+                                                    <label for="urlText">Text</label>
+                                                    <input type="text" id="urlText">
+                                                </div>
+                                                <div class="richText-form-item">
+                                                    <label for="openIn">Open in</label>
+                                                    <select id="openIn">
+                                                        <option value="_self">Same tab</option>
+                                                        <option value="_blank">New tab</option>
+                                                    </select>
+                                                </div>
+                                                <div class="richText-form-item">
+                                                    <button class="btn">Add</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                        
+                    </div>
+                    <div class="richText-editor" id="richText-4auz7e" contenteditable="true"><div>s</div></div><textarea class="editor__textarea js-editor richText-initial" style="display: none;"></textarea><div class="richText-toolbar"><a class="richText-undo" title="Undo"><span class="fa fa-undo"></span></a><a class="richText-redo is-disabled" title="Redo"><span class="fa fa-repeat fa-redo"></span></a><a class="richText-help"><span class="fa fa-question-circle"></span></a></div></div>
+                    
+                </div>
+                <div class="panel">
+                    <div class="panel__info">
+                      <svg class="icon icon-check-all">
+                        <use xlink:href="#icon-check-all"></use>
+                      </svg>Last saved <span>Oct 4, 2021 - 23:32</span>
+                    </div>
+                    <div class="panel__btns">
+                      <button class="button-stroke panel__button">Cancelar</button>
+                      <button class="button panel__button">Guardar</button>
+                      <div class="actions actions_up">
+                        <button  class="actions__button">
+                          <svg class="icon icon-more-horizontal">
+                            <use xlink:href="#icon-more-horizontal"></use>
+                          </svg>
+                        </button>
+                        <div class="actions__body ">
+                          <button  class="actions__option js-preview-open">
+                            <svg class="icon icon-expand">
+                              <use xlink:href="#icon-expand"></use>
+                            </svg>Preview
+                          </button>
+                          <button class="actions__option" data-popup=".js-popup-schedule">
+                            <svg class="icon icon-calendar">
+                              <use xlink:href="#icon-calendar"></use>
+                            </svg>Schedule product
+                          </button>
+                          <button class="actions__option">
+                            <svg class="icon icon-link">
+                              <use xlink:href="#icon-link"></use>
+                            </svg>Get shareable link
+                          </button>
+                          <button class="actions__option">
+                            <svg class="icon icon-close">
+                              <use xlink:href="#icon-close"></use>
+                            </svg>Clear data
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+             
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+
