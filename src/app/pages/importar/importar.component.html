@@ -1,0 +1,31 @@
+<div class="container espacio">
+<div class="create__card card">
+    <div class="card__head">
+      <div class="title-blue card__title"> <h2>LayoutGr</h2>
+      </div>
+    </div>
+    <div class="media__content">El Layout debe de ser un archivo .xls o cvs, debera de cumplir con los lineamientos y formatos indicados para su correcta importacion al sistema</div>
+    <div class="file">
+      <div class="file__label">LayoutGr
+        <div class="tooltip" title="Maximum 100 characters. No HTML or emoji allowed">
+          <svg class="icon icon-info">
+            <use xlink:href="#icon-info"></use>
+          </svg>
+        </div>
+      </div>
+      <div class="file__wrap">
+        <input class="file__input" id="valor" type="file" (change)="onFileSelected($event)">
+        <div class="file__box">
+          <svg  class="icon icon-upload">
+            <use xlink:href="#icon-upload"></use>
+          </svg> 
+          <span *ngIf="!banderaArchivoCargado">Click para adjuntar archivo .xls o .cvs</span>
+          <span *ngIf="banderaArchivoCargado">Archivo Cargado Correctamente</span>
+        </div>
+      </div>
+    </div>
+   
+  </div>
+</div>
+
+<div _ngcontent-lyl-c20="" class="panel margin-left"><div _ngcontent-lyl-c20="" class="panel__info"><svg _ngcontent-lyl-c20="" class="icon icon-check-all"><use _ngcontent-lyl-c20="" xlink:href="#icon-check-all"></use></svg>Last saved <span _ngcontent-lyl-c20="">Oct 4, 2021 - 23:32</span></div><div _ngcontent-lyl-c20="" class="panel__btns"><button _ngcontent-lyl-c20="" class="button-stroke panel__button">Cancelar</button><button _ngcontent-lyl-c20="" class="button panel__button">Cargar e Importar Registros</button><div _ngcontent-lyl-c20="" class="actions actions_up"><button _ngcontent-lyl-c20="" class="actions__button"><svg _ngcontent-lyl-c20="" class="icon icon-more-horizontal"><use _ngcontent-lyl-c20="" xlink:href="#icon-more-horizontal"></use></svg></button><div _ngcontent-lyl-c20="" class="actions__body"><button _ngcontent-lyl-c20="" class="actions__option js-preview-open"><svg _ngcontent-lyl-c20="" class="icon icon-expand"><use _ngcontent-lyl-c20="" xlink:href="#icon-expand"></use></svg>Preview </button><button _ngcontent-lyl-c20="" data-popup=".js-popup-schedule" class="actions__option"><svg _ngcontent-lyl-c20="" class="icon icon-calendar"><use _ngcontent-lyl-c20="" xlink:href="#icon-calendar"></use></svg>Schedule product </button><button _ngcontent-lyl-c20="" class="actions__option"><svg _ngcontent-lyl-c20="" class="icon icon-link"><use _ngcontent-lyl-c20="" xlink:href="#icon-link"></use></svg>Get shareable link </button><button _ngcontent-lyl-c20="" class="actions__option"><svg _ngcontent-lyl-c20="" class="icon icon-close"><use _ngcontent-lyl-c20="" xlink:href="#icon-close"></use></svg>Clear data </button></div></div></div></div>

@@ -3,13 +3,20 @@ import { CommonModule } from '@angular/common';
 import { PagesRoutingModule } from './pages-routing.module';
 import { HomeComponent } from './home/home.component';
 import { EstatusComponent } from './estatus/estatus.component';
-
+import { ImportarComponent } from './importar/importar.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { NgxColorsModule } from 'ngx-colors';
 
 @NgModule({
-  declarations: [HomeComponent, EstatusComponent],
+  declarations: [HomeComponent, EstatusComponent, ImportarComponent],
   imports: [
     CommonModule,
-    PagesRoutingModule
-  ]
+    PagesRoutingModule,
+    ReactiveFormsModule,
+    CKEditorModule,
+    NgxColorsModule,
+    
+  ],
 })
 export class PagesModule { }
