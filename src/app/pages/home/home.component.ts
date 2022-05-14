@@ -13,6 +13,9 @@ import * as ClassicEditor from '../../../../ckeditor/build/ckEditor';
 export class HomeComponent implements OnInit {
 
   public editor:any = ClassicEditor;
+
+  dispararAlerta=false;
+  dispararAlertaError=false;
   
   estadoForm:FormGroup;
   constructor(private cargaService:CargaGrService,private fb:FormBuilder) { 
@@ -36,6 +39,17 @@ export class HomeComponent implements OnInit {
 
     regexHTML = regexHTML.replace( /(<([^>]+)>)/ig, '');
     this.estadoForm.controls["Descripcion"].setValue(regexHTML);
-    console.log(this.estadoForm.value);
+    if(this.estadoForm.valid){
+      console.log(this.estadoForm.value);
+      this.dispararAlerta = true;
+    }else{
+      this.dispararAlertaError = true;
+    }
+  
+  }
+
+  cerrarAlerta(){
+    this.dispararAlerta = false;
+    this.dispararAlertaError=false;
   }
 }
