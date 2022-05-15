@@ -12,6 +12,9 @@ const routes: Routes = [
     path:'estados',component:EstatusComponent
   },
   {
+    path:'dashboard/:id',component:HomeComponent
+  },
+  {
     path:'importar',component:ImportarComponent
   },
   {

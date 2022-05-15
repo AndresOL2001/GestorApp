@@ -13,7 +13,24 @@ export class EstadosService {
     
    }
 
+  obtenerEstados(){
+    return this.http.get(this.url+`/estado`);
+  }
+
   crearEstado(estado:Estado){
-    return 
+    return this.http.post(this.url+`/estado`,estado);
+  }
+
+  eliminarEstado(id:number){
+    return this.http.delete(this.url+`/estado/${id}`);
+
+  }
+
+  actualizarEstado(estado:Estado){
+    return this.http.post(this.url+`/estado`,estado);
+  }
+
+  obtenerEstadoPorId(id:number){
+    return this.http.get(this.url+`/estado/${id}`);
   }
 }
