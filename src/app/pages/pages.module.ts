@@ -7,6 +7,7 @@ import { ImportarComponent } from './importar/importar.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { NgxColorsModule } from 'ngx-colors';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [HomeComponent, EstatusComponent, ImportarComponent],
@@ -16,6 +17,7 @@ import { NgxColorsModule } from 'ngx-colors';
     ReactiveFormsModule,
     CKEditorModule,
     NgxColorsModule,
+    SharedModule
     
   ],
 })

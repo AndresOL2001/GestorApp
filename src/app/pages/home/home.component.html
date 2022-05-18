@@ -1,137 +1,235 @@
-<div *ngIf="dispararAlerta" class="popup popup_success js-popup js-popup-success animation visible">
-  <div class="popup__overlay js-popup-overlay"></div>
-  <div class="popup__wrap js-popup-wrap">
-    <div class="success">
-      <div class="success__icon">🎉</div>
-      <div class="success__info">!Estatus registrado!</div>
-      <div class=" h2 success__price ">Creado </div>
-      <div class="success__text">Este registro se ha guardado correctamente </div>
-      <button (click)="cerrarAlerta()" class="button success__button js-popup-close">Hecho!</button>
-    </div>
-    <button (click)="cerrarAlerta()" class="popup__close js-popup-close">
-      <svg class="icon icon-close ">
-        <use xlink:href="#icon-close"></use>
-      </svg>
-    </button>
-  </div>
+<app-nav></app-nav>
+<app-sidebar></app-sidebar>
+<div *ngIf="!cargasGr" class="page__inner__home">
+<div class="hi-dash-welcome-bac">Hola Administrador,</div>
+<h1 class="campaigns poppins-semi-bold-mirage-40px">
+  <span class="span poppins-semi-bold-mirage-40px">Bienvenido</span><span class="span1">&nbsp;</span
+  ><span class="span poppins-semi-bold-mirage-40px">👋</span>
+</h1>
+<img class="x6" src="../../../assets/exceldatos.svg" />
+<p class="an-no-hay-informacin-registrada">Aún no hay información registrada.</p>
+<p class="empieza-importando-t">Empieza importando tu primer layout&nbsp;&nbsp;.xls<br />de Carga GR.</p>
+<div [routerLink]="'/home/importar'" class="stylesecondary-size">
+  <img class="ui-icon" src="../../../assets/iconImportarLayout.svg" />
+  <div class="importar-layout">Importar layout</div>
 </div>
-
-<div *ngIf="dispararAlertaError" class="popup popup_success js-popup js-popup-success animation visible">
-  <div class="popup__overlay js-popup-overlay"></div>
-  <div class="popup__wrap js-popup-wrap">
-    <div class="success">
-      <div class="success__iconError"></div>
-      <div class="success__info">Error al crear Registo</div>
-      <div class=" h2 success__price ">Error </div>
-      <div class="success__text">Favor de verificar todos los campos</div>
-      <button (click)="cerrarAlerta()" class="button success__button js-popup-close">Hecho!</button>
-    </div>
-    <button (click)="cerrarAlerta()" class="popup__close js-popup-close">
-      <svg class="icon icon-close ">
-        <use xlink:href="#icon-close"></use>
-      </svg>
-    </button>
-  </div>
 </div>
 
 
-<div class="page__inner">
+<!--table-->
+<div *ngIf="cargasGr"class="page__inner">
   <div class="page__container">
-    <div class="page__title h3">Nuevo Estatus</div>
-    <div class="create">
-      <div class="create__row">
-        <div class="create__col">
-          <div class="create__card card">
-            <div class="card__head">
-              <div class="title-green card_title">Nombre y Descripción</div><a class="button-stroke button-small card_button" href="products-dashboard.html">
-                <svg class="icon icon-arrow-left">
-                  <use xlink:href="#icon-arrow-left"></use>
-                </svg><span>Back</span></a>
-            </div>
-            <form [formGroup]="estadoForm" (ngSubmit)="crearEstado()">
-            <div class="field">
-              <div class="tooltip">Abreviatura <svg class="icon icon-info">
-                <use xlink:href="#icon-info"></use>
-              </svg>
-                  <span class="tooltiptext">Maximo 3 caracteres</span>
-          
-              </div>
-              <div class="field__wrap">
-                <input formControlName="abreviatura"class="field__input" type="text" name="title" required>
-              </div>
-            </div>
-            <div class="field">
-              <div class="tooltip">Nombre del estatus <svg class="icon icon-info">
-                <use xlink:href="#icon-info"></use>
-              </svg>
-                  <span  class="tooltiptext">Maximo 30 caracteres</span>
-          
-              </div>
-              <div class="field__wrap">
-                <input formControlName="nombre" class="field__input" type="text" name="title" required>
-              </div>
-            </div>
-            <div class="field">
-              <div class="tooltip">Color <svg class="icon icon-info">
-                <use xlink:href="#icon-info"></use>
-              </svg>
-                  <span class="tooltiptext">Escoga un color</span>
-          
-              </div>
-              <div class="field__wrap">
-                <!--<input formControlName="Color" class="field__input" type="text" name="title" required>!-->
-                <ngx-colors
-                ngx-colors-trigger
-                style="display: inline-block; margin:5px;"
-                formControlName="color"
-              ></ngx-colors>
-              </div>
-            </div>
-            <div class="editor">
-              <div class="tooltip">Descripcion <svg class="icon icon-info">
-                <use xlink:href="#icon-info"></use>
-              </svg>
-                  <span class="tooltiptext">Maximo 50 caracteres</span>
-          
-              </div>
-            <ckeditor formControlName="descripcion" [editor]="editor" ></ckeditor>
-                  
-              </div>
-              <div class="panel">
-                  <div class="panel__info">
-                    <svg class="icon icon-check-all">
-                      <use xlink:href="#icon-check-all"></use>
-                    </svg>Last saved <span>Oct 4, 2021 - 23:32</span>
+    <div class="page__title h3">Estatus</div>
+    <div class="drafts card">
+      <div class="card__head">
+        <div class="title-purple card__title">Listado de PT's</div>
+
+        <div class="wrapper1">
+                <div class="select-btn">
+                  <input spellcheck="false" type="text" placeholder="Hoy">
+                  <i class="uil uil-angle-down"></i>
+                </div>
+                <div class="content">
+                  <div class="search1">
+                    <i class="uil uil-search"></i>
+                    <input spellcheck="false" type="text" placeholder="Search">
                   </div>
-                  <div class="panel__btns">
-                    <button type="button" class="button-stroke panel__button">Cancelar</button>
-                    <button type="submit" class="button panel__button">Guardar</button>
-                    <div class="actions actions_up">
-                     
-                        <div class="dropdown ">
-                        <div class="btn-options">
-                          <button type="button" class="button-dropdown-panel">
-                          <a [routerLink]="'#'" class="feat-btn link">
-                            <svg class="icon icon-more-horizontal">
-                              <use xlink:href="#icon-more-horizontal"></use>
-                            </svg>                          
-                          </a>
-                        </button>
-                          <ul>
-                            <li><a>Schedule product</a></li>
-                            <li><a>Get shareable link</a></li>
-                            <li><a>Clear data</a></li>
-                          </ul>
-                        </div>
-                      </div> 
-                    </div>
-                  </div>
+                  <ul class="options"></ul>
+                </div>
               </div>
-            </form>
+         
+              <div class="search">
+                <div class="search__head">
+                  <button class="search__start">
+                    <svg class="icon icon-search">
+                      <use xlink:href="#icon-search"></use>
+                    </svg>
+                  </button>
+                  <button class="search__direction">
+                    <svg class="icon icon-arrow-left">
+                      <use xlink:href="#icon-arrow-left"></use>
+                    </svg>
+                  </button>
+                  <input class="search__input" type="text" placeholder="Buscar">
+                  <button class="search__close">
+                    <svg class="icon icon-close-circle">
+                      <use xlink:href="#icon-close-circle"></use>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+      </div>
+      <div class="schedule">
+        <div class="schedule__wrapper">
+          <div class="schedule__table">
+            <div class="schedule__row">
+              <div class="schedule__col">
+                <label class="checkbox">
+                  <input class="checkbox_input" type="checkbox" /><span
+                    class="checkboxinner"
+                    ><span class="checkbox_tick"></span
+                  ></span>
+                </label>
+              </div>
+              <div class="schedule__col">Fecha de Asignacion</div>
+              <div class="schedule__col">Siniestro</div>
+              <div class="schedule__col">Estatus</div>
+              <div class="schedule__col">Origen</div>
+              <div class="schedule__col">NIU</div>
+              <div class="schedule__col">OV</div>
+              <div class="schedule__col">Personalizada</div>
+              <div class="schedule__col">Nombre</div>
+              <div class="schedule__col">Correo</div>
+              <div class="schedule__col">Telefono1</div>
+              <div class="schedule__col">Telefono2</div>
+              <div class="schedule__col">Marca</div>
+              <div class="schedule__col">Modelo</div>
+              <div class="schedule__col">Año</div>
+              <div class="schedule__col">Serie</div>
+              <div class="schedule__col">Observaciones</div>
+
+            </div>
+            <div *ngFor="let carga of cargasGr"class="schedule__row">
+              <div class="schedule__col">
+                <label class="checkbox">
+                  <input class="checkbox_input" type="checkbox" /><span
+                    class="checkboxinner"
+                    ><span class="checkbox_tick"></span
+                  ></span>
+                </label>
+              </div>
+              <div class="schedule__col">
+                <div class="schedule__price">
+                 <span class="preName">{{carga.fechaAsignacion | date: 'yyyy-MM-dd' }}</span>
+                </div>
+              </div>
+              
+              <div class="schedule__col">
+                <div class="schedule__price">
+                 <span class="preName">{{carga.siniestro}}</span>
+                </div>
+              </div>
+              <div class="schedule__col">
+                <div class="schedule__price">
+                 <span class="preName">Estatus</span>
+                </div>
+              </div>
+              <div class="schedule__col">
+                <div class="schedule__price">
+                 <span class="preName">{{carga.origen}}</span>
+                </div>
+              </div>
+              <div class="schedule__col">
+                <div class="schedule__price">
+                 <span class="preName">{{carga.niu}}</span>
+                </div>
+              </div>
+              <div class="schedule__col">
+                <div class="schedule__price">
+                 <span class="preName">{{carga.ov}}</span>
+                </div>
+              </div>
+              <div class="schedule__col">
+                <div class="schedule__price">
+                 <span class="preName">{{carga.personalizada}}</span>
+                </div>
+              </div>
+              <div class="schedule__col">
+                <div class="schedule__price">
+                 <span class="preName">{{carga.nombre}}</span>
+                </div>
+              </div>
+              <div class="schedule__col">
+                <div class="schedule__price">
+                 <span class="preName">{{carga.correo}}</span>
+                </div>
+              </div>
+              <div class="schedule__col">
+                <div class="schedule__price">
+                 <span class="preName">{{carga.telefono1}}</span>
+                </div>
+              </div>
+              <div class="schedule__col">
+                <div class="schedule__price">
+                 <span class="preName">{{carga.telefono2}}</span>
+                </div>
+              </div>
+              <div class="schedule__col">
+                <div class="schedule__price">
+                 <span class="preName">{{carga.marca}}</span>
+                </div>
+              </div>
+              <div class="schedule__col">
+                <div class="schedule__price">
+                 <span class="preName">{{carga.modelo}}</span>
+                </div>
+              </div>
+              <div class="schedule__col">
+                <div class="schedule__price">
+                 <span class="preName">{{carga["año"]}}</span>
+                </div>
+              </div>
+              <div class="schedule__col">
+                <div class="schedule__price">
+                 <span class="preName">{{carga.serie}}</span>
+                </div>
+              </div>
+              <div class="schedule__col">
+                <div class="schedule__price">
+                 <span class="preName">{{carga.observaciones}}</span>
+                </div>
+              </div>
+              <div class="schedule__col">
+              <div class="schedule__control">
+                <button class="schedule__button">
+                  <svg class="icon icon-edit">
+                    <use xlink:href="#icon-edit"></use>
+                  </svg>
+                </button>
+                <button class="schedule__button">
+                  <svg class="icon icon-trash">
+                    <use xlink:href="#icon-trash"></use>
+                  </svg>
+                </button>
+              </div>
+            </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
 </div>
+
+<div *ngIf="cargasGr" class="panel">
+  <div class="panel__info">
+    <svg class="icon icon-check-all">
+      <use xlink:href="#icon-check-all"></use>
+    </svg>Last saved <span>Oct 4, 2021 - 23:32</span>
+  </div>
+  <div class="panel__btns">
+    <button type="button" class="button-stroke panel__button">Cancelar</button>
+    <button form="createForm" type="submit" class="button panel__button">Guardar</button>
+    <div class="actions actions_up">
+     
+        <div class="dropdown ">
+        <div class="btn-options">
+          <button type="button" class="button-dropdown-panel">
+          <a [routerLink]="'#'" class="feat-btn link">
+            <svg class="icon icon-more-horizontal">
+              <use xlink:href="#icon-more-horizontal"></use>
+            </svg>                          
+          </a>
+        </button>
+          <ul>
+            <li><a>Schedule product</a></li>
+            <li><a>Get shareable link</a></li>
+            <li><a>Clear data</a></li>
+          </ul>
+        </div>
+      </div> 
+    </div>
+  </div>
+</div>
+
 

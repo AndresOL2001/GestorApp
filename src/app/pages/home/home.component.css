@@ -1,0 +1,108 @@
+@import url("https://fonts.googleapis.com/css?family=Inter:700,500,600|Poppins:500,600");
+
+.hi-dash-welcome-bac {
+  color: rgba(17, 20, 45, 1);
+  font-family: "Poppins";
+  margin-left:170px;
+  margin-top:60px;
+  font-size: 24px;
+  font-weight: 500;
+  left: 1px;
+  letter-spacing: 0;
+  line-height: 32px;
+  white-space: nowrap;
+  width: 580px;
+}
+
+.campaigns {
+    margin-left:170px;
+    letter-spacing: -1px;
+    margin-top:0px;
+    width: 580px;
+  }
+  
+  .span {
+    letter-spacing: -0.4px;
+  }
+  
+  .span1 {
+    color: rgba(17, 20, 45, 1);
+    font-family: "Poppins";
+    font-size: 36px;
+    font-weight: 500;
+    letter-spacing: -0.48px;
+  }
+
+  .x6 {
+    height: 107px;
+    left: 615px;
+    position: absolute;
+    top: 250px;
+    width: 126px;
+  }
+
+
+
+  .an-no-hay-informacin-registrada {
+    color: rgba(26, 29, 31, 1);
+    font-family:"Poppins";
+    font-size:13px;
+    font-weight: 600;
+    left: 545px;
+    letter-spacing: 0;
+    line-height: 24px;
+    position: absolute;
+    text-align: center;
+    top: 370px;
+    white-space: nowrap;
+    width: 296px;
+  }
+
+  .empieza-importando-t {
+    color: 
+  #9a9fa5;
+    font-family: "Poppins";
+    font-size: 12px;
+    font-weight: 500;
+    left: 550px;
+    letter-spacing: -0.12px;
+    line-height: 20px;
+    position: absolute;
+    text-align: center;
+    top: 400px;
+    width: 296px;
+  }
+
+  .stylesecondary-size {
+    cursor:pointer;
+    align-items: center;
+    background-color: rgba(252, 252, 252, 1);
+    border: 2px solid 
+  #efefef;
+    border-radius: 8px;
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    left: 600px;
+    padding-bottom: 8px;
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-top: 8px;
+    position: absolute;
+    top: 460px;
+  }
+  
+  .importar-layout {
+    color: rgba(27, 29, 33, 1);
+    font-family:"Poppins";
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: -0.13px;
+    line-height: 24px;
+    white-space: nowrap;
+  }
+  
+  .ui-icon {
+    height: 24px;
+    width: 24px;
+  }

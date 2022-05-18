@@ -18,14 +18,14 @@
       <div class="menu">
         <ul class="menu-links">
           <li class="nav-link">
-            <a href="#">
+            <a [routerLink]="'/home'">
               <i class='bx bx-home-alt icon'></i>
               <span class="text nav-text">Dashboard</span>
             </a>
           </li>
 
           <li class="nav-link">
-            <a [routerLink]="'/importar'">
+            <a [routerLink]="'/home/importar'">
               <i class='bx bx-import icon'></i>
               <span class="text nav-text">Importar Layout</span>
             </a>
@@ -40,13 +40,13 @@
 
           <li class="nav-link dropd">
             <div class="dropdown ">
-            <a [routerLink]="'/dashboard'" class="feat-btn link">
+            <a [routerLink]="'./'" class="feat-btn link">
               <i class='bx bx-grid-small icon'></i>
               <span class="text nav-text ">Configuracion</span>
               <span class='bx bx-chevron-down icone'></span>
             </a>
             <div class="dropdown-menu">
-              <a [routerLink]="'/estados'">Estatus ABC</a>
+              <a [routerLink]="'/home/estados'">Estatus ABC</a>
             </div>
           </div>
           </li>
@@ -56,7 +56,7 @@
       <div class="menu-bottom">
         <div>
           <li class="nav-link">
-            <a href="#">
+            <a [routerLink]="''">
               <i class='bx bx-help-circle icon'></i>
               <span class="text nav-text">Help</span>
             </a>

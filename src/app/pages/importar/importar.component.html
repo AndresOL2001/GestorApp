@@ -1,11 +1,32 @@
+
+
+<div *ngIf="dispararAlerta" class="popup popup_success js-popup js-popup-success animation visible">
+  <div class="popup__overlay js-popup-overlay"></div>
+  <div class="popup__wrap js-popup-wrap">
+    <div class="success">
+      <div class="success__icon">🎉</div>
+      <div class="success__info">!Estatus registrado!</div>
+      <div class=" h2 success__price ">Creado </div>
+      <div class="success__text">Este registro se ha guardado correctamente </div>
+      <button (click)="cerrarAlerta()" class="button success__button js-popup-close">Hecho!</button>
+    </div>
+    <button (click)="cerrarAlerta()" class="popup__close js-popup-close">
+      <svg class="icon icon-close ">
+        <use xlink:href="#icon-close"></use>
+      </svg>
+    </button>
+  </div>
+</div>
+
+
 <div class="container espacio">
 <div class="create__card card">
     <div class="card__head">
       <div class="title-blue card__title"> <h2>LayoutGr</h2>
       </div>
     </div>
-    <div class="media__content">El Layout debe de ser un archivo .xls o cvs, debera de cumplir con los lineamientos y formatos indicados para su correcta importacion al sistema</div>
-    <div class="file">
+    <div  *ngIf="!banderaArchivoCargado" class="media__content">El Layout debe de ser un archivo .xls o cvs, debera de cumplir con los lineamientos y formatos indicados para su correcta importacion al sistema</div>
+    <div  *ngIf="!banderaArchivoCargado"class="file">
       <div class="file__label">LayoutGr
         <div class="tooltip" title="Maximum 100 characters. No HTML or emoji allowed">
           <svg class="icon icon-info">
@@ -15,17 +36,164 @@
       </div>
       <div class="file__wrap">
         <input class="file__input" id="valor" type="file" (change)="onFileSelected($event)">
-        <div class="file__box">
+        <div *ngIf="!banderaArchivoCargado" class="file__box">
           <svg  class="icon icon-upload">
             <use xlink:href="#icon-upload"></use>
           </svg> 
-          <span *ngIf="!banderaArchivoCargado">Click para adjuntar archivo .xls o .cvs</span>
-          <span *ngIf="banderaArchivoCargado">Archivo Cargado Correctamente</span>
+          <span >Click para adjuntar archivo .xls o .cvs</span>
         </div>
+       
       </div>
     </div>
+    <div *ngIf="banderaArchivoCargado" class="contenedor__cargado">
+    <div  class="file__box__cargado">
+      <button (click)="cerrarAlerta()" class="popup__close__importar js-popup-close">
+        <svg class="icon icon-close ">
+          <use xlink:href="#icon-close"></use>
+        </svg>
+      </button>
+      <h3>{{fileName}}</h3>
+      <div>
+      <p class="media__content__cargado">{{size}} kb</p><!--#6F767E-->
+     
+    </div>
+    </div>
+  </div>
    
   </div>
 </div>
 
-<div _ngcontent-lyl-c20="" class="panel margin-left"><div _ngcontent-lyl-c20="" class="panel__info"><svg _ngcontent-lyl-c20="" class="icon icon-check-all"><use _ngcontent-lyl-c20="" xlink:href="#icon-check-all"></use></svg>Last saved <span _ngcontent-lyl-c20="">Oct 4, 2021 - 23:32</span></div><div _ngcontent-lyl-c20="" class="panel__btns"><button _ngcontent-lyl-c20="" class="button-stroke panel__button">Cancelar</button><button _ngcontent-lyl-c20="" class="button panel__button">Cargar e Importar Registros</button><div _ngcontent-lyl-c20="" class="actions actions_up"><button _ngcontent-lyl-c20="" class="actions__button"><svg _ngcontent-lyl-c20="" class="icon icon-more-horizontal"><use _ngcontent-lyl-c20="" xlink:href="#icon-more-horizontal"></use></svg></button><div _ngcontent-lyl-c20="" class="actions__body"><button _ngcontent-lyl-c20="" class="actions__option js-preview-open"><svg _ngcontent-lyl-c20="" class="icon icon-expand"><use _ngcontent-lyl-c20="" xlink:href="#icon-expand"></use></svg>Preview </button><button _ngcontent-lyl-c20="" data-popup=".js-popup-schedule" class="actions__option"><svg _ngcontent-lyl-c20="" class="icon icon-calendar"><use _ngcontent-lyl-c20="" xlink:href="#icon-calendar"></use></svg>Schedule product </button><button _ngcontent-lyl-c20="" class="actions__option"><svg _ngcontent-lyl-c20="" class="icon icon-link"><use _ngcontent-lyl-c20="" xlink:href="#icon-link"></use></svg>Get shareable link </button><button _ngcontent-lyl-c20="" class="actions__option"><svg _ngcontent-lyl-c20="" class="icon icon-close"><use _ngcontent-lyl-c20="" xlink:href="#icon-close"></use></svg>Clear data </button></div></div></div></div>
+<div _ngcontent-lyl-c20="" class="panel margin-left"><div _ngcontent-lyl-c20="" class="panel__info"><svg _ngcontent-lyl-c20="" class="icon icon-check-all"><use _ngcontent-lyl-c20="" xlink:href="#icon-check-all"></use></svg>Last saved <span _ngcontent-lyl-c20="">Oct 4, 2021 - 23:32</span></div><div _ngcontent-lyl-c20="" class="panel__btns"><button (click)="cancelarLayout()" _ngcontent-lyl-c20="" class="button-stroke panel__button">Cancelar</button><button (click)="cargarLayout(file)" _ngcontent-lyl-c20="" class="button panel__button">Cargar e Importar Registros</button><div _ngcontent-lyl-c20="" class="actions actions_up"><button _ngcontent-lyl-c20="" class="actions__button"><svg _ngcontent-lyl-c20="" class="icon icon-more-horizontal"><use _ngcontent-lyl-c20="" xlink:href="#icon-more-horizontal"></use></svg></button><div _ngcontent-lyl-c20="" class="actions__body"><button _ngcontent-lyl-c20="" class="actions__option js-preview-open"><svg _ngcontent-lyl-c20="" class="icon icon-expand"><use _ngcontent-lyl-c20="" xlink:href="#icon-expand"></use></svg>Preview </button><button _ngcontent-lyl-c20="" data-popup=".js-popup-schedule" class="actions__option"><svg _ngcontent-lyl-c20="" class="icon icon-calendar"><use _ngcontent-lyl-c20="" xlink:href="#icon-calendar"></use></svg>Schedule product </button><button _ngcontent-lyl-c20="" class="actions__option"><svg _ngcontent-lyl-c20="" class="icon icon-link"><use _ngcontent-lyl-c20="" xlink:href="#icon-link"></use></svg>Get shareable link </button><button _ngcontent-lyl-c20="" class="actions__option"><svg _ngcontent-lyl-c20="" class="icon icon-close"><use _ngcontent-lyl-c20="" xlink:href="#icon-close"></use></svg>Clear data </button></div></div></div></div>
+
+<!-- <div class="page__inner">
+  <div class="page__container">
+    <div class="page__title h3">Nuevo Estatus</div>
+    <div class="create">
+      <div class="create__row">
+        <div class="create__col">
+          <div class="create__card card">
+            <div class="card__head">
+              <div class="card_title">
+                <img class="img-logo" src="assets\Logo_AXA.png">
+                <div class="tittle__ajust">
+              <div>AC00048K</div>
+              <div class="style-font">  18/02/2022 - Robo </div>
+               </div>
+            </div>
+              
+              <a class="button" href="products-dashboard.html"><span>Exportar</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" style="fill: white;transform: ;msFilter:;"><path d="m12 16 4-5h-3V4h-2v7H8z"></path><path d="M20 18H4v-7H2v7c0 1.103.897 2 2 2h16c1.103 0 2-.897 2-2v-7h-2v7z"></path></svg></a>
+            </div>
+            <div class="card__mail">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" style="fill: #B0BEC5;transform: ;msFilter:;"><path d="M20 4H4c-1.103 0-2 .897-2 2v12c0 1.103.897 2 2 2h16c1.103 0 2-.897 2-2V6c0-1.103-.897-2-2-2zm0 2v.511l-8 6.223-8-6.222V6h16zM4 18V9.044l7.386 5.745a.994.994 0 0 0 1.228 0L20 9.044 20.002 18H4z"></path></svg>
+            <a class="correo-electronico"><span>benitayasa2017@gmail.com</span></a>
+            </div>
+            <hr class="hr">
+
+            <form>
+            <div class="field">
+              <div class="tooltip">Estatus Actual <svg class="icon icon-info">
+                <use xlink:href="#icon-info"></use>
+              </svg>
+                  <span class="tooltiptext">Maximo 3 caracteres</span>
+          
+              </div>
+              <div class="field__wrap">
+               <h4 class="info__Estatus">Creado</h4>
+              </div>
+              <hr>
+
+              <div class="input__Status"><div><h4 >Cambiar estatus a:</h4></div>
+              <div class="wrapper">
+                <div class="select-btn">
+                  <span>Selecciona un estatus</span>
+                  <i class="uil uil-angle-down"></i>
+                </div>
+                <div class="content">
+                  <div class="search1">
+                    <i class="uil uil-search"></i>
+                    <input spellcheck="false" type="text" placeholder="Search">
+                  </div>
+                  <ul class="options"></ul>
+                </div>
+              </div>
+            </div>
+            </div>
+            <div class="field">
+              <div class="tooltip margintool">Actividad <svg class="icon icon-info">
+                <use xlink:href="#icon-info"></use>
+              </svg>
+                  <span  class="tooltiptext">Maximo 30 caracteres</span>
+          
+              </div>
+              <div class="input__Actividad">
+                <div><h4 >Historial de estatus: </h4></div>
+                <div><p>Mas recientes primero</p></div>
+              </div>
+            </div>
+    
+           
+            <div class="editor">
+              <div class="tooltip">Descripcion <svg class="icon icon-info">
+                <use xlink:href="#icon-info"></use>
+              </svg>
+                  <span class="tooltiptext">Maximo 50 caracteres</span>
+          
+              </div>
+              <ckeditor [editor]="editor" ></ckeditor>
+                  
+
+
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const wrapper = document.querySelector(".wrapper"),
+selectBtn = wrapper.querySelector(".select-btn"),
+searchInp = wrapper.querySelector("input"),
+options = wrapper.querySelector(".options");
+
+let countries = ["Afghanistan", "Algeria", "Argentina", "Australia", "Bangladesh", "Belgium", "Bhutan",
+                 "Brazil", "Canada", "China", "Denmark", "Ethiopia", "Finland", "France", "Germany",
+                 "Hungary", "Iceland", "India", "Indonesia", "Iran", "Italy", "Japan", "Malaysia",
+                 "Maldives", "Mexico", "Morocco", "Nepal", "Netherlands", "Nigeria", "Norway", "Pakistan",
+                 "Peru", "Russia", "Romania", "South Africa", "Spain", "Sri Lanka", "Sweden", "Switzerland",
+                 "Thailand", "Turkey", "Uganda", "Ukraine", "United States", "United Kingdom", "Vietnam"];
+
+function addCountry(selectedCountry) {
+    options.innerHTML = "";
+    countries.forEach(country => {
+        let isSelected = country == selectedCountry ? "selected" : "";
+        let li = `<li onclick="updateName(this)" class="${isSelected}">${country}</li>`;
+        options.insertAdjacentHTML("beforeend", li);
+    });
+}
+addCountry();
+
+function updateName(selectedLi) {
+    searchInp.value = "";
+    addCountry(selectedLi.innerText);
+    wrapper.classList.remove("active");
+    selectBtn.firstElementChild.innerText = selectedLi.innerText;
+}
+
+searchInp.addEventListener("keyup", () => {
+    let arr = [];
+    let searchWord = searchInp.value.toLowerCase();
+    arr = countries.filter(data => {
+        return data.toLowerCase().startsWith(searchWord);
+    }).map(data => {
+        let isSelected = data == selectBtn.firstElementChild.innerText ? "selected" : "";
+        return `<li onclick="updateName(this)" class="${isSelected}">${data}</li>`;
+    }).join("");
+    options.innerHTML = arr ? arr : `<p style="margin-top: 10px;">Oops! Country not found</p>`;
+});
+
+selectBtn.addEventListener("click", () => wrapper.classList.toggle("active"));
+</script> -->

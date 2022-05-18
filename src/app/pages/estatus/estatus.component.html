@@ -1,3 +1,111 @@
+
+<div *ngIf="dispararAlerta" class="popup popup_success js-popup js-popup-success animation visible">
+  <div class="popup__overlay js-popup-overlay"></div>
+  <div class="popup__wrap js-popup-wrap">
+    <div class="success">
+      <div class="success__icon">🎉</div>
+      <div class="success__info">!Estatus registrado!</div>
+      <div class=" h2 success__price ">Creado </div>
+      <div class="success__text">Este registro se ha guardado correctamente </div>
+      <button (click)="cerrarAlerta()" class="button success__button js-popup-close">Hecho!</button>
+    </div>
+    <button (click)="cerrarAlerta()" class="popup__close js-popup-close">
+      <svg class="icon icon-close ">
+        <use xlink:href="#icon-close"></use>
+      </svg>
+    </button>
+  </div>
+</div>
+
+<div *ngIf="dispararAlertaError" class="popup popup_success js-popup js-popup-success animation visible">
+  <div class="popup__overlay js-popup-overlay"></div>
+  <div class="popup__wrap js-popup-wrap">
+    <div class="success">
+      <div class="success__iconError"></div>
+      <div class="success__info">Error al crear Registo</div>
+      <div class=" h2 success__price ">Error </div>
+      <div class="success__text">Favor de verificar todos los campos</div>
+      <button (click)="cerrarAlerta()" class="button success__button js-popup-close">Hecho!</button>
+    </div>
+    <button (click)="cerrarAlerta()" class="popup__close js-popup-close">
+      <svg class="icon icon-close ">
+        <use xlink:href="#icon-close"></use>
+      </svg>
+    </button>
+  </div>
+</div>
+
+<div class="page__inner">
+  <div class="page__container">
+    <div class="page__title h3">Nuevo Estatus</div>
+    <div class="create">
+      <div class="create__row">
+        <div class="create__col">
+          <div class="create__card card">
+            <div class="card__head">
+              <div class="title-green card_title">Nombre y Descripción</div><a class="button-stroke button-small card_button" href="products-dashboard.html">
+                <svg class="icon icon-arrow-left">
+                  <use xlink:href="#icon-arrow-left"></use>
+                </svg><span>Back</span></a>
+            </div>
+            <form id="createForm" [formGroup]="estadoForm" (ngSubmit)="crearEstado()">
+            <div class="field">
+              <div class="tooltip">Abreviatura <svg class="icon icon-info">
+                <use xlink:href="#icon-info"></use>
+              </svg>
+                  <span class="tooltiptext">Maximo 3 caracteres</span>
+          
+              </div>
+              <div class="field__wrap">
+                <input formControlName="abreviatura"class="field__input" type="text" name="title" required>
+              </div>
+            </div>
+            <div class="field">
+              <div class="tooltip">Nombre del estatus <svg class="icon icon-info">
+                <use xlink:href="#icon-info"></use>
+              </svg>
+                  <span  class="tooltiptext">Maximo 30 caracteres</span>
+          
+              </div>
+              <div class="field__wrap">
+                <input formControlName="nombre" class="field__input" type="text" name="title" required>
+              </div>
+            </div>
+            <div class="field">
+              <div class="tooltip">Color <svg class="icon icon-info">
+                <use xlink:href="#icon-info"></use>
+              </svg>
+                  <span class="tooltiptext">Escoga un color</span>
+          
+              </div>
+              <div class="field__wrap">
+                <!--<input formControlName="Color" class="field__input" type="text" name="title" required>!-->
+                <ngx-colors
+                ngx-colors-trigger
+                style="display: inline-block; margin:5px;"
+                formControlName="color"
+              ></ngx-colors>
+              </div>
+            </div>
+            <div class="editor">
+              <div class="tooltip">Descripcion <svg class="icon icon-info">
+                <use xlink:href="#icon-info"></use>
+              </svg>
+                  <span class="tooltiptext">Maximo 50 caracteres</span>
+          
+              </div>
+            <ckeditor formControlName="descripcion" [editor]="editor" ></ckeditor>
+                  
+              </div>
+            
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="page__inner">
   <div class="page__container">
     <div class="page__title h3">Estatus</div>
@@ -78,3 +186,39 @@
     </div>
   </div>
 </div>
+
+<div class="panel">
+  <div class="panel__info">
+    <svg class="icon icon-check-all">
+      <use xlink:href="#icon-check-all"></use>
+    </svg>Last saved <span>Oct 4, 2021 - 23:32</span>
+  </div>
+  <div class="panel__btns">
+    <button type="button" class="button-stroke panel__button">Cancelar</button>
+    <button form="createForm" type="submit" class="button panel__button">Guardar</button>
+    <div class="actions actions_up">
+     
+        <div class="dropdown ">
+        <div class="btn-options">
+          <button type="button" class="button-dropdown-panel">
+           
+        <!--   <a  class="feat-btn link">
+          </a> -->
+          <svg class="icon icon-more-horizontal">
+            <use xlink:href="#icon-more-horizontal"></use>
+          </svg>   
+             
+        </button>
+        
+          <ul>
+            <li><a>Schedule product</a></li>
+            <li><a>Get shareable link</a></li>
+            <li><a>Clear data</a></li>
+          </ul>
+        </div>
+      </div> 
+    </div>
+  </div>
+</div>
+
+

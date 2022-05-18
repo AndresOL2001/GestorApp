@@ -6,20 +6,26 @@ import { ImportarComponent } from './importar/importar.component';
 
 const routes: Routes = [
   {
-  path:'dashboard', component:HomeComponent
+    path:'',
+    children:[
+      {
+        path:'dashboard', component:HomeComponent
+        },
+        {
+          path:'estados',component:EstatusComponent
+        },
+        {
+          path:'dashboard/:id',component:HomeComponent
+        },
+        {
+          path:'importar',component:ImportarComponent
+        },
+        {
+          path:'**',redirectTo:'dashboard'
+        },
+    ]
   },
-  {
-    path:'estados',component:EstatusComponent
-  },
-  {
-    path:'dashboard/:id',component:HomeComponent
-  },
-  {
-    path:'importar',component:ImportarComponent
-  },
-  {
-    path:'**',redirectTo:'dashboard'
-  },
+ 
 ];
 
 @NgModule({
