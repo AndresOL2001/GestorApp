@@ -4,6 +4,7 @@ import { CargaGrService } from 'src/app/services/carga-gr.service';
 import { EstadosService } from '../../services/estados.service';
 import { Estado } from 'src/app/models/estado';
 import { ActivatedRoute } from '@angular/router';
+import { NavbarService } from 'src/app/services/navbar.service';
 
 
 
@@ -17,18 +18,14 @@ export class HomeComponent implements OnInit {
 
 
 cargasGr:any;
+public page:number;
  
-  constructor(private cargaService:CargaGrService) { 
+  constructor(private cargaService:CargaGrService,private nav:NavbarService) { 
    
   }
 
   ngOnInit(): void {
-
-/*     this.activatedRoute.params.subscribe(params => {
-      this.IdEstadoMod= Number(params.id)
-    }); */
-
-    
+    this.nav.show();
     this.cargaService.getCargas().subscribe(resp => {
       this.cargasGr=resp;
       console.log(resp);

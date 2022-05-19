@@ -1,4 +1,14 @@
 
+<div *ngIf="dispararAlertaError" class="enter-amount">
+  <img class="ui-iconchecklight" src="../../../assets/errorCargaLayout.svg" />
+  <div class="overlap-group3">
+    <div class="registros-container">
+      <div class="carga-de-registros-correcta">Error al cargar el archivo</div>
+      <p class="se-han-importado-40-registros-pt">Cargue un archivo .csv o .xlsx</p>
+    </div>
+    <div class="ellipse-328"></div>
+  </div>
+</div>
 
 <div *ngIf="dispararAlerta" class="popup popup_success js-popup js-popup-success animation visible">
   <div class="popup__overlay js-popup-overlay"></div>

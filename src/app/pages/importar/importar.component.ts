@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CargaGrService } from '../../services/carga-gr.service';
 import * as ClassicEditor from '../../../../ckeditor/build/ckEditor';
+import { NavbarService } from 'src/app/services/navbar.service';
 
 @Component({
   selector: 'app-importar',
@@ -15,9 +16,10 @@ export class ImportarComponent implements OnInit {
   size:any;
   dispararAlerta=false;
   dispararAlertaError=false;
-  constructor(private cargaGrService:CargaGrService) { }
+  constructor(private cargaGrService:CargaGrService,private nav:NavbarService) { }
 
   ngOnInit(): void {
+    this.nav.show();
   }
 
   onFileSelected(event){
@@ -41,6 +43,7 @@ export class ImportarComponent implements OnInit {
       this.cargaGrService.postCargas(file).subscribe(resp => {
         console.log(resp);
         this.dispararAlerta=true;
+        this.dispararAlertaError=false;
         this.cancelarLayout();
       },err=>{
         this.dispararAlertaError=true;

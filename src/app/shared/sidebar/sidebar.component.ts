@@ -1,17 +1,22 @@
 import { Component, OnInit } from '@angular/core';
-
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { filter } from 'rxjs/operators';
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.css']
 })
 export class SidebarComponent implements OnInit {
-
-  constructor() { }
-
   oscuro = false;
+  abierto =false;
+  constructor() {}
+
+
 
   ngOnInit(): void {
+
+    //console.log(this.activated);
+
     const body = document.querySelector('body'),
         sidebar = body.querySelector('nav'),
         toggle = body.querySelector(".toggle"),
@@ -19,16 +24,16 @@ export class SidebarComponent implements OnInit {
         modeSwitch = body.querySelector(".toggle-switch");
        let modeText:any = body.querySelector(".mode-text");
 
-
-
-      toggle.addEventListener("click", () => {
+       toggle.addEventListener("click", () => {
         sidebar.classList.toggle("close");
       })
+
 
       searchBtn.addEventListener("click", () => {
         sidebar.classList.remove("close");
       })
-      
+   
+     
       modeSwitch.addEventListener("click", () => {
         body.classList.toggle("dark");
 
@@ -41,6 +46,9 @@ export class SidebarComponent implements OnInit {
 
   }
 
+ /*  desplegarDropdown(){
+    console.log("click")
+  } */
 
 
 }

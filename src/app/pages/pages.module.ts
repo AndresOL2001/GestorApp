@@ -8,7 +8,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { NgxColorsModule } from 'ngx-colors';
 import { SharedModule } from '../shared/shared.module';
-
+import {NgxPaginationModule} from 'ngx-pagination';
 @NgModule({
   declarations: [HomeComponent, EstatusComponent, ImportarComponent],
   imports: [
@@ -17,7 +17,8 @@ import { SharedModule } from '../shared/shared.module';
     ReactiveFormsModule,
     CKEditorModule,
     NgxColorsModule,
-    SharedModule
+    SharedModule,
+    NgxPaginationModule
     
   ],
 })

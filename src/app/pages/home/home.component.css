@@ -106,3 +106,72 @@
     height: 24px;
     width: 24px;
   }
+
+
+
+.enter-amount {
+  align-items: flex-start;
+  background-color: rgba(239, 239, 239, 1);
+  border: 0.5px solid 
+#bdbdbd;
+border-left: 10px solid #219653;
+  border-radius: 2px;
+  display: flex;
+  height: 97px;
+  margin-left: 170px;
+  padding: 23.5px 28px;
+  margin-top: 30px;
+  width: 1020px;
+}
+
+.overlap-group3 {
+  height: 46px;
+  margin-left: 19px;
+  position: relative;
+  width: 210px;
+}
+
+.registros-container {
+  height: 46px;
+  left: 300;
+  position: absolute;
+  top: 50;
+  width: 210px;
+}
+
+.carga-de-registros-correcta {
+  color: 
+#353945;
+  font-family: "Poppins";
+  font-size: 24px;
+  font-weight: 500;
+  left: 0;
+  letter-spacing: 0;
+  line-height: 24px;
+  white-space: nowrap;
+}
+
+.se-han-importado-40-registros-pt {
+  color: rgba(111, 118, 125, 1);
+  font-family: "Poppins";
+  font-size: 12px;
+  font-weight: 400;
+  left: 24px;
+  letter-spacing: -0.18px;
+  line-height: 24px;
+  position: absolute;
+  top: 25px;
+  white-space: nowrap;
+}
+
+.ellipse-328 {
+  background-color: rgba(111, 118, 126, 1);
+  border-radius: 2px;
+  height: 4px;
+  left: 13px;
+  position: absolute;
+  top: 35px;
+  width: 4px;
+}
+
+

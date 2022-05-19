@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Estado } from 'src/app/models/estado';
 import { CargaGrService } from 'src/app/services/carga-gr.service';
 import { EstadosService } from 'src/app/services/estados.service';
+import { NavbarService } from 'src/app/services/navbar.service';
 import * as ClassicEditor from '../../../../ckeditor/build/ckEditor';
 
 @Component({
@@ -22,7 +23,7 @@ estado:Estado;
   estadoMod:Estado;
   IdEstadoMod:number;
   estadoForm:FormGroup;
-  constructor(private cargaService:CargaGrService,private fb:FormBuilder,private estadoService:EstadosService,private activatedRoute:ActivatedRoute) { 
+  constructor(private cargaService:CargaGrService,private fb:FormBuilder,private estadoService:EstadosService,private nav:NavbarService) { 
     this.estadoForm = this.fb.group({
       abreviatura:['',[Validators.required,Validators.minLength(3),Validators.maxLength(3)]],
       nombre:['',[Validators.required,Validators.minLength(3),Validators.maxLength(30)]],
@@ -33,7 +34,7 @@ estado:Estado;
   }
 
   ngOnInit(): void {
-    
+    this.nav.show();
     if(this.IdEstadoMod != 0 && this.IdEstadoMod != null){
       this.estadoService.obtenerEstadoPorId(this.IdEstadoMod).subscribe( (resp:any) => {
         delete resp.idEstado;

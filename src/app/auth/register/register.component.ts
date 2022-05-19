@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NavbarService } from 'src/app/services/navbar.service';
 
 @Component({
   selector: 'app-register',
@@ -8,9 +9,10 @@ import { Component, OnInit } from '@angular/core';
 export class RegisterComponent implements OnInit {
 
   nextStape=false;
-  constructor() { }
+  constructor(private nav:NavbarService) { }
 
   ngOnInit(): void {
+    this.nav.hide();
   }
 
   avanzarPaso(){

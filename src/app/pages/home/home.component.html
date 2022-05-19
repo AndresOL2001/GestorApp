@@ -1,5 +1,4 @@
-<app-nav></app-nav>
-<app-sidebar></app-sidebar>
+
 <div *ngIf="!cargasGr" class="page__inner__home">
 <div class="hi-dash-welcome-bac">Hola Administrador,</div>
 <h1 class="campaigns poppins-semi-bold-mirage-40px">
@@ -15,11 +14,21 @@
 </div>
 </div>
 
-
+<div class="enter-amount">
+  <img class="ui-iconchecklight" src="../../../assets/check_green.svg" />
+  <div class="overlap-group3">
+    <div class="registros-container">
+      <div class="carga-de-registros-correcta">Carga de registros correcta</div>
+      <p class="se-han-importado-40-registros-pt">Se han importado {{cargasGr?.length}} registros PT</p>
+    </div>
+    <div class="ellipse-328"></div>
+  </div>
+</div>
 <!--table-->
 <div *ngIf="cargasGr"class="page__inner">
+
   <div class="page__container">
-    <div class="page__title h3">Estatus</div>
+    <div class="page__title h3">PT´s</div>
     <div class="drafts card">
       <div class="card__head">
         <div class="title-purple card__title">Listado de PT's</div>
@@ -89,7 +98,7 @@
               <div class="schedule__col">Observaciones</div>
 
             </div>
-            <div *ngFor="let carga of cargasGr"class="schedule__row">
+            <div *ngFor="let carga of cargasGr | paginate: { itemsPerPage: 3, currentPage: page }"class="schedule__row">
               <div class="schedule__col">
                 <label class="checkbox">
                   <input class="checkbox_input" type="checkbox" /><span
@@ -196,12 +205,13 @@
             </div>
           </div>
         </div>
+        <pagination-controls (pageChange)="page = $event"></pagination-controls>
       </div>
     </div>
   </div>
 </div>
 
-<div *ngIf="cargasGr" class="panel">
+<!-- <div *ngIf="cargasGr" class="panel">
   <div class="panel__info">
     <svg class="icon icon-check-all">
       <use xlink:href="#icon-check-all"></use>
@@ -233,3 +243,4 @@
 </div>
 
 
+ -->
