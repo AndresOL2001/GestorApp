@@ -1,10 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CargaGrService } from 'src/app/services/carga-gr.service';
-import { EstadosService } from '../../services/estados.service';
-import { Estado } from 'src/app/models/estado';
-import { ActivatedRoute } from '@angular/router';
 import { NavbarService } from 'src/app/services/navbar.service';
+import * as ClassicEditor from '../../../../ckeditor/build/ckEditor';
 
 
 
@@ -15,6 +12,7 @@ import { NavbarService } from 'src/app/services/navbar.service';
 
 })
 export class HomeComponent implements OnInit {
+  public editor:any = ClassicEditor;
 
 
 cargasGr:any;

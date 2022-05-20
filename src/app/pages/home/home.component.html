@@ -1,20 +1,19 @@
-
-<div *ngIf="!cargasGr" class="page__inner__home">
-<div class="hi-dash-welcome-bac">Hola Administrador,</div>
-<h1 class="campaigns poppins-semi-bold-mirage-40px">
-  <span class="span poppins-semi-bold-mirage-40px">Bienvenido</span><span class="span1">&nbsp;</span
-  ><span class="span poppins-semi-bold-mirage-40px">👋</span>
-</h1>
-<img class="x6" src="../../../assets/exceldatos.svg" />
-<p class="an-no-hay-informacin-registrada">Aún no hay información registrada.</p>
-<p class="empieza-importando-t">Empieza importando tu primer layout&nbsp;&nbsp;.xls<br />de Carga GR.</p>
-<div [routerLink]="'/home/importar'" class="stylesecondary-size">
-  <img class="ui-icon" src="../../../assets/iconImportarLayout.svg" />
-  <div class="importar-layout">Importar layout</div>
+<div *ngIf="!cargasGr || cargasGr == 0" class="page__inner__home">
+  <div class="hi-dash-welcome-bac">Hola Administrador,</div>
+  <h1 class="campaigns poppins-semi-bold-mirage-40px">
+    <span class="span poppins-semi-bold-mirage-40px">Bienvenido</span><span class="span1">&nbsp;</span><span
+      class="span poppins-semi-bold-mirage-40px">👋</span>
+  </h1>
+  <img class="x6" src="../../../assets/exceldatos.svg" />
+  <p class="an-no-hay-informacin-registrada">Aún no hay información registrada.</p>
+  <p class="empieza-importando-t">Empieza importando tu primer layout&nbsp;&nbsp;.xls<br />de Carga GR.</p>
+  <div [routerLink]="'/home/importar'" class="stylesecondary-size">
+    <img class="ui-icon" src="../../../assets/iconImportarLayout.svg" />
+    <div class="importar-layout">Importar layout</div>
+  </div>
 </div>
-</div>
 
-<div class="enter-amount">
+<div *ngIf="cargasGr && cargasGr.length>0" class="enter-amount">
   <img class="ui-iconchecklight" src="../../../assets/check_green.svg" />
   <div class="overlap-group3">
     <div class="registros-container">
@@ -24,205 +23,42 @@
     <div class="ellipse-328"></div>
   </div>
 </div>
-<!--table-->
- <!-- <div *ngIf="cargasGr"class="page__inner">
 
-  <div class="page__container">
-    <div class="page__title h3">PT´s</div>
-    <div class="drafts card">
-      <div class="card__head">
-        <div class="title-purple card__title">Listado de PT's</div>
-
-        <div class="wrapper1">
-                <div class="select-btn">
-                  <input spellcheck="false" type="text" placeholder="Hoy">
-                  <i class="uil uil-angle-down"></i>
-                </div>
-                <div class="content">
-                  <div class="search1">
-                    <i class="uil uil-search"></i>
-                    <input spellcheck="false" type="text" placeholder="Search">
-                  </div>
-                  <ul class="options"></ul>
-                </div>
-              </div>
-         
-              <div class="search">
-                <div class="search__head">
-                  <button class="search__start">
-                    <svg class="icon icon-search">
-                      <use xlink:href="#icon-search"></use>
-                    </svg>
-                  </button>
-                  <button class="search__direction">
-                    <svg class="icon icon-arrow-left">
-                      <use xlink:href="#icon-arrow-left"></use>
-                    </svg>
-                  </button>
-                  <input class="search__input" type="text" placeholder="Buscar">
-                  <button class="search__close">
-                    <svg class="icon icon-close-circle">
-                      <use xlink:href="#icon-close-circle"></use>
-                    </svg>
-                  </button>
-                </div>
-              </div>
-      </div>
-      <div class="schedule">
-        <div class="schedule__wrapper">
-          <div class="schedule__table">
-            <div class="schedule__row">
-              <div class="schedule__col">
-                <label class="checkbox">
-                  <input class="checkbox_input" type="checkbox" /><span
-                    class="checkboxinner"
-                    ><span class="checkbox_tick"></span
-                  ></span>
-                </label>
-              </div>
-              <div class="schedule__col">Fecha de Asignacion</div>
-              <div class="schedule__col">Siniestro</div>
-              <div class="schedule__col">Estatus</div>
-              <div class="schedule__col">Origen</div>
-              <div class="schedule__col">NIU</div>
-              <div class="schedule__col">OV</div>
-              <div class="schedule__col">Personalizada</div>
-              <div class="schedule__col">Nombre</div>
-              <div class="schedule__col">Correo</div>
-              <div class="schedule__col">Telefono1</div>
-              <div class="schedule__col">Telefono2</div>
-              <div class="schedule__col">Marca</div>
-              <div class="schedule__col">Modelo</div>
-              <div class="schedule__col">Año</div>
-              <div class="schedule__col">Serie</div>
-              <div class="schedule__col">Observaciones</div>
-
-            </div>
-            <div *ngFor="let carga of cargasGr | paginate: { itemsPerPage: 3, currentPage: page }"class="schedule__row">
-              <div class="schedule__col">
-                <label class="checkbox">
-                  <input class="checkbox_input" type="checkbox" /><span
-                    class="checkboxinner"
-                    ><span class="checkbox_tick"></span
-                  ></span>
-                </label>
-              </div>
-              <div class="schedule__col">
-                <div class="schedule__price">
-                 <span class="preName">{{carga.fechaAsignacion | date: 'yyyy-MM-dd' }}</span>
-                </div>
-              </div>
-              
-              <div class="schedule__col">
-                <div class="schedule__price">
-                 <span class="preName">{{carga.siniestro}}</span>
-                </div>
-              </div>
-              <div class="schedule__col">
-                <div class="schedule__price">
-                 <span class="preName">Estatus</span>
-                </div>
-              </div>
-              <div class="schedule__col">
-                <div class="schedule__price">
-                 <span class="preName">{{carga.origen}}</span>
-                </div>
-              </div>
-              <div class="schedule__col">
-                <div class="schedule__price">
-                 <span class="preName">{{carga.niu}}</span>
-                </div>
-              </div>
-              <div class="schedule__col">
-                <div class="schedule__price">
-                 <span class="preName">{{carga.ov}}</span>
-                </div>
-              </div>
-              <div class="schedule__col">
-                <div class="schedule__price">
-                 <span class="preName">{{carga.personalizada}}</span>
-                </div>
-              </div>
-              <div class="schedule__col">
-                <div class="schedule__price">
-                 <span class="preName">{{carga.nombre}}</span>
-                </div>
-              </div>
-              <div class="schedule__col">
-                <div class="schedule__price">
-                 <span class="preName">{{carga.correo}}</span>
-                </div>
-              </div>
-              <div class="schedule__col">
-                <div class="schedule__price">
-                 <span class="preName">{{carga.telefono1}}</span>
-                </div>
-              </div>
-              <div class="schedule__col">
-                <div class="schedule__price">
-                 <span class="preName">{{carga.telefono2}}</span>
-                </div>
-              </div>
-              <div class="schedule__col">
-                <div class="schedule__price">
-                 <span class="preName">{{carga.marca}}</span>
-                </div>
-              </div>
-              <div class="schedule__col">
-                <div class="schedule__price">
-                 <span class="preName">{{carga.modelo}}</span>
-                </div>
-              </div>
-              <div class="schedule__col">
-                <div class="schedule__price">
-                 <span class="preName">{{carga["año"]}}</span>
-                </div>
-              </div>
-              <div class="schedule__col">
-                <div class="schedule__price">
-                 <span class="preName">{{carga.serie}}</span>
-                </div>
-              </div>
-              <div class="schedule__col">
-                <div class="schedule__price">
-                 <span class="preName">{{carga.observaciones}}</span>
-                </div>
-              </div>
-              <div class="schedule__col">
-              <div class="schedule__control">
-                <button class="schedule__button">
-                  <svg class="icon icon-edit">
-                    <use xlink:href="#icon-edit"></use>
-                  </svg>
-                </button>
-                <button class="schedule__button">
-                  <svg class="icon icon-trash">
-                    <use xlink:href="#icon-trash"></use>
-                  </svg>
-                </button>
-              </div>
-            </div>
-            </div>
-          </div>
-        </div>
-        <pagination-controls (pageChange)="page = $event"></pagination-controls>
-      </div>
-    </div>
-  </div>
-</div>  -->
 
 <div *ngIf="cargasGr"class="page__inner">
-  <div class="page__container">
-    <div class="page__title h3">Estatus</div>
+  <div class="page__container margen-left">
+    <div class="page__title h3">PT'S</div>
     <div class="drafts card">
+      <div class="title-purple card__title">Listado de PT's</div>
       <div class="card__head">
-        <div class="title-purple card__title">Listado de PT's</div>
-
         <div class="wrapper1">
-                <div class="select-btn">
-                  <input spellcheck="false" type="text" placeholder="Hoy">
-                  <i class="uil uil-angle-down"></i>
-                </div>
+
+
+          <div class="select1">
+              <select class="select-btn" name="Days">
+              <option>Hoy</option>
+              <option>Este mes</option>
+              <option>Esta semana</option>
+              <option>Este Año</option>
+             </select>
+          </div>
+
+
+         <div class="select2">
+             <select class="select-btn" name="Estatus" >
+              <option>Estatus</option>
+              <option>Creado</option>
+              <option>Asignado</option>
+              <option>Notificado</option>
+              <option>Asignado</option>
+              <option>Localizado</option>
+              <option>Gestoria en Tramite</option>
+              <option>Validacion Digital</option>
+              <option>Documentos Entregados</option>
+              </select>
+          </div>
+
+          <div>
                 <div class="content">
                   <div class="search1">
                     <i class="uil uil-search"></i>
@@ -252,30 +88,42 @@
                   </button>
                 </div>
               </div>
-      </div>    <div class="table-container">
-        <table class="table-rwd">
+            </div>
+
+            <div class="imageborder">
+              <img class="imgbtnprint" src="../../../assets/btnImportar.svg">
+           </div>
+
+
+      </div>  
+
+      
+        <div class="table-container2">
+        <table class="table-rwd2">
           <tr>
             <th></th>
-
-            <th>Fecha de Asignacion</th>
-            <th>Siniestro</th>
-            <th>Estatus</th>
-            <th>Origen</th>
-            <th>NIU</th>
-            <th>OV</th>
-            <th>Personalizada</th>
-            <th>Nombre</th>
-            <th>Correo</th>
-            <th>Telefono1</th>
-            <th>Telefono2</th>
-            <th>Marca</th>
-            <th>Modelo</th>
-            <th>Año</th>
-            <th>Serie</th>
-            <th>Observaciones</th>
+            <th>#</th>
+            <th> 
+              <div>Fecha de Asignacion<i class='bx bx-expand-vertical'></i></div>
+            </th>
+            <th class="left"> <div>Siniestro    <i class='bx bx-expand-vertical'></i></div></th>
+            <th class="left"><div>Estatus    <i class='bx bx-expand-vertical'></i></div></th>
+            <th class="left"><div>Origen    <i class='bx bx-expand-vertical'></i></div></th>
+            <th class="left"><div>NIU    <i class='bx bx-expand-vertical'></i></div></th>
+            <th class="left">OV</th>
+            <th class="left">Personalizada</th>
+            <th class="left">Nombre</th>
+            <th class="left">Correo</th>
+            <th class="left">Telefono1</th>
+            <th class="left">Telefono2</th>
+            <th class="left">Marca</th>
+            <th class="left">Modelo</th>
+            <th class="left">Año</th>
+            <th class="left">Serie</th>
+            <th class="left">Observaciones</th>
           </tr>
           <tbody>
-          <tr *ngFor="let carga of cargasGr | paginate: { itemsPerPage: 3, currentPage: page }">
+          <tr class="trmargin" *ngFor="let carga of cargasGr | paginate: { itemsPerPage: 3, currentPage: page }; let i=index;">
            
             <th>  <label class="checkbox">
               <input class="checkbox_input" type="checkbox" /><span
@@ -283,35 +131,203 @@
                 ><span class="checkbox_tick"></span
               ></span>
             </label></th>
-            <td>{{carga.fechaAsignacion | date: 'yyyy-MM-dd' }}</td>
-            <td>{{carga.siniestro}}</td>
-            <td>Estatus</td>
-            <td>{{carga.origen}}</td>
-            <td>{{carga.niu}}</td>
-            <td>{{carga.ov}}</td>
-            <td>{{carga.personalizada}}</td>
-            <td>{{carga.nombre}}</td>
-            <td>{{carga.correo}}</td>
-            <td>{{carga.telefono1}}</td>
-            <td>{{carga.telefono2}}</td>
-            <td>{{carga.marca}}</td>
-            <td>{{carga.modelo}}</td>
-            <td>{{carga["año"]}}</td>
-            <td>{{carga.serie}}</td>
-            <td>{{carga.observaciones}}</td>
+            <td>{{i+1}}</td>
+            <td class="date" >{{carga.fechaAsignacion | date: 'yyyy-MM-dd' }}</td>
+            <td class="left">{{carga.siniestro}}</td>
+            <td class="left"><div class="field__wrap">
+              <h4 class="info__Estatus">Creado</h4>
+             </div></td>
+            <td class="left">{{carga.origen}}</td>
+            <td class="left">{{carga.niu}}</td>
+            <td class="left">{{carga.ov}}</td>
+            <td class="left">{{carga.personalizada}}</td>
+            <td class="left">{{carga.nombre}}</td>
+            <td class="left">{{carga.correo}}</td>
+            <td class="left">{{carga.telefono1}}</td>
+            <td class="left">{{carga.telefono2}}</td>
+            <td class="left">{{carga.marca}}</td>
+            <td class="left">{{carga.modelo}}</td>
+            <td class="left">{{carga["año"]}}</td>
+            <td class="left">{{carga.serie}}</td>
+            <td class="left">{{carga.observaciones}}</td>
           </tr>
         </tbody>
         </table>
-        <pagination-controls (pageChange)="page = $event"></pagination-controls> 
       </div>
+      <pagination-controls (pageChange)="page = $event"     previousLabel="<"
+        nextLabel=">"   maxSize =""></pagination-controls>
+
     </div>
   </div>
 </div>
 
+<div class="page__inner">
+
+  <div class="page__container">
+    <div class="create">
+
+      <div class="create__row">
+
+
+        <div class="create__col">
+
+          <div class="create__card card">
+            <button class="popup__close__form js-popup-close">
+              <svg class="icon icon-close ">
+                <use xlink:href="#icon-close"></use>
+              </svg>
+            </button>
+
+            <div class="card__head">
 
 
 
+              <div class="card_title">
+                <img class="img-logo" src="../../../assets/AXXA.jpeg">
+                <div class="tittle__ajust">
+                  <div>AC00048K</div>
+                  <div class="style-font"> 18/02/2022 - Robo </div>
+                </div>
+              </div>
 
+              <a class="button" href="products-dashboard.html"><span>Exportar</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" style="fill: white;transform: msFilter;">
+                  <path d="m12 16 4-5h-3V4h-2v7H8z"></path>
+                  <path d="M20 18H4v-7H2v7c0 1.103.897 2 2 2h16c1.103 0 2-.897 2-2v-7h-2v7z"></path>
+                </svg></a>
+            </div>
+            <div class="card__mail">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" style="fill: #B0BEC5;transform: msFilter;">
+                <path
+                  d="M20 4H4c-1.103 0-2 .897-2 2v12c0 1.103.897 2 2 2h16c1.103 0 2-.897 2-2V6c0-1.103-.897-2-2-2zm0 2v.511l-8 6.223-8-6.222V6h16zM4 18V9.044l7.386 5.745a.994.994 0 0 0 1.228 0L20 9.044 20.002 18H4z">
+                </path>
+              </svg>
+              <a class="correo-electronico"><span>benitayasa2017@gmail.com</span></a>
+            </div>
+            <hr class="hr">
+
+            <form>
+              <div class="field">
+                <div class="tooltip">Estatus Actual <svg class="icon icon-info">
+                    <use xlink:href="#icon-info"></use>
+                  </svg>
+                  <span class="tooltiptext">Maximo 3 caracteres</span>
+
+                </div>
+                <div class="field__wrap">
+                  <h4 class="info__Estatus">Creado</h4>
+                </div>
+                <hr>
+
+                <div class="input__Status">
+                  <div>
+                    <div class="wrapper1">
+                      <h4>Cambiar estatus a:</h4>
+
+
+                      <div class="select1">
+                          <select class="select-btn" name="Days">
+                          <option>Hoy</option>
+                          <option>Este mes</option>
+                          <option>Esta semana</option>
+                          <option>Este Año</option>
+                         </select>
+                      </div>
+            
+            
+                    </div>
+            
+                  </div>
+                  <div class="field">
+
+                    <div class="field__wrap">
+
+                    </div>
+
+                    <div class="content">
+                      <div class="search1">
+                        <i class="uil uil-search"></i>
+                        <input spellcheck="false" type="text" placeholder="Search">
+                      </div>
+                      <ul class="options"></ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="field">
+                <div class="tooltip margintool">Actividad <svg class="icon icon-info">
+                    <use xlink:href="#icon-info"></use>
+                  </svg>
+                  <span class="tooltiptext">Maximo 30 caracteres</span>
+
+                </div>
+                <div class="input__Actividad">
+                  <div>
+                    <h4>Historial de estatus: </h4>
+                  </div>
+                  <div>
+                    <p>Mas recientes primero</p>
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="editor">
+                <div class="tooltip">Observaciones <svg class="icon icon-info">
+                    <use xlink:href="#icon-info"></use>
+                  </svg>
+                  <span class="tooltiptext">Maximo 50 caracteres</span>
+
+                </div>
+                <ckeditor [editor]="editor"></ckeditor>
+
+              </div>
+              <div class="header__btns2">
+                <a class="button" href="sign-in.html">Guardar</a>
+                <a class="button btncancel" href="sign-up.html">Cancelar</a>
+              </div>
+              <div class="section-comment">
+                <img class="img-logo" src="../../../assets/AXXA.jpeg">
+                <div class="section-text">
+                  <h4>Automatico <span>hace 16 minutos</span></h4>
+                  <div class="field__wrap">
+                    <h4 class="info__Estatus">Creado</h4>
+                  </div>
+                  <p>Registro importado correctamente y registrado con estatus de CREADO.</p>
+                </div>
+              </div>
+              <div class="section-comment">
+                <img class="img-logo" src="../../../assets/AXXA.jpeg">
+                <div class="section-text">
+                  <h4>Automatico <span>hace 16 minutos</span></h4>
+                  <div class="field__wrap">
+                    <h4 class="info__Estatus">Creado</h4>
+                  </div>
+                  <p>Registro importado correctamente y registrado con estatus de CREADO.</p>
+                </div>
+                <div class="frame-542-2">
+                  <div class="frame-542-iteminter-medium-pale-sky-14px">Editar</div>
+                  <div class="frame-542-iteminter-medium-pale-sky-14px">Eliminar</div>
+                </div>
+              </div>
+              <div class="section-comment">
+                <img class="img-logo" src="../../../assets/AXXA.jpeg">
+                <div class="section-text">
+                  <h4>Automatico <span>hace 16 minutos</span></h4>
+                  <div class="field__wrap">
+                    <h4 class="info__Estatus">Creado</h4>
+                  </div>
+                  <p>Registro importado correctamente y registrado con estatus de CREADO.</p>
+                </div>
+              </div>
+
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- <div *ngIf="cargasGr" class="panel">
   <div class="panel__info">

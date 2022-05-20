@@ -16,6 +16,7 @@ export class ImportarComponent implements OnInit {
   size:any;
   dispararAlerta=false;
   dispararAlertaError=false;
+  errorMensaje:string;
   constructor(private cargaGrService:CargaGrService,private nav:NavbarService) { }
 
   ngOnInit(): void {
@@ -47,6 +48,7 @@ export class ImportarComponent implements OnInit {
         this.cancelarLayout();
       },err=>{
         this.dispararAlertaError=true;
+        this.errorMensaje = err.error.mensaje;
       })
     }else if(extension == 'csv'){
       this.cargaGrService.postCargasCSV(file).subscribe(resp => {
@@ -55,9 +57,11 @@ export class ImportarComponent implements OnInit {
         this.cancelarLayout();
       },err=>{
         this.dispararAlertaError=true;
+        this.errorMensaje = err.error.mensaje;
       })
     }else{
       this.dispararAlertaError=true;
+      this.errorMensaje = "Cargue un archivo .csv o .xlsx";
       this.cancelarLayout();
     }
    

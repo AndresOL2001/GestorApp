@@ -8,7 +8,9 @@ export class CargaGrService {
 
   constructor(private http:HttpClient) { }
 
-  public url = "https://gestoria-aventura.herokuapp.com";
+public url = "http://socialpets.club/api"; 
+  //public url = "http://localhost:8080/api";
+
   getCargas(){
     return this.http.get(this.url+`/cargaGr`);
   }

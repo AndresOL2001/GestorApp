@@ -82,14 +82,14 @@ estado:Estado;
         this.estadoService.actualizarEstado(this.estado).subscribe(resp => {
           console.log(resp);
           this.dispararAlerta = true;
-  
+          this.actualizarTabla();
         })
       }else{
 
       this.estadoService.crearEstado(this.estado).subscribe(resp => {
         console.log(resp);
         this.dispararAlerta = true;
-
+        this.actualizarTabla();
       })
     }
 

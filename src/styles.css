@@ -2583,14 +2583,26 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-handle {
 .noUi-marker-large, .noUi-marker-sub {
   background: #AAA; }
 
-  .ngx-pagination {
+ .ngx-pagination {
     display: flex;
     margin-left: 0;
     align-items: center;
     margin-bottom: 1rem;
-    justify-content: center;
+    justify-content: right;
     margin-top: 13px;
-  }
+}
+
+.ngx-pagination .pagination-next a::after, .ngx-pagination .pagination-next.disabled::after {
+  content: '' !important;
+  display:  inline-block;
+  margin-left: 0.5rem;
+}
+
+.ngx-pagination .pagination-previous a::before, .ngx-pagination .pagination-previous.disabled::before {
+  content: '' !important;
+  display: inline-block;
+  margin-right: 0.5rem;
+}
 
 .noUi-pips-horizontal {
   padding: 10px 0;
