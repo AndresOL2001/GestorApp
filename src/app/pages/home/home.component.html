@@ -1,4 +1,4 @@
-<div *ngIf="!cargasGr || cargasGr == 0" class="page__inner__home">
+<div *ngIf="!cargasGr || cargasGr.length== 0" class="page__inner__home">
   <div class="hi-dash-welcome-bac">Hola Administrador,</div>
   <h1 class="campaigns poppins-semi-bold-mirage-40px">
     <span class="span poppins-semi-bold-mirage-40px">Bienvenido</span><span class="span1">&nbsp;</span><span
@@ -35,26 +35,26 @@
 
 
           <div class="select1">
-              <select class="select-btn" name="Days">
+              <select (change)="cambioFiltroFecha($event.target.value)" [(ngModel)]="FiltroFecha" class="select-btn" name="Days">
+              <option>Fecha</option>
               <option>Hoy</option>
-              <option>Este mes</option>
-              <option>Esta semana</option>
+              <option>Esta Semana</option>
+              <option>Este Mes</option>
               <option>Este Año</option>
              </select>
           </div>
 
 
          <div class="select2">
-             <select class="select-btn" name="Estatus" >
-              <option>Estatus</option>
+             <select (change)="cambioFiltroEstado($event.target.value)" [(ngModel)]="FiltroEstado" class="select-btn" name="Estatus" >
+              <option>Estado</option>
               <option>Creado</option>
               <option>Asignado</option>
               <option>Notificado</option>
-              <option>Asignado</option>
               <option>Localizado</option>
-              <option>Gestoria en Tramite</option>
-              <option>Validacion Digital</option>
-              <option>Documentos Entregados</option>
+              <option>Gestoria en tramite</option>
+              <option>Validacion digital</option>
+              <option>Documentos entregados</option>
               </select>
           </div>
 
@@ -100,42 +100,29 @@
       
         <div class="table-container2">
         <table class="table-rwd2">
+
           <tr>
             <th></th>
             <th>#</th>
-            <th> 
-              <div>Fecha de Asignacion<i class='bx bx-expand-vertical'></i></div>
-            </th>
-            <th class="left"> <div>Siniestro    <i class='bx bx-expand-vertical'></i></div></th>
-            <th class="left"><div>Estatus    <i class='bx bx-expand-vertical'></i></div></th>
-            <th class="left"><div>Origen    <i class='bx bx-expand-vertical'></i></div></th>
-            <th class="left"><div>NIU    <i class='bx bx-expand-vertical'></i></div></th>
-            <th class="left">OV</th>
-            <th class="left">Personalizada</th>
-            <th class="left">Nombre</th>
-            <th class="left">Correo</th>
-            <th class="left">Telefono1</th>
-            <th class="left">Telefono2</th>
-            <th class="left">Marca</th>
-            <th class="left">Modelo</th>
-            <th class="left">Año</th>
-            <th class="left">Serie</th>
-            <th class="left">Observaciones</th>
+            <th><div>Fecha de Asignacion<i  (click)="ordenarFecha(head)" style="cursor:pointer;" class='bx bx-expand-vertical'></i></div></th>
+            <th class="left" *ngFor="let head of pageHeaders"><div>{{head}}<i (click)="ordenarAlfabeticamente(head)" style="cursor:pointer;" class='bx bx-expand-vertical'></i></div></th>
+
           </tr>
           <tbody>
-          <tr class="trmargin" *ngFor="let carga of cargasGr | paginate: { itemsPerPage: 3, currentPage: page }; let i=index;">
-           
-            <th>  <label class="checkbox">
-              <input class="checkbox_input" type="checkbox" /><span
-                class="checkboxinner"
-                ><span class="checkbox_tick"></span
-              ></span>
-            </label></th>
-            <td>{{i+1}}</td>
-            <td class="date" >{{carga.fechaAsignacion | date: 'yyyy-MM-dd' }}</td>
+          <tr class="trmargin" *ngFor="let carga of cargasGr | paginate: { itemsPerPage: registrosPorPagina, currentPage: page }; let i=index;">
+            <th> 
+              <label class="checkbox">
+                <input (click)="abrirModal(checkbox,carga)" [disabled]="banderaModal" name="groupA"
+                  #checkbox class="checkbox_input"
+                  type="checkbox"/><span class="checkboxinner"><span class="checkbox_tick"></span
+                ></span>
+              </label>
+          </th>
+            <td>{{ cargasGr.indexOf(carga)+1}}</td>
+            <td class="date" >{{carga.fecha_asignacion | date: 'yyyy-MM-dd':'GMT' }}</td>
             <td class="left">{{carga.siniestro}}</td>
             <td class="left"><div class="field__wrap">
-              <h4 class="info__Estatus">Creado</h4>
+              <h4 class="info__Estatus" [ngStyle]="{'color': carga.color}">{{carga.nombreestado}}</h4>
              </div></td>
             <td class="left">{{carga.origen}}</td>
             <td class="left">{{carga.niu}}</td>
@@ -154,180 +141,196 @@
         </tbody>
         </table>
       </div>
-      <pagination-controls (pageChange)="page = $event"     previousLabel="<"
-        nextLabel=">"   maxSize =""></pagination-controls>
+      <div class="footer-table">
+      <span class="footer-text">Numero de registros activos: {{cargasGr.length}}</span>
+      <div class="footer-text-right">
+        <div class="footer-combobox">
+      <span class="footer-text">Mostrar registros por pagina </span>
 
+          <select [(ngModel)]="registrosPorPagina" class="select-btn-footer"  >
+            
+           <option *ngFor="let size of pageSizes" [value]="size" class="option-footer">
+            {{size}}
+          </option>
+           
+
+           </select>
+   
+    </div>
+      <pagination-controls  (pageChange)="page = $event"  responsive="true"   previousLabel="<"
+        nextLabel=">"   maxSize =""></pagination-controls>
+      </div>
+    </div>
     </div>
   </div>
 </div>
 
-<div class="page__inner">
-
-  <div class="page__container">
-    <div class="create">
-
-      <div class="create__row">
-
-
-        <div class="create__col">
-
-          <div class="create__card card">
-            <button class="popup__close__form js-popup-close">
-              <svg class="icon icon-close ">
-                <use xlink:href="#icon-close"></use>
-              </svg>
-            </button>
-
-            <div class="card__head">
-
-
-
-              <div class="card_title">
-                <img class="img-logo" src="../../../assets/AXXA.jpeg">
-                <div class="tittle__ajust">
-                  <div>AC00048K</div>
-                  <div class="style-font"> 18/02/2022 - Robo </div>
-                </div>
+<div *ngIf="banderaModal">
+  <div class="page__inner pageform">
+    <div class="page__container">
+      <div class="create">
+        <div class="create__row">
+          <div class="create__col">
+            <div class="create__card card cardMoveForm">
+              <div class="header__modal">
+                <label (click)="CerrarModal()">X</label>
               </div>
-
-              <a class="button" href="products-dashboard.html"><span>Exportar</span>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" style="fill: white;transform: msFilter;">
-                  <path d="m12 16 4-5h-3V4h-2v7H8z"></path>
-                  <path d="M20 18H4v-7H2v7c0 1.103.897 2 2 2h16c1.103 0 2-.897 2-2v-7h-2v7z"></path>
-                </svg></a>
-            </div>
-            <div class="card__mail">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" style="fill: #B0BEC5;transform: msFilter;">
-                <path
-                  d="M20 4H4c-1.103 0-2 .897-2 2v12c0 1.103.897 2 2 2h16c1.103 0 2-.897 2-2V6c0-1.103-.897-2-2-2zm0 2v.511l-8 6.223-8-6.222V6h16zM4 18V9.044l7.386 5.745a.994.994 0 0 0 1.228 0L20 9.044 20.002 18H4z">
-                </path>
-              </svg>
-              <a class="correo-electronico"><span>benitayasa2017@gmail.com</span></a>
-            </div>
-            <hr class="hr">
-
-            <form>
-              <div class="field">
-                <div class="tooltip">Estatus Actual <svg class="icon icon-info">
-                    <use xlink:href="#icon-info"></use>
-                  </svg>
-                  <span class="tooltiptext">Maximo 3 caracteres</span>
-
-                </div>
-                <div class="field__wrap">
-                  <h4 class="info__Estatus">Creado</h4>
-                </div>
-                <hr>
-
-                <div class="input__Status">
-                  <div>
-                    <div class="wrapper1">
-                      <h4>Cambiar estatus a:</h4>
-
-
-                      <div class="select1">
-                          <select class="select-btn" name="Days">
-                          <option>Hoy</option>
-                          <option>Este mes</option>
-                          <option>Esta semana</option>
-                          <option>Este Año</option>
-                         </select>
-                      </div>
-            
-            
-                    </div>
-            
+              <div class="card__head">
+                <div class="card_title">
+                  <img class="img-logo" src="../../../assets/AXXA.jpeg" />
+                  <div class="tittle__ajust">
+                    <div>{{cargaModal.siniestro}}</div>
+                    <div class="style-font">{{cargaModal.fecha_asignacion}} - {{cargaModal.origen}}</div>            
                   </div>
-                  <div class="field">
+                </div>
+                <a class="button" href="products-dashboard.html"
+                  ><span>Exportar</span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    style="fill: white; transform: msFilter"
+                  >
+                    <path d="m12 16 4-5h-3V4h-2v7H8z"></path>
+                    <path
+                      d="M20 18H4v-7H2v7c0 1.103.897 2 2 2h16c1.103 0 2-.897 2-2v-7h-2v7z"
+                    ></path></svg></a>
+              </div>
+              <div class="card__mail">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  style="fill: #b0bec5; transform: msFilter"
+                >
+                  <path
+                    d="M20 4H4c-1.103 0-2 .897-2 2v12c0 1.103.897 2 2 2h16c1.103 0 2-.897 2-2V6c0-1.103-.897-2-2-2zm0 2v.511l-8 6.223-8-6.222V6h16zM4 18V9.044l7.386 5.745a.994.994 0 0 0 1.228 0L20 9.044 20.002 18H4z"
+                  ></path>
+                </svg>
+                <a class="correo-electronico"
+                  ><span>{{cargaModal.correo}}</span></a
+                >
+              </div>
+              <hr class="hr" />
 
+              <form>
+                <div class="field">
+                  <div class="tooltip">
+                    Estatus Actual
+                    <svg class="icon icon-info">
+                      <use xlink:href="#icon-info"></use>
+                    </svg>
+                  </div>
+                  <div class="field__wrap">
+                    <h4 class="info__Estatus" [ngStyle]="{'color': cargaModal.color}">{{cargaModal.nombreestado}}</h4>
+                  </div>
+                  <hr />
+
+                  <div class="input__Status">
+                    <div>
+                      <div class="wrapper1">
+                        <h4 class="font_form">Cambiar estatus a:</h4>
+
+                        <div class="select-table">
+                          <select class="select-btn" name="Estatus">
+                            <option>{{cargaModal.nombreestado}}</option>
+                            <option *ngIf="listaEstados.getByValue(cargaModal.nombreestado) != null">{{listaEstados.getByValue(cargaModal.nombreestado)}}</option>
+                           
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="field">
+                      <div class="field__wrap"></div>
+
+                      <div class="content">
+                        <div class="search1">
+                          <i class="uil uil-search"></i>
+                          <input
+                            spellcheck="false"
+                            type="text"
+                            placeholder="Search"
+                          />
+                        </div>
+                        <ul class="options"></ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="field">
+                  <div class="tooltip margintool">
+                    Actividad
+                    <svg class="icon icon-info">
+                      <use xlink:href="#icon-info"></use>
+                    </svg>
+                    <span class="tooltiptext">Maximo 30 caracteres</span>
+                  </div>
+                  <div class="input__Actividad">
+                    <div>
+                      <h4 class="font_form">Historial de estatus:</h4>
+                    </div>
+                    <div>
+                      <p class="font_form">Mas recientes primero</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="editor">
+                  <div class="tooltip">
+                    Observaciones
+                    <svg class="icon icon-info">
+                      <use xlink:href="#icon-info"></use>
+                    </svg>
+                    <span class="tooltiptext">Maximo 50 caracteres</span>
+                  </div>
+                  <ckeditor [editor]="editor"></ckeditor>
+                </div>
+                <div class="header__btns2">
+                  <a class="button" href="sign-in.html">Guardar</a>
+                  <a class="btncancel" href="sign-up.html">Cancelar</a>
+                </div>
+                <div class="section-comment">
+                  <img class="img-logo" src="../../../assets/AXXA.jpeg" />
+                  <div class="section-text">
+                    <h4>Automatico <span>hace 16 minutos</span></h4>
                     <div class="field__wrap">
-
+                      <h4 class="info__Estatus">Creado</h4>
                     </div>
-
-                    <div class="content">
-                      <div class="search1">
-                        <i class="uil uil-search"></i>
-                        <input spellcheck="false" type="text" placeholder="Search">
-                      </div>
-                      <ul class="options"></ul>
+                    <p class="font_form">
+                      Registro importado correctamente y registrado con
+                      estatus de CREADO.
+                    </p>
+                    <div class="header__btns2">
+                      <button class="btncoments">Editar</button>
+                      <button class="btncoments">Eliminar</button>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div class="field">
-                <div class="tooltip margintool">Actividad <svg class="icon icon-info">
-                    <use xlink:href="#icon-info"></use>
-                  </svg>
-                  <span class="tooltiptext">Maximo 30 caracteres</span>
 
-                </div>
-                <div class="input__Actividad">
-                  <div>
-                    <h4>Historial de estatus: </h4>
+                       <div class="section-comment">
+                  <img class="img-logo" src="../../../assets/AXXA.jpeg" />
+                  <div class="section-text">
+                    <h4>Automatico <span>hace 16 minutos</span></h4>
+                    <div class="field__wrap">
+                      <h4 class="info__Estatus">Creado</h4>
+                    </div>
+                    <p class="font_form">
+                      Registro importado correctamente y registrado con
+                      estatus de CREADO.
+                    </p>
+                    <div class="header__btns2">
+                      <button class="btncoments">Editar</button>
+                      <button class="btncoments">Eliminar</button>
+                    </div>
                   </div>
-                  <div>
-                    <p>Mas recientes primero</p>
-                  </div>
                 </div>
-              </div>
-
-
-              <div class="editor">
-                <div class="tooltip">Observaciones <svg class="icon icon-info">
-                    <use xlink:href="#icon-info"></use>
-                  </svg>
-                  <span class="tooltiptext">Maximo 50 caracteres</span>
-
-                </div>
-                <ckeditor [editor]="editor"></ckeditor>
-
-              </div>
-              <div class="header__btns2">
-                <a class="button" href="sign-in.html">Guardar</a>
-                <a class="button btncancel" href="sign-up.html">Cancelar</a>
-              </div>
-              <div class="section-comment">
-                <img class="img-logo" src="../../../assets/AXXA.jpeg">
-                <div class="section-text">
-                  <h4>Automatico <span>hace 16 minutos</span></h4>
-                  <div class="field__wrap">
-                    <h4 class="info__Estatus">Creado</h4>
-                  </div>
-                  <p>Registro importado correctamente y registrado con estatus de CREADO.</p>
-                </div>
-              </div>
-              <div class="section-comment">
-                <img class="img-logo" src="../../../assets/AXXA.jpeg">
-                <div class="section-text">
-                  <h4>Automatico <span>hace 16 minutos</span></h4>
-                  <div class="field__wrap">
-                    <h4 class="info__Estatus">Creado</h4>
-                  </div>
-                  <p>Registro importado correctamente y registrado con estatus de CREADO.</p>
-                </div>
-                <div class="frame-542-2">
-                  <div class="frame-542-iteminter-medium-pale-sky-14px">Editar</div>
-                  <div class="frame-542-iteminter-medium-pale-sky-14px">Eliminar</div>
-                </div>
-              </div>
-              <div class="section-comment">
-                <img class="img-logo" src="../../../assets/AXXA.jpeg">
-                <div class="section-text">
-                  <h4>Automatico <span>hace 16 minutos</span></h4>
-                  <div class="field__wrap">
-                    <h4 class="info__Estatus">Creado</h4>
-                  </div>
-                  <p>Registro importado correctamente y registrado con estatus de CREADO.</p>
-                </div>
-              </div>
-
-            </form>
+              </form>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 
 <!-- <div *ngIf="cargasGr" class="panel">
   <div class="panel__info">

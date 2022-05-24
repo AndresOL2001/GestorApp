@@ -1,16 +1,18 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { PagesRoutingModule } from './pages-routing.module';
 import { HomeComponent } from './home/home.component';
 import { EstatusComponent } from './estatus/estatus.component';
 import { ImportarComponent } from './importar/importar.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { NgxColorsModule } from 'ngx-colors';
 import { SharedModule } from '../shared/shared.module';
 import {NgxPaginationModule} from 'ngx-pagination';
+import { ExportarComponent } from './exportar/exportar.component';
+
 @NgModule({
-  declarations: [HomeComponent, EstatusComponent, ImportarComponent],
+  declarations: [HomeComponent, EstatusComponent, ImportarComponent, ExportarComponent],
   imports: [
     CommonModule,
     PagesRoutingModule,
@@ -18,8 +20,10 @@ import {NgxPaginationModule} from 'ngx-pagination';
     CKEditorModule,
     NgxColorsModule,
     SharedModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    FormsModule
     
   ],
+  providers: [DatePipe]
 })
 export class PagesModule { }

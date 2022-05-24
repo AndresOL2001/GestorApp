@@ -1,0 +1,188 @@
+<div *ngIf="cargasGr" class="page__inner">
+    <div class="page__container margen-left">
+      <div class="page__title h3">Consultar Y Exportar</div>
+      <div class="drafts card">
+        <div class="card__head">
+          <div class="wrapper1">
+  
+  
+            <div>
+              <div class="content">
+                <div class="search1">
+                  <i class="uil uil-search"></i>
+                  <input spellcheck="false" type="text" placeholder="Search" />
+                </div>
+                <ul class="options"></ul>
+              </div>
+            </div>
+  
+            <div class="search">
+              <div class="search__head">
+                <button class="search__start">
+                  <svg class="icon icon-search">
+                    <use xlink:href="#icon-search"></use>
+                  </svg>
+                </button>
+                <button class="search__direction">
+                  <svg class="icon icon-arrow-left">
+                    <use xlink:href="#icon-arrow-left"></use>
+                  </svg>
+                </button>
+                <input class="search__input" type="text" placeholder="Buscar" />
+                <button class="search__close">
+                  <svg class="icon icon-close-circle">
+                    <use xlink:href="#icon-close-circle"></use>
+                  </svg>
+                </button>
+              </div>
+            </div>
+  
+            <div class="select1">
+              <select class="select-btn" name="Days">
+                <option>15/05/22 - </option>
+                <option>Este mes</option>
+                <option>Esta semana</option>
+                <option>Este Año</option>
+              </select>
+            </div>
+  
+            <div class="select2">
+              <select class="select-btn" name="Estatus">
+                <option>Estatus</option>
+                <option>Creado</option>
+                <option>Asignado</option>
+                <option>Notificado</option>
+                <option>Asignado</option>
+                <option>Localizado</option>
+                <option>Gestoria en Tramite</option>
+                <option>Validacion Digital</option>
+                <option>Documentos Entregados</option>
+              </select>
+            </div>
+  
+           <div>
+            <a class="btncancel">
+            <img class="imgbtnprint" src="../../../assets/btnImportar.svg" />  Exportar xls</a>
+          </div>
+          </div>
+  
+         
+        </div>
+  
+        <div class="table-container2">
+          <div class="title-purple card__title">Listado de PT's</div>
+          <table class="table-rwd2">
+            <tr>
+              <th></th>
+              <th>#</th>
+              <th>
+                <div>Fecha de Asignacion<i class="bx bx-chevron-down"></i></div>
+              </th>
+              <th class="left">
+                <div>Siniestro <i class="bx bx-chevron-down"></i></div>
+              </th>
+              <th class="left">
+                <div>Estatus <i class="bx bx-chevron-down"></i></div>
+              </th>
+              <th class="left">
+                <div>Origen <i class="bx bx-chevron-down"></i></div>
+              </th>
+              <th class="left">
+                <div>NIU <i class="bx bx-chevron-down"></i></div>
+              </th>
+              <th class="left">
+                <div>OV <i class="bx bx-chevron-down"></i></div>
+              </th>
+              <th class="left">
+                <div>Personalizada <i class="bx bx-chevron-down"></i></div>
+              </th>
+              <th class="left">
+                <div>Nombre <i class="bx bx-chevron-down"></i></div>
+              </th>
+              <th class="left">
+                <div>Correo <i class="bx bx-chevron-down"></i></div>
+              </th>
+              <th class="left">
+                <div>Telefono1 <i class="bx bx-chevron-down"></i></div>
+              </th>
+              <th class="left">
+                <div>Telefono2 <i class="bx bx-chevron-down"></i></div>
+              </th>
+              <th class="left">
+                <div>Marca <i class="bx bx-chevron-down"></i></div>
+              </th>
+              <th class="left">
+                <div>Modelo <i class="bx bx-chevron-down"></i></div>
+              </th>
+              <th class="left">
+                <div>Año <i class="bx bx-chevron-down"></i></div>
+              </th>
+              <th class="left">
+                <div>Serie <i class="bx bx-chevron-down"></i></div>
+              </th>
+              <th class="left">
+                <div>Observaciones <i class="bx bx-chevron-down"></i></div>
+              </th>
+            </tr>
+            <tbody>
+              <tr
+                class="trmargin"
+                *ngFor="
+                  let carga of cargasGr
+                    | paginate: { itemsPerPage: registrosPorPagina, currentPage: page };
+                  let i = index
+                "
+              >
+                <th>
+                 
+                </th>
+                <td>{{ i + 1 }}</td>
+                <td class="date">
+                  {{ carga.fecha_asignacion | date: "yyyy-MM-dd" }}
+                </td>
+                <td class="left">{{ carga.siniestro }}</td>
+                <td class="left">
+                  <div class="field__wrap">
+                    <h4 class="info__Estatus"  [ngStyle]="{'color': carga.color}" >{{carga.nombreestado}}</h4>
+                  </div>
+                </td>
+                <td class="left">{{ carga.origen }}</td>
+                <td class="left">{{ carga.niu }}</td>
+                <td class="left">{{ carga.ov }}</td>
+                <td class="left">{{ carga.personalizada }}</td>
+                <td class="left">{{ carga.nombre }}</td>
+                <td class="left">{{ carga.correo }}</td>
+                <td class="left">{{ carga.telefono1 }}</td>
+                <td class="left">{{ carga.telefono2 }}</td>
+                <td class="left">{{ carga.marca }}</td>
+                <td class="left">{{ carga.modelo }}</td>
+                <td class="left">{{ carga["año"] }}</td>
+                <td class="left">{{ carga.serie }}</td>
+                <td class="left">{{ carga.observaciones }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="footer-table">
+            <span class="footer-text">Numero de registros activos: {{cargasGr.length}}</span>
+            <div class="footer-text-right">
+              <div class="footer-combobox">
+            <span class="footer-text">Mostrar registros por pagina </span>
+      
+                <select [(ngModel)]="registrosPorPagina" class="select-btn-footer"  >
+                  
+                 <option *ngFor="let size of pageSizes" [value]="size" class="option-footer">
+                  {{size}}
+                </option>
+                 
+      
+                 </select>
+         
+          </div>
+            <pagination-controls  (pageChange)="page = $event"  responsive="true"   previousLabel="<"
+              nextLabel=">"   maxSize =""></pagination-controls>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>

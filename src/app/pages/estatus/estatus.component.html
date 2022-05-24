@@ -167,7 +167,7 @@
               </div>
               <div class="schedule__col">
               <div class="schedule__control">
-                <button [routerLink]="['/dashboard', estado.IdEstado]" class="schedule__button">
+                <button (click)="obtenerIdEstadoMod(estado.IdEstado)" class="schedule__button">
                   <svg class="icon icon-edit">
                     <use xlink:href="#icon-edit"></use>
                   </svg>

@@ -6,8 +6,8 @@ import { Estado } from '../models/estado';
   providedIn: 'root'
 })
 export class EstadosService {
-   public url = "http://socialpets.club/api"; 
- //public url = "http://localhost:8080/api";
+  // public url = "http://socialpets.club/api"; 
+ public url = "http://localhost:8080/api";
   
   constructor(private http:HttpClient) {
     

@@ -23,7 +23,7 @@ estado:Estado;
   estadoMod:Estado;
   IdEstadoMod:number;
   estadoForm:FormGroup;
-  constructor(private cargaService:CargaGrService,private fb:FormBuilder,private estadoService:EstadosService,private nav:NavbarService) { 
+  constructor(private cargaService:CargaGrService,private fb:FormBuilder,private estadoService:EstadosService,private nav:NavbarService,private activatedRoute:ActivatedRoute) { 
     this.estadoForm = this.fb.group({
       abreviatura:['',[Validators.required,Validators.minLength(3),Validators.maxLength(3)]],
       nombre:['',[Validators.required,Validators.minLength(3),Validators.maxLength(30)]],
@@ -33,16 +33,24 @@ estado:Estado;
     });
   }
 
+  obtenerIdEstadoMod(idEstado:number){
+   
+      this.IdEstadoMod = idEstado;
+      if(this.IdEstadoMod != 0 && this.IdEstadoMod != null){
+        this.estadoService.obtenerEstadoPorId(this.IdEstadoMod).subscribe( (resp:any) => {
+          delete resp.idEstado;
+          this.estadoMod = resp;
+          console.log(this.estadoMod);
+          this.rellenarCampos(this.estadoMod);
+          document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+
+        })
+      }
+  }
+
   ngOnInit(): void {
     this.nav.show();
-    if(this.IdEstadoMod != 0 && this.IdEstadoMod != null){
-      this.estadoService.obtenerEstadoPorId(this.IdEstadoMod).subscribe( (resp:any) => {
-        delete resp.idEstado;
-        this.estadoMod = resp;
-        console.log(this.estadoMod);
-        this.rellenarCampos(this.estadoMod);
-      })
-    }
+    
    this.actualizarTabla();
   }
 

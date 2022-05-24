@@ -8,8 +8,8 @@ export class CargaGrService {
 
   constructor(private http:HttpClient) { }
 
-public url = "http://socialpets.club/api"; 
-  //public url = "http://localhost:8080/api";
+  //public url = "http://socialpets.club/api"; 
+  public url = "http://localhost:8080/api";
 
   getCargas(){
     return this.http.get(this.url+`/cargaGr`);

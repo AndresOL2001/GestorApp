@@ -1,3 +1,30 @@
-button.feat-btn.link.btnconfig {
-    display: flex;
-  }
+.sidebar header .image-text{
+  display: flex;
+  align-items: center;
+}
+.sidebar header .logo-text{
+  display: flex;
+  flex-direction: column;
+}
+header .image-text .name {
+  margin-top: 4px;
+  font-size: 22px;
+  font-weight: 800;
+}
+
+header .image-text .profession{
+  font-size: 16px;
+  margin-top: -2px;
+  display: block;
+}
+
+.sidebar header .image{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sidebar header .image img{
+  width: 30px;
+  border-radius: 6px;
+}
