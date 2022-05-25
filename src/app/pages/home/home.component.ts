@@ -1,10 +1,11 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { LinkedList } from 'src/app/Helpers/LinkedListEstados';
 import { cargaGr } from 'src/app/models/cargaGr';
 import { CargaGrService } from 'src/app/services/carga-gr.service';
 import { NavbarService } from 'src/app/services/navbar.service';
 import * as ClassicEditor from '../../../../ckeditor/build/ckEditor';
+import { Comentario, CargaComentario, EstadoComentario } from '../../models/comentario';
 
 @Component({
   selector: 'app-home',
@@ -12,7 +13,10 @@ import * as ClassicEditor from '../../../../ckeditor/build/ckEditor';
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
+  comentarios:any[] = [];
+
   public editor: any = ClassicEditor;
+  cajaDescripcionComentario = " ";
   checkboxRef;
   cargasGr: cargaGr[];
   cargasView:any[];
@@ -78,6 +82,7 @@ listaEstados = new LinkedList();
       this.obtenerTotalIndicesTabla();
       console.log(resp);
     });
+
   }
 
 
@@ -93,9 +98,9 @@ listaEstados = new LinkedList();
 
   ordenarAlfabeticamente(head: string) {
     const switchFecha = {
-      "Este año":this.lastYearFormat,
-      "Esta semana":this.lastWeekFormat,
-      "Este mes":this.lastMonthFormat,
+      "Este Año":this.lastYearFormat,
+      "Esta Semana":this.lastWeekFormat,
+      "Este Mes":this.lastMonthFormat,
       "Hoy":this.todayFormat
     }
     console.log(this.FiltroEstado);
@@ -159,10 +164,12 @@ listaEstados = new LinkedList();
      
       this.cargaService.getCargas().subscribe((resp: cargaGr[]) => {
         this.cargasView = resp;
-        if(this.FiltroFecha != 'Fecha'){
-          this.cargasGr.filter(x=>x.fecha_asignacion > switchFecha[this.FiltroFecha]);
-        }
-        if(this.FiltroEstado != 'Estado'){
+        if(this.FiltroFecha != 'Fecha' && this.FiltroEstado != 'Estado'){
+          this.cargasGr.filter(x=>x.fecha_asignacion > switchFecha[this.FiltroFecha] && x.nombreestado == this.FiltroEstado);
+        }else if(this.FiltroFecha != 'Fecha'){
+          this.cargasGr = this.cargasView.filter(x=>x.fecha_asignacion > switchFecha[this.FiltroFecha]);
+
+        }else if(this.FiltroEstado != 'Estado'){
           this.cargasGr = this.cargasView.filter(x=>x.nombreestado == this.FiltroEstado);
         }else{
           this.cargasGr = resp;
@@ -176,9 +183,9 @@ listaEstados = new LinkedList();
 
   ordenarFecha() {
     const switchFecha = {
-      "Este año":this.lastYearFormat,
-      "Esta semana":this.lastWeekFormat,
-      "Este mes":this.lastMonthFormat,
+      "Este Año":this.lastYearFormat,
+      "Esta Semana":this.lastWeekFormat,
+      "Este Mes":this.lastMonthFormat,
       "Hoy":this.todayFormat
     }
     console.log('lol'+this.FiltroEstado);
@@ -238,15 +245,55 @@ listaEstados = new LinkedList();
 
 
   cambioFiltroEstado(event){
-    if(event == 'Estado'){
-       this.cargaService.getCargas().subscribe((resp: cargaGr[]) => {
-        this.cargasGr = resp;
-        this.cargasView = resp;
-       // this.obtenerTotalIndicesTabla();
-      }); 
-   
+
+    const switchFecha = {
+      "Este Año":this.lastYearFormat,
+      "Esta Semana":this.lastWeekFormat,
+      "Este Mes":this.lastMonthFormat,
+      "Hoy":this.todayFormat
     }
-    this.cargasGr = this.cargasView.filter(x => x.nombreestado == event);
+
+    this.cargaService.getCargas().subscribe((resp: cargaGr[]) => {
+      this.cargasView = resp;
+    });
+
+    if(event == 'Estado'){
+    
+
+        if(this.FiltroFecha != 'Fecha'){
+
+          if(this.FiltroFecha != "Hoy"){
+            this.cargasGr = this.cargasView.filter(x=>x.fecha_asignacion > switchFecha[this.EstadoFecha]);
+
+          }else{
+            this.cargasGr = this.cargasView.filter(x=>x.fecha_asignacion == switchFecha[this.EstadoFecha]);
+
+          }
+
+        }
+
+       // this.obtenerTotalIndicesTabla();
+       
+   
+    }else {
+      if(this.FiltroFecha != 'Fecha'){
+
+        if(this.FiltroFecha != "Hoy"){
+
+          this.cargasGr = this.cargasView.filter(x=>x.fecha_asignacion > switchFecha[this.FiltroFecha] && x.nombreestado == this.FiltroEstado);
+  
+        }else{
+          this.cargasGr = this.cargasView.filter(x=>x.fecha_asignacion == switchFecha[this.FiltroFecha] && x.nombreestado == this.FiltroEstado);
+  
+        }
+  
+      }else{
+        this.cargasGr = this.cargasView.filter(x=> x.nombreestado == this.FiltroEstado);
+      }
+
+    }
+
+    
     
   }
 
@@ -256,24 +303,48 @@ listaEstados = new LinkedList();
        this.cargaService.getCargas().subscribe((resp: cargaGr[]) => {
         this.cargasGr = resp;
         this.cargasView = resp;
+        if(this.FiltroEstado != 'Estado'){
+          this.cargasGr = this.cargasView.filter(x=> x.nombreestado == this.FiltroEstado);
+
+        }
        // this.obtenerTotalIndicesTabla();
       }); 
    
     }else if(event == 'Este Año'){
+
       if(this.FiltroEstado != 'Estado'){
         this.cargasGr = this.cargasView.filter(x=> x.fecha_asignacion > this.lastYearFormat && x.nombreestado == this.FiltroEstado);
       }else{
+        console.log("uwuuwuwuwu")
       this.cargasGr = this.cargasView.filter(x=> x.fecha_asignacion > this.lastYearFormat);
 
       }
+      
     }else if(event == 'Este Mes'){
-      console.log(event);
-      this.cargasGr = this.cargasView.filter(x=> x.fecha_asignacion > this.lastMonthFormat && x.nombreestado == this.FiltroEstado);
+
+      if(this.FiltroEstado != 'Estado'){
+        this.cargasGr = this.cargasView.filter(x=> x.fecha_asignacion > this.lastMonthFormat && x.nombreestado == this.FiltroEstado);
+      }else{
+      this.cargasGr = this.cargasView.filter(x=> x.fecha_asignacion > this.lastMonthFormat);
+      }
+
     }else if(event == 'Esta Semana'){
       console.log(event);
-      this.cargasGr = this.cargasView.filter(x=> x.fecha_asignacion > this.lastWeekFormat && x.nombreestado == this.FiltroEstado);
+
+      if(this.FiltroEstado != 'Estado'){
+        this.cargasGr = this.cargasView.filter(x=> x.fecha_asignacion > this.lastWeekFormat && x.nombreestado == this.FiltroEstado);
+      }else{
+      this.cargasGr = this.cargasView.filter(x=> x.fecha_asignacion > this.lastWeekFormat);
+      }
+
+
     }else{
-      this.cargasGr = this.cargasView.filter(x=> x.fecha_asignacion == this.todayFormat && x.nombreestado == this.FiltroEstado);
+
+      if(this.FiltroEstado != 'Estado'){
+        this.cargasGr = this.cargasView.filter(x=> x.fecha_asignacion == this.todayFormat && x.nombreestado == this.FiltroEstado);
+      }else{
+      this.cargasGr = this.cargasView.filter(x=> x.fecha_asignacion == this.todayFormat);
+      }
 
     }
 
@@ -303,12 +374,75 @@ listaEstados = new LinkedList();
   }
 
   this.cargaModal = carga;
+  console.log(this.cargaModal.id);
+  this.cargaService.getComentarios(this.cargaModal.id).subscribe( (resp:any) => {
+    this.comentarios = resp;
+  },err => {
+    this.comentarios = [];
+    if(this.comentarios.length == 0){
+      this.crearComentario("Registro importado correctamente y registrado con estatus de CREADO.");
+    }
+  })
+
 }
+
 
 CerrarModal(){
   this.checkboxRef.checked = false;
   this.banderaModal = false;
 
+}
+
+exportarCargas(cargasGr){
+ 
+  this.cargaService.exportarCargas(cargasGr).subscribe(resp => {
+    const blob = new Blob([resp], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+    
+    //const url= window.URL.createObjectURL(blob);
+  //window.open(url);
+  let link = document.createElement('a');
+  link.href = window.URL.createObjectURL(blob);
+  let date = new Date();
+  let dateFormat = this.datePipe.transform(date,"yyyy-MM-dd");
+ // console.log(`${date.getFullYear()} - ${date.getMonth()} - ${date.getDay()} / cargaGr`);
+link.download = `${dateFormat} / cargaGr`;
+
+  link.click();
+  })
+
+}
+
+crearComentario(comentarioDescripcion:string){
+  comentarioDescripcion= comentarioDescripcion.replace( /(<([^>]+)>)/ig, '');
+
+  let cargasId:CargaComentario[] = [];
+  
+  let cargaId:CargaComentario = {
+    id:this.cargaModal.id
+  };
+  cargasId.push(cargaId);
+
+  let comentario:Comentario = {
+    comentario:comentarioDescripcion,
+    cargas:cargasId,
+  }
+
+ let id = 0;
+
+  this.cargaService.crearComentario(comentario,5).subscribe( resp => {
+    console.log(resp);
+    this.actualizarComentarios();
+  })
+
+
+}
+
+actualizarComentarios(){
+  
+  this.cargaService.getComentarios(this.cargaModal.id).subscribe( (resp:any) => {
+    console.log('Entraste aqui');
+    this.comentarios = resp;
+  })
 }
 
 }

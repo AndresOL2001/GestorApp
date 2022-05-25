@@ -90,7 +90,7 @@
               </div>
             </div>
 
-            <div class="imageborder">
+            <div (click)="exportarCargas(cargasGr)" class="imageborder">
               <img class="imgbtnprint" src="../../../assets/btnImportar.svg">
            </div>
 
@@ -183,18 +183,18 @@
                     <div class="style-font">{{cargaModal.fecha_asignacion}} - {{cargaModal.origen}}</div>            
                   </div>
                 </div>
-                <a class="button" href="products-dashboard.html"
+                <button class="button "style="margin-bottom:40px;" 
                   ><span>Exportar</span>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
+                    width="23"
+                    height="23"
                     style="fill: white; transform: msFilter"
                   >
                     <path d="m12 16 4-5h-3V4h-2v7H8z"></path>
                     <path
                       d="M20 18H4v-7H2v7c0 1.103.897 2 2 2h16c1.103 0 2-.897 2-2v-7h-2v7z"
-                    ></path></svg></a>
+                    ></path></svg></button>
               </div>
               <div class="card__mail">
                 <svg
@@ -277,28 +277,28 @@
 
                 <div class="editor">
                   <div class="tooltip">
-                    Observaciones
+                    Comentarios
                     <svg class="icon icon-info">
                       <use xlink:href="#icon-info"></use>
                     </svg>
-                    <span class="tooltiptext">Maximo 50 caracteres</span>
+                    <span class="tooltiptext">El valor de la caja no puede ser nulo</span>
                   </div>
-                  <ckeditor [editor]="editor"></ckeditor>
+                  <ckeditor name="editorComentario" [(ngModel)]="cajaDescripcionComentario" [editor]="editor"></ckeditor>
                 </div>
                 <div class="header__btns2">
-                  <a class="button" href="sign-in.html">Guardar</a>
+                  <button (click)="crearComentario(this.cajaDescripcionComentario)" class="button">Guardar</button>
                   <a class="btncancel" href="sign-up.html">Cancelar</a>
                 </div>
-                <div class="section-comment">
+
+                <div *ngFor="let comentario of comentarios" class="section-comment">
                   <img class="img-logo" src="../../../assets/AXXA.jpeg" />
                   <div class="section-text">
                     <h4>Automatico <span>hace 16 minutos</span></h4>
                     <div class="field__wrap">
-                      <h4 class="info__Estatus">Creado</h4>
+                      <h4 class="info__Estatus" [ngStyle]="{'color': comentario.color}">{{comentario.nombre}}</h4>
                     </div>
                     <p class="font_form">
-                      Registro importado correctamente y registrado con
-                      estatus de CREADO.
+                      {{comentario.comentario}}
                     </p>
                     <div class="header__btns2">
                       <button class="btncoments">Editar</button>
@@ -307,23 +307,7 @@
                   </div>
                 </div>
 
-                       <div class="section-comment">
-                  <img class="img-logo" src="../../../assets/AXXA.jpeg" />
-                  <div class="section-text">
-                    <h4>Automatico <span>hace 16 minutos</span></h4>
-                    <div class="field__wrap">
-                      <h4 class="info__Estatus">Creado</h4>
-                    </div>
-                    <p class="font_form">
-                      Registro importado correctamente y registrado con
-                      estatus de CREADO.
-                    </p>
-                    <div class="header__btns2">
-                      <button class="btncoments">Editar</button>
-                      <button class="btncoments">Eliminar</button>
-                    </div>
-                  </div>
-                </div>
+                   
               </form>
             </div>
           </div>

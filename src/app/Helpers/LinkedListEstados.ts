@@ -112,7 +112,4 @@ export class LinkedList {
 
   }
 
-
-
-
 }
