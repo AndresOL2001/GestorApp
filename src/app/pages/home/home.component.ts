@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component,  OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { LinkedList } from 'src/app/Helpers/LinkedListEstados';
 import { cargaGr } from 'src/app/models/cargaGr';
 import { CargaGrConDetalle } from 'src/app/models/cargaGrConDetalle';
@@ -8,10 +8,7 @@ import { CargaGrService } from 'src/app/services/carga-gr.service';
 import { EstadosService } from 'src/app/services/estados.service';
 import { NavbarService } from 'src/app/services/navbar.service';
 import * as ClassicEditor from '../../../../ckeditor/build/ckEditor';
-import {
-  Comentario,
-  CargaComentario,
-} from '../../models/comentario';
+import { Comentario, CargaComentario } from '../../models/comentario';
 
 @Component({
   selector: 'app-home',
@@ -26,6 +23,8 @@ export class HomeComponent implements OnInit {
   checkboxRef;
   cargasGr: cargaGr[];
   cargasView: any[];
+
+  //Tabla-Paginacion
   numeroTotalDePaginas: number;
   registrosPorPagina = 5;
   pageSizes = [5, 10, 15, 20, 30, 40, 50];
@@ -46,25 +45,44 @@ export class HomeComponent implements OnInit {
     'AÑO',
     'SERIE',
     'OBSERVACIONES',
+    'PROVEEDOR'
   ];
+
+  //Filtrados tabla
   FiltroEstado;
   FiltroFecha;
   EstadoActual = 'NORMAL';
   EstadoFecha = 'NORMAL';
+
+  //Fechas
   lastYearFormat;
   lastMonthFormat;
   lastWeekFormat;
   todayFormat;
+  //banderas
   banderaEditar = false;
+  banderaModal = false;
+
+  //Comentarios
   estadosComentarios: Estado[] = [];
   estadoComentarioActual: string;
-  banderaModal = false;
+  IdComentarioEliminar;
+
+  //CargaModal
   cargaModal: cargaGr;
+
+  //siguiente estado
   listaEstados = new LinkedList();
   estadoModalNext;
+
+  //Alerta
   dispararAlerta = false;
   dispararAlertaError = false;
-  IdComentarioEliminar;
+  dispararAlertaErrorActualizar = false;
+  mensajeError = "";
+
+  //Variables proveedores
+  proveedorAsignado = false;
 
   constructor(
     private cargaService: CargaGrService,
@@ -92,21 +110,10 @@ export class HomeComponent implements OnInit {
     });
 
     this.cargaService.getCargas().subscribe((resp: cargaGr[]) => {
+      console.log(resp);
       this.cargasGr = resp;
       this.cargasView = resp;
-      this.obtenerTotalIndicesTabla();
-      console.log(resp);
     });
-  }
-
-  obtenerTotalIndicesTabla() {
-    this.numeroTotalDePaginas = this.cargasGr.length / 5;
-
-    if (this.numeroTotalDePaginas % 1 == 0) {
-      this.numeroTotalDePaginas = Math.trunc(this.numeroTotalDePaginas);
-    } else {
-      this.numeroTotalDePaginas = Math.trunc(this.numeroTotalDePaginas) + 1;
-    }
   }
 
   ordenarAlfabeticamente(head: string) {
@@ -384,6 +391,8 @@ export class HomeComponent implements OnInit {
     this.estadoModalNext = '';
     this.estadoModalNext = this.listaEstados.getByValue(carga.nombreestado);
 
+ 
+
     this.checkboxRef = checkbox;
     if (checkbox.checked) {
       this.banderaModal = true;
@@ -392,6 +401,10 @@ export class HomeComponent implements OnInit {
     }
 
     this.cargaModal = carga;
+
+    if(this.cargaModal.proveedor != 'No Asignado'){
+      this.proveedorAsignado = true;
+    }
 
     this.estadoComentarioActual = this.cargaModal.nombreestado;
 
@@ -414,9 +427,10 @@ export class HomeComponent implements OnInit {
   CerrarModal() {
     this.checkboxRef.checked = false;
     this.banderaModal = false;
+    this.proveedorAsignado = false;
   }
 
-  exportarCargas(cargasGr) {
+ /*  exportarCargas(cargasGr) {
     this.cargaService.exportarCargas(cargasGr).subscribe((resp) => {
       const blob = new Blob([resp], {
         type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
@@ -431,7 +445,7 @@ export class HomeComponent implements OnInit {
 
       link.click();
     });
-  }
+  } */
 
   crearComentario(comentarioDescripcion: string) {
     comentarioDescripcion = comentarioDescripcion.replace(/(<([^>]+)>)/gi, '');
@@ -452,19 +466,35 @@ export class HomeComponent implements OnInit {
       cargas: cargasId,
     };
 
-    this.cargaService
-      .crearComentario(comentario, estadoNuevoComentario[0].IdEstado)
-      .subscribe((resp) => {
-        this.dispararAlerta=true;
-        console.log(resp);
-        this.actualizarComentarios();
-      });
+    if (comentario.comentario.length > 1) {
+      this.cargaService
+        .crearComentario(comentario, estadoNuevoComentario[0].IdEstado)
+        .subscribe((resp) => {
+          this.dispararAlerta = true;
+          console.log(resp);
+          this.actualizarComentarios();
+        });
+    }else{
+      this.mensajeError = "El comentario no puede ser nulo"
+      this.dispararAlertaErrorActualizar = true;
+    }
 
-    this.cargaService
-      .actualizarCarga(this.cargaModal.id, estadoNuevoComentario[0].IdEstado)
-      .subscribe((resp) => {
-        console.log(resp);
-      });
+
+    if (this.cargaModal.proveedor != 'No Asignado') {
+      this.cargaService
+        .actualizarCarga(
+          this.cargaModal.id,
+          estadoNuevoComentario[0].IdEstado,
+          this.cargaModal.proveedor
+        )
+        .subscribe((resp) => {
+          this.dispararAlerta = true;
+          console.log(resp);
+        });
+    }else{
+      this.mensajeError = "Favor de escoger un proveedor valido";
+      this.dispararAlertaErrorActualizar = true;
+    }
   }
 
   actualizarComentarios() {
@@ -480,88 +510,101 @@ export class HomeComponent implements OnInit {
     this.estadoComentarioActual = event;
   }
 
-  buscar(termino:string){
+  buscar(termino: string) {
     console.log(termino);
 
-    this.cargaService.buscarTodo(termino).subscribe( (resp:any) => {
+    this.cargaService.buscarTodo(termino).subscribe((resp: any) => {
       console.log(resp);
       this.cargasGr = resp;
-    })
+    });
   }
 
-  abrirEditarComentario(){
+  abrirEditarComentario() {
     this.banderaEditar = true;
   }
 
-  actualizarComentarioCargadoModal(id:number){
-    let valorInput = (document.getElementById("inputActualizarComentario") as HTMLInputElement).value;
-  
-    this.cargaService.actualizarComentario(id,valorInput).subscribe(resp => {
+  actualizarComentarioCargadoModal(id: number) {
+    let valorInput = (
+      document.getElementById('inputActualizarComentario') as HTMLInputElement
+    ).value;
+
+    this.cargaService.actualizarComentario(id, valorInput).subscribe((resp) => {
       console.log(resp);
       this.dispararAlerta = true;
       this.actualizarComentarios();
-    })
+    });
 
     this.banderaEditar = false;
-
   }
 
-  cerrarAlerta(){
+  cerrarAlerta() {
     this.dispararAlertaError = false;
-    this.dispararAlerta= false;
-
+    this.dispararAlerta = false;
+    this.dispararAlertaErrorActualizar=false;
   }
 
-  eliminarComentario(){
-    this.cargaService.eliminarComentario(this.IdComentarioEliminar).subscribe(resp => {
-      console.log(resp);
+  eliminarComentario() {
+    this.cargaService
+      .eliminarComentario(this.IdComentarioEliminar)
+      .subscribe((resp) => {
+        console.log(resp);
 
-      this.actualizarComentarios();
-      this.dispararAlerta = true;
-    })
+        this.actualizarComentarios();
+        this.dispararAlerta = true;
+      });
     this.dispararAlertaError = false;
   }
 
-  abrirAlertaEliminarComentario(id:number){
+  abrirAlertaEliminarComentario(id: number) {
     this.IdComentarioEliminar = id;
     this.dispararAlertaError = true;
   }
 
-  exportarCargaEspecifica(cargaModal:cargaGr){
-    const formatYmd = date => date.toISOString().slice(0, 10);
-    let cargaEspecifica:CargaGrConDetalle = {};
+  exportarCargaEspecifica(cargaModal: cargaGr) {
+   // const formatYmd = (date) => date.toISOString().slice(0, 10);
+    let cargaEspecifica: CargaGrConDetalle = {};
     cargaEspecifica.color = cargaModal.color;
     cargaEspecifica.correo = cargaModal.correo;
     cargaEspecifica.estadoActual = cargaModal.nombreestado;
     cargaEspecifica.origen = cargaModal.origen;
-    cargaEspecifica.siniestro = cargaModal.siniestro
-    cargaEspecifica.fechaAsignacion = formatYmd(new Date(cargaModal.fecha_asignacion));
+    cargaEspecifica.siniestro = cargaModal.siniestro;
+    cargaEspecifica.fechaAsignacion =this.datePipe.transform(cargaModal.fecha_asignacion,"yyyy-MM-dd");/*  formatYmd(
+      new Date(cargaModal.fecha_asignacion)) */
+    ;
+    cargaEspecifica.proveedor = cargaModal.proveedor;
     cargaEspecifica.comentario = [];
 
-    this.comentarios.forEach(comentario => {
+    this.comentarios.forEach((comentario) => {
       cargaEspecifica?.comentario.push(comentario);
     });
 
     for (let i = 0; i < this.comentarios.length; i++) {
-      cargaEspecifica.comentario[i].idComentario = this.comentarios[i].id_Comentario;
-      
+      cargaEspecifica.comentario[i].idComentario =
+        this.comentarios[i].id_Comentario;
     }
 
-    this.cargaService.exportarCargaEspecifica(cargaEspecifica).subscribe(resp => {
-      const blob = new Blob([resp], {
-        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    this.cargaService
+      .exportarCargaEspecifica(cargaEspecifica)
+      .subscribe((resp) => {
+        const blob = new Blob([resp], {
+          type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        });
+
+        //window.open(url);
+        let link = document.createElement('a');
+        link.href = window.URL.createObjectURL(blob);
+        let date = new Date();
+        let dateFormat = this.datePipe.transform(date, 'yyyy-MM-dd');
+        link.download = `${dateFormat} / cargaEspecificaGr`;
+
+        link.click();
       });
-
-      //window.open(url);
-      let link = document.createElement('a');
-      link.href = window.URL.createObjectURL(blob);
-      let date = new Date();
-      let dateFormat = this.datePipe.transform(date, 'yyyy-MM-dd');
-      link.download = `${dateFormat} / cargaEspecificaGr`;
-
-      link.click();
-    })
   }
 
-  
+  cambiarProveedor(event) {
+    this.cargaModal.proveedor = event;
+    if (this.cargaModal.proveedor != 'No Asignado') {
+      this.proveedorAsignado = true;
+    }
+  }
 }

@@ -6,3 +6,13 @@
         background: rgb(218, 218, 218);
     
 }
+
+.paddin-table-move{
+        padding-left:10px;
+}
+
+.schedule .schedule__col{
+        margin-left:10px;
+        margin-right:10px;
+
+}

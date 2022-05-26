@@ -10,7 +10,7 @@ import { CargaGrConDetalle } from '../models/cargaGrConDetalle';
 })
 export class CargaGrService {
 
-  constructor(private http:HttpClient) { }
+  constructor(private http:HttpClient,private datePipe:DatePipe) { }
 
  // public url = "http://socialpets.club/api"; 
   public url = "http://localhost:8080/api";
@@ -45,12 +45,11 @@ export class CargaGrService {
   }
 
   exportarCargas(cargasGrAux:cargaGr[]){
-    const formatYmd = date => date.toISOString().slice(0, 10);
 
     cargasGrAux.forEach(carga => {
      let cargaGr:cargaGrExp ={
       id:carga.id,
-    fechaAsignacion:formatYmd(new Date(carga.fecha_asignacion)),
+    fechaAsignacion:this.datePipe.transform(carga.fecha_asignacion,'yyyy-MM-dd'),
     siniestro:carga.siniestro,
     origen:carga.origen,
     niu:carga.niu,
@@ -65,8 +64,11 @@ export class CargaGrService {
     año:carga.año,
     serie:carga.serie,
     observaciones:carga.observaciones,
+    estado:carga.nombreestado,
+    proveedor:carga.proveedor
     
      }
+     console.log(cargaGr.fechaAsignacion);
      this.cargasGr.push(cargaGr);
     });
     
@@ -93,8 +95,8 @@ export class CargaGrService {
     return this.http.delete(this.url+`/cargaGr/comentario/${id}`)
   }
 
-  actualizarCarga(idCarga:string,idEstado:number){
-    return this.http.post(this.url+`/cargaGr/actualizar/${idCarga}`,idEstado );
+  actualizarCarga(idCarga:string,idEstado:number,proveedor:string){
+    return this.http.post(this.url+`/cargaGr/actualizar/${idCarga}/${idEstado}`,proveedor );
 
   }
 

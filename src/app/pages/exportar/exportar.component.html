@@ -2,7 +2,7 @@
     <div class="page__container margen-left">
       <div class="page__title h3">Consultar Y Exportar</div>
       <div class="drafts card">
-        <div class="card__head">
+        <div class="card__head2">
           <div class="wrapper1">
   
   
@@ -28,7 +28,7 @@
                     <use xlink:href="#icon-arrow-left"></use>
                   </svg>
                 </button>
-                <input class="search__input" type="text" placeholder="Buscar" />
+                <input #searchInput (keyup.enter)="buscar(searchInput.value)"class="search__input" type="text" placeholder="Buscar">
                 <button class="search__close">
                   <svg class="icon icon-close-circle">
                     <use xlink:href="#icon-close-circle"></use>
@@ -38,7 +38,8 @@
             </div>
             
             <div class="select1">
-              <select (change)="cambioFiltroFecha($event.target.value)" class="select-btn" name="Days">
+              <select (change)="cambioFiltroFecha($event.target.value)" [(ngModel)]="FiltroFecha" class="select-btn" name="Days">
+                <option>Fecha</option>
                 <option>Hoy</option>
                 <option>Esta semana</option>
                 <option>Este mes</option>
@@ -50,8 +51,8 @@
             </div>
   
             <div class="select2">
-              <select class="select-btn" name="Estatus">
-                <option>Estatus</option>
+              <select (change)="cambioFiltroEstado($event.target.value)" [(ngModel)]="FiltroEstado" class="select-btn" name="Estatus">
+                <option>Estado</option>
                 <option>Creado</option>
                 <option>Asignado</option>
                 <option>Notificado</option>
@@ -62,16 +63,14 @@
                 <option>Documentos Entregados</option>
               </select>
             </div>
-  
-           <div>
-            <a class="btncancel">
-            <img class="imgbtnprint" src="../../../assets/btnImportar.svg" />  Exportar xls</a>
+            
           </div>
-          </div>
-  
-         
+          
         </div>
-  
+
+          <button (click)="exportarCargas(this.cargasGr)" class="button-stroke users__button boton-posicion">
+            <img class="imgbtnprint" src="../../../assets/btnImportar.svg" />Exportar xlsx</button>
+
         <div class="table-container2">
           <div class="title-purple card__title">Listado de PT's</div>
           <table class="table-rwd2">
@@ -79,53 +78,20 @@
               <th></th>
               <th>#</th>
               <th>
-                <div>Fecha de Asignacion<i class="bx bx-chevron-down"></i></div>
+                <div>Fecha de Asignacion
+                  <i *ngIf="this.EstadoFecha == 'NORMAL'" (click)="ordenarFecha(head)" style="cursor:pointer;" class='bx bx-expand-vertical'></i>
+                  <i *ngIf="this.EstadoFecha == 'ASCENDENTE'" (click)="ordenarFecha(head)" style="cursor:pointer;" class='bx bx-chevron-up'></i>
+                  <i *ngIf="this.EstadoFecha == 'DESCENDENTE'" (click)="ordenarFecha(head)" style="cursor:pointer;" class='bx bx-chevron-down'></i>
+    
+                </div>
               </th>
-              <th class="left">
-                <div>Siniestro <i class="bx bx-chevron-down"></i></div>
-              </th>
-              <th class="left">
-                <div>Estatus <i class="bx bx-chevron-down"></i></div>
-              </th>
-              <th class="left">
-                <div>Origen <i class="bx bx-chevron-down"></i></div>
-              </th>
-              <th class="left">
-                <div>NIU <i class="bx bx-chevron-down"></i></div>
-              </th>
-              <th class="left">
-                <div>OV <i class="bx bx-chevron-down"></i></div>
-              </th>
-              <th class="left">
-                <div>Personalizada <i class="bx bx-chevron-down"></i></div>
-              </th>
-              <th class="left">
-                <div>Nombre <i class="bx bx-chevron-down"></i></div>
-              </th>
-              <th class="left">
-                <div>Correo <i class="bx bx-chevron-down"></i></div>
-              </th>
-              <th class="left">
-                <div>Telefono1 <i class="bx bx-chevron-down"></i></div>
-              </th>
-              <th class="left">
-                <div>Telefono2 <i class="bx bx-chevron-down"></i></div>
-              </th>
-              <th class="left">
-                <div>Marca <i class="bx bx-chevron-down"></i></div>
-              </th>
-              <th class="left">
-                <div>Modelo <i class="bx bx-chevron-down"></i></div>
-              </th>
-              <th class="left">
-                <div>Año <i class="bx bx-chevron-down"></i></div>
-              </th>
-              <th class="left">
-                <div>Serie <i class="bx bx-chevron-down"></i></div>
-              </th>
-              <th class="left">
-                <div>Observaciones <i class="bx bx-chevron-down"></i></div>
-              </th>
+              <th class="left" *ngFor="let head of pageHeaders">
+                <div>{{head}}
+                  <i *ngIf="this.EstadoActual == 'NORMAL'" (click)="ordenarAlfabeticamente(head)" style="cursor:pointer;" class='bx bx-expand-vertical'></i>
+                  <i *ngIf="this.EstadoActual == 'ASCENDENTE'" (click)="ordenarAlfabeticamente(head)" style="cursor:pointer;" class='bx bx-chevron-up'></i>
+                  <i *ngIf="this.EstadoActual == 'DESCENDENTE'" (click)="ordenarAlfabeticamente(head)" style="cursor:pointer;" class='bx bx-chevron-down'></i>
+                </div>
+            
             </tr>
             <tbody>
               <tr
@@ -162,6 +128,7 @@
                 <td class="left">{{ carga["año"] }}</td>
                 <td class="left">{{ carga.serie }}</td>
                 <td class="left">{{ carga.observaciones }}</td>
+                <td class="left">{{ carga.proveedor }}</td>
               </tr>
             </tbody>
           </table>

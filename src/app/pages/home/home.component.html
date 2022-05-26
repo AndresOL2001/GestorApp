@@ -90,12 +90,13 @@
               </div>
             </div>
 
-            <div (click)="exportarCargas(cargasGr)" class="imageborder">
-              <img class="imgbtnprint" src="../../../assets/btnImportar.svg">
-           </div>
-
+            
 
       </div>  
+ <!--      <div (click)="exportarCargas(cargasGr)" class="imageborder">
+        <img class="imgbtnprint" src="../../../assets/btnImportar.svg">
+     </div>
+ -->
 
       
         <div class="table-container2">
@@ -148,6 +149,8 @@
             <td class="left">{{carga["año"]}}</td>
             <td class="left">{{carga.serie}}</td>
             <td class="left">{{carga.observaciones}}</td>
+            <td class="left">{{carga.proveedor}}</td>
+
           </tr>
         </tbody>
         </table>
@@ -239,11 +242,25 @@
 
                   <div class="input__Status">
                     <div>
+
                       <div class="wrapper1">
+                        <h4 class="font_form">Proveedor:</h4>
+
+                        <div class="select-table">
+                          <select (change)="cambiarProveedor($event.target.value)" class="select-btn" name="Estatus">
+                            <option>{{cargaModal.proveedor}}</option>
+                            <option *ngIf="cargaModal.proveedor != 1">1</option>
+                            <option *ngIf="cargaModal.proveedor != 2">2</option>
+                           
+                          </select>
+                        </div>
+                      </div>
+
+                      <div  class="wrapper1">
                         <h4 class="font_form">Cambiar estatus a:</h4>
 
                         <div class="select-table">
-                          <select (change)="cambiarEstatus($event.target.value)" class="select-btn" name="Estatus">
+                          <select [disabled]="!proveedorAsignado" (change)="cambiarEstatus($event.target.value)" class="select-btn" name="Estatus">
                             <option>{{cargaModal.nombreestado}}</option>
                             <option *ngIf="estadoModalNext != null">{{estadoModalNext}}</option>
                            
@@ -342,6 +359,25 @@
       <div class="success__text">Si eliminas este comentario perderas toda la informacion referente a el</div>
       <button (click)="eliminarComentario()" class="button success__button js-popup-close" style="margin-right:3px;">Aceptar</button>
       <button (click)="cerrarAlerta()" class="button-stroke users__button">Cancelar</button>
+
+    </div>
+    <button (click)="cerrarAlerta()" class="popup__close js-popup-close">
+      <svg class="icon icon-close ">
+        <use xlink:href="#icon-close"></use>
+      </svg>
+    </button>
+  </div>
+</div>
+
+<div *ngIf="dispararAlertaErrorActualizar" class="popup popup_success js-popup js-popup-success animation visible">
+  <div class="popup__overlay js-popup-overlay"></div>
+  <div class="popup__wrap js-popup-wrap">
+    <div class="success">
+      <div class="success__iconError"> ❌ </div>
+      <div class="success__info">{{mensajeError}}</div>
+      <div class=" h2 success__price ">Error</div>
+      <div class="success__text">Favor de corregir los errores </div>
+      <button (click)="cerrarAlerta()" class="button-stroke users__button">Aceptar</button>
 
     </div>
     <button (click)="cerrarAlerta()" class="popup__close js-popup-close">

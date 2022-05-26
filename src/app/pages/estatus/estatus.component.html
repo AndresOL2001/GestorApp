@@ -37,82 +37,15 @@
 
 <div class="page__inner">
   <div class="page__container">
-    <div class="page__title h3">Nuevo Estatus</div>
-    <div class="create">
-      <div class="create__row">
-        <div class="create__col">
-          <div class="create__card card">
-            <div class="card__head">
-              <div class="title-green card_title">Nombre y Descripción</div><a class="button-stroke button-small card_button" href="products-dashboard.html">
-                <svg class="icon icon-arrow-left">
-                  <use xlink:href="#icon-arrow-left"></use>
-                </svg><span>Back</span></a>
-            </div>
-            <form id="createForm" [formGroup]="estadoForm" (ngSubmit)="crearEstado()">
-            <div class="field">
-              <div class="tooltip">Abreviatura <svg class="icon icon-info">
-                <use xlink:href="#icon-info"></use>
-              </svg>
-                  <span class="tooltiptext">Maximo 3 caracteres</span>
-          
-              </div>
-              <div class="field__wrap">
-                <input formControlName="abreviatura"class="field__input" type="text" name="title" required>
-              </div>
-            </div>
-            <div class="field">
-              <div class="tooltip">Nombre del estatus <svg class="icon icon-info">
-                <use xlink:href="#icon-info"></use>
-              </svg>
-                  <span  class="tooltiptext">Maximo 30 caracteres</span>
-          
-              </div>
-              <div class="field__wrap">
-                <input formControlName="nombre" class="field__input" type="text" name="title" required>
-              </div>
-            </div>
-            <div class="field">
-              <div class="tooltip">Color <svg class="icon icon-info">
-                <use xlink:href="#icon-info"></use>
-              </svg>
-                  <span class="tooltiptext">Escoga un color</span>
-          
-              </div>
-              <div class="field__wrap">
-                <!--<input formControlName="Color" class="field__input" type="text" name="title" required>!-->
-                <ngx-colors
-                ngx-colors-trigger
-                style="display: inline-block; margin:5px;"
-                formControlName="color"
-              ></ngx-colors>
-              </div>
-            </div>
-            <div class="editor">
-              <div class="tooltip">Descripcion <svg class="icon icon-info">
-                <use xlink:href="#icon-info"></use>
-              </svg>
-                  <span class="tooltiptext">Maximo 50 caracteres</span>
-          
-              </div>
-            <ckeditor formControlName="descripcion" [editor]="editor" ></ckeditor>
-                  
-              </div>
-            
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="page__inner">
-  <div class="page__container">
     <div class="page__title h3">Estatus</div>
     <div class="drafts card">
       <div class="card__head">
         <div class="title-purple card__title">Listado de Estatus</div>
       </div>
+
+
+
+
       <div class="schedule">
         <div class="schedule__wrapper">
           <div class="schedule__table">
@@ -130,6 +63,10 @@
               <div class="schedule__col">Descripcion</div>
               <div class="schedule__col">Color</div>
             </div>
+
+
+
+
             <div *ngFor="let estado of estados" class="schedule__row">
               <div class="schedule__col">
                 <label class="checkbox">
@@ -139,32 +76,38 @@
                   ></span>
                 </label>
               </div>
+
+
+
               <div class="schedule__col">
-                <div class="schedule__item" data-popup=".js-popup-product">
+      
                   <div class="schedule__Contro">{{estado.IdEstado}}</div>
-                  <div class="schedule__details">
-                    <div class="schedule__Description"></div>
-                    <div class="schedule__date">
-                      <svg class="icon icon-clock">
-                        <use xlink:href="#icon-clock"></use></svg>Apr 9, 2021 at 1:55 PM
-                    </div>
-                    <div class="schedule__price">Active</div>
-                  </div>
-                </div>
+              
               </div>
+
+
+         
               <div class="schedule__col">
-                <div class="schedule__price">
+            
                  {{estado.nombre}} <span class="preName">- {{estado.abreviatura}}</span>
                 </div>
-              </div>
-              <div class="schedule__col">
-                <div class="schedule__price">{{estado.descripcion}}</div>
-              </div>
-              <div class="schedule__col">
-                <div class="schedule__price">
-                  <div class="color" [style.background-color]="estado.color"></div>
+           
+
+                <div class="schedule__col">
+                  <div class="schedule__Contro">{{estado.descripcion}}</div>
+          
                 </div>
+
+             
+
+              <div class="schedule__col">
+            
+                  <div class="color" [style.background-color]="estado.color"></div>
+          
               </div>
+
+
+         
               <div class="schedule__col">
               <div class="schedule__control">
                 <button (click)="obtenerIdEstadoMod(estado.IdEstado)" class="schedule__button">
@@ -186,39 +129,3 @@
     </div>
   </div>
 </div>
-
-<div class="panel">
-  <div class="panel__info">
-    <svg class="icon icon-check-all">
-      <use xlink:href="#icon-check-all"></use>
-    </svg>Last saved <span>Oct 4, 2021 - 23:32</span>
-  </div>
-  <div class="panel__btns">
-    <button type="button" class="button-stroke panel__button">Cancelar</button>
-    <button form="createForm" type="submit" class="button panel__button">Guardar</button>
-    <div class="actions actions_up">
-     
-        <div class="dropdown ">
-        <div class="btn-options">
-          <button type="button" class="button-dropdown-panel">
-           
-        <!--   <a  class="feat-btn link">
-          </a> -->
-          <svg class="icon icon-more-horizontal">
-            <use xlink:href="#icon-more-horizontal"></use>
-          </svg>   
-             
-        </button>
-        
-          <ul>
-            <li><a>Schedule product</a></li>
-            <li><a>Get shareable link</a></li>
-            <li><a>Clear data</a></li>
-          </ul>
-        </div>
-      </div> 
-    </div>
-  </div>
-</div>
-
-

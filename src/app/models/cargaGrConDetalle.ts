@@ -13,4 +13,5 @@ export interface CargaGrConDetalle {
     estadoActual?: string;
     color?: string;
     comentario?: ComentarioConEstado[];
+    proveedor?:string
 }

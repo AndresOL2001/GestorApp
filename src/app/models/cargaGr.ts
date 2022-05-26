@@ -17,7 +17,8 @@ export interface cargaGr {
     serie:string;
     observaciones:string;
     color:string;
-    nombreestado:string
+    nombreestado:string;
+    proveedor:string;
     
 
 }
@@ -25,7 +26,7 @@ export interface cargaGr {
 export interface cargaGrExp {
 
     id:string;
-    fechaAsignacion:Date;
+    fechaAsignacion:string;
     siniestro:string;
     origen:string;
     niu:string;
@@ -40,7 +41,8 @@ export interface cargaGrExp {
     año:number;
     serie:string;
     observaciones:string;
-    
+    estado:string;
+    proveedor:string;
 
 }
 

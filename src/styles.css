@@ -14650,7 +14650,97 @@ body.dark .notification .actions__button {
   visibility: visible;
 }
 
+--StylosGenerales------------------------------
+.card {
+  position: relative;
+  padding: 24px;
+  background: #FCFCFC;
+  border-radius: 8px;
+  left: 25px;
+}
+   @media only screen and (max-width: 767px) {
+      .panel__info {
+        margin: 0 0 24px;
+      text-align:center; } }
 
+  @media only screen and (max-width: 767px) {
+    .card {
+      padding: 16px; 
+      left: 34px;} }
+
+  @media only screen and (max-width: 1023px) {
+    .page {
+      overflow: hidden; }
+      .card {
+        margin-left: 80px;
+        margin-right:10px;
+    }
+    .page__title {
+      margin-left: 80px;
+    }
+    }
+
+
+
+@media only screen and (max-width: 485px) {
+  .page__title {
+    margin-bottom: 16px;
+    text-align:center;
+}
+
+.page__inner {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 96px);
+  align-items: center;
+  justify-content: center;
+  padding-right: 48px;
+  margin-top: 0px !important;
+  margin-bottom: 80px;
+  width: 100%;
+}
+}
+
+         .header {
+                position: fixed;
+                top: 0;
+                left: 80px;
+                right: 0;
+                z-index: 20;
+                display: flex;
+                align-items: center;
+                padding: 24px 40px;
+                padding-right: 100px;
+                background: #FCFCFC;
+                box-shadow: inset 1px 0px 0px #f4f4f4, inset 0 -1px 0px #efefef;
+            }
+
+
+  .enter-amount[_ngcontent-atl-c58] {
+    align-items: center;
+    background-color: rgba(239, 239, 239, 1);
+    border: 0.5px solid #bdbdbd;
+    border-left: 10px solid #219653;
+    border-radius: 2px;
+    display: flex;
+    height: 97px;
+    margin-left: 10%;
+    padding: 23.5px 28px;
+    margin-top: 30px;
+    width: 79%;
+}
+
+--------------------------------------------------
+-----------ImporteStyles-----------------------
+Add footer a panel
+
+.footer__panel{
+  position:relative;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left: 0;
+}
 
 
 
