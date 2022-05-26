@@ -1,37 +1,56 @@
 <div class="contenedor-login">
-<div class="page page_simple">
-  <div class="entry">
-    <div class="entry__wrapper">
-      <div class="h2 entry__title">Gestoria Ventura</div>
-      <div class="entry__top">
-        <h3>Ingrese los siguientes datos para iniciar sesion.</h3>
-        <form [formGroup]="formLogin">
-      <div class="entry__fieldset">
-        <div class="field field_icon">
-          <div class="field__wrap">
-            <input class="field__input" type="email" name="email" placeholder="Your email">
-            <div class="field__icon">
-              <svg class="icon icon-mail">
-                <use xlink:href="#icon-mail"></use>
-              </svg>
-            </div>
-          </div>
+  <div class="page page_simple">
+    <div class="entry">
+      <div class="entry__wrapper">
+        <div>
+          <img class="img-icono" src="../../../assets/gestoriaVentura.png" alt="Gestor">
         </div>
-        <div class="field field_icon">
-          <div class="field__wrap">
-            <input class="field__input" type="password" name="password" placeholder="Password">
-            <div class="field__icon">
-              <svg class="icon icon-lock">
-                <use xlink:href="#icon-lock"></use>
-              </svg>
+        <div class="h2 entry__title">Gestoria Ventura</div>
+        <div class="entry__top">
+          <h3>Ingrese los siguientes datos para iniciar sesion.</h3>
+          <form [formGroup]="formLogin" (ngSubmit)="login()">
+            <div class="entry__fieldset">
+              <div class="field field_icon">
+                <div class="field__wrap">
+                  <input formControlName="user" class="field__input" name="email" placeholder="Your user">
+                  <div class="field__icon">
+                    <svg class="icon icon-profile-circle">
+                      <use xlink:href="#icon-profile-circle"></use>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              <div class="field field_icon">
+                <div class="field__wrap">
+                  <input formControlName="password" class="field__input" type="password" name="password"
+                    placeholder="Password">
+                  <div class="field__icon">
+                    <svg class="icon icon-lock">
+                      <use xlink:href="#icon-lock"></use>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              <button type="submit" class="button entry__button">Iniciar Sesión</button>
             </div>
-          </div>
+            <div class="entry__note">Este sitio esta protegio por reCAPTCHA y la politica de privacidad de Gestoria
+              Ventura</div>
+          </form>
         </div>
-        <button type="button" [routerLink]="'/home'">Iniciar Sesión </button>
       </div>
-      <div class="entry__note">Este sitio esta protegio por reCAPTCHA y la politica de privacidad de Gestoria Ventura</div>
-    </form>
     </div>
   </div>
-</div>
-</div>
+
+  <div *ngIf="dispararAlertaError" class="popup popup_success js-popup js-popup-success animation visible">
+    <div class="popup__overlay js-popup-overlay"></div>
+    <div class="popup__wrap js-popup-wrap">
+      <div class="success">
+        <div class="success__iconError"> ❌ </div>
+        <div class="success__info">Autenticación fallida</div>
+        <div class=" h2 success__price ">Error</div>
+        <div class="success__text">El usuario y/o contraseña son incorrectos</div>
+        <button (click)="cerrarAlerta()" class="button success__button">Aceptar</button>
+
+      </div>
+    </div>
+  </div>

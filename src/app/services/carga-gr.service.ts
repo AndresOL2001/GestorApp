@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { cargaGr, cargaGrExp } from '../models/cargaGr';
 import { DatePipe } from '@angular/common';
 import { Comentario } from '../models/comentario';
+import { CargaGrConDetalle } from '../models/cargaGrConDetalle';
 
 @Injectable({
   providedIn: 'root'
@@ -70,6 +71,12 @@ export class CargaGrService {
     });
     
     return this.http.post(this.url+`/cargaGr/exportar`,this.cargasGr,{ responseType: 'blob'} );
+  }
+
+
+  exportarCargaEspecifica(cargaAux:CargaGrConDetalle){
+    
+    return this.http.post(this.url+`/cargaGr/exportarEspecifica`,cargaAux,{ responseType: 'blob'} );
   }
 
 

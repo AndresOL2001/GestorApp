@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NavbarService } from 'src/app/services/navbar.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { environment } from '../../../environments/environment';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -10,10 +12,11 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class LoginComponent implements OnInit {
 
   formLogin:FormGroup;
-  emailPattern:string='^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$';
-  constructor(private nav:NavbarService,private fb:FormBuilder) { 
+  dispararAlerta=false;
+  dispararAlertaError=false;
+  constructor(private nav:NavbarService,private fb:FormBuilder,private router:Router) { 
     this.formLogin = this.fb.group({
-      email:['',[Validators.required,Validators.pattern(this.emailPattern)]],
+      user:['',[Validators.required]],
       password:['',Validators.required]
     })
   }
@@ -22,7 +25,26 @@ export class LoginComponent implements OnInit {
     this.nav.hide();
   }
 
-  onSubmit(){
+  login(){
+    if(this.formLogin.valid){
+      let user = this.formLogin.controls["user"].value;
+      let password = this.formLogin.controls["password"].value;
+
+      if(user == environment.user && password == environment.password){
+        localStorage.setItem("auth",'logging');
+        this.router.navigateByUrl("/home");
+
+      }else{
+        this.dispararAlertaError = true;
+      }
+
+    }else{
+      this.dispararAlertaError = true;
+    }
+  }
+
+  cerrarAlerta(){
+    this.dispararAlertaError = false;
   }
 
 }

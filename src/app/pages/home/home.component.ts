@@ -2,6 +2,7 @@ import { DatePipe } from '@angular/common';
 import { Component,  OnInit } from '@angular/core';
 import { LinkedList } from 'src/app/Helpers/LinkedListEstados';
 import { cargaGr } from 'src/app/models/cargaGr';
+import { CargaGrConDetalle } from 'src/app/models/cargaGrConDetalle';
 import { Estado } from 'src/app/models/estado';
 import { CargaGrService } from 'src/app/services/carga-gr.service';
 import { EstadosService } from 'src/app/services/estados.service';
@@ -454,6 +455,7 @@ export class HomeComponent implements OnInit {
     this.cargaService
       .crearComentario(comentario, estadoNuevoComentario[0].IdEstado)
       .subscribe((resp) => {
+        this.dispararAlerta=true;
         console.log(resp);
         this.actualizarComentarios();
       });
@@ -496,9 +498,8 @@ export class HomeComponent implements OnInit {
   
     this.cargaService.actualizarComentario(id,valorInput).subscribe(resp => {
       console.log(resp);
-
-      this.actualizarComentarios();
       this.dispararAlerta = true;
+      this.actualizarComentarios();
     })
 
     this.banderaEditar = false;
@@ -524,6 +525,42 @@ export class HomeComponent implements OnInit {
   abrirAlertaEliminarComentario(id:number){
     this.IdComentarioEliminar = id;
     this.dispararAlertaError = true;
+  }
+
+  exportarCargaEspecifica(cargaModal:cargaGr){
+    const formatYmd = date => date.toISOString().slice(0, 10);
+    let cargaEspecifica:CargaGrConDetalle = {};
+    cargaEspecifica.color = cargaModal.color;
+    cargaEspecifica.correo = cargaModal.correo;
+    cargaEspecifica.estadoActual = cargaModal.nombreestado;
+    cargaEspecifica.origen = cargaModal.origen;
+    cargaEspecifica.siniestro = cargaModal.siniestro
+    cargaEspecifica.fechaAsignacion = formatYmd(new Date(cargaModal.fecha_asignacion));
+    cargaEspecifica.comentario = [];
+
+    this.comentarios.forEach(comentario => {
+      cargaEspecifica?.comentario.push(comentario);
+    });
+
+    for (let i = 0; i < this.comentarios.length; i++) {
+      cargaEspecifica.comentario[i].idComentario = this.comentarios[i].id_Comentario;
+      
+    }
+
+    this.cargaService.exportarCargaEspecifica(cargaEspecifica).subscribe(resp => {
+      const blob = new Blob([resp], {
+        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      });
+
+      //window.open(url);
+      let link = document.createElement('a');
+      link.href = window.URL.createObjectURL(blob);
+      let date = new Date();
+      let dateFormat = this.datePipe.transform(date, 'yyyy-MM-dd');
+      link.download = `${dateFormat} / cargaEspecificaGr`;
+
+      link.click();
+    })
   }
 
   

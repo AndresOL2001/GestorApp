@@ -933,4 +933,12 @@
       cursor: pointer;
     }
 
+    .font_form_input{
+      font-size: 12px;
+      border: 1px solid rgba(0, 0, 0, 0.137);
+      padding: 7px;
+      background: #f4f4f4;
+      border-radius: 5px;
+}
+
     

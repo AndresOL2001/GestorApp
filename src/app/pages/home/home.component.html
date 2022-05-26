@@ -104,8 +104,19 @@
           <tr>
             <th></th>
             <th>#</th>
-            <th><div>Fecha de Asignacion<i  (click)="ordenarFecha(head)" style="cursor:pointer;" class='bx bx-expand-vertical'></i></div></th>
-            <th class="left" *ngFor="let head of pageHeaders"><div>{{head}}<i (click)="ordenarAlfabeticamente(head)" style="cursor:pointer;" class='bx bx-expand-vertical'></i></div></th>
+            <th><div>Fecha de Asignacion
+              <i *ngIf="this.EstadoFecha == 'NORMAL'" (click)="ordenarFecha(head)" style="cursor:pointer;" class='bx bx-expand-vertical'></i>
+              <i *ngIf="this.EstadoFecha == 'ASCENDENTE'" (click)="ordenarFecha(head)" style="cursor:pointer;" class='bx bx-chevron-up'></i>
+              <i *ngIf="this.EstadoFecha == 'DESCENDENTE'" (click)="ordenarFecha(head)" style="cursor:pointer;" class='bx bx-chevron-down'></i>
+
+            </div></th>
+            <th class="left" *ngFor="let head of pageHeaders"><div>{{head}}
+              <i *ngIf="this.EstadoActual == 'NORMAL'" (click)="ordenarAlfabeticamente(head)" style="cursor:pointer;" class='bx bx-expand-vertical'></i>
+              <i *ngIf="this.EstadoActual == 'ASCENDENTE'" (click)="ordenarAlfabeticamente(head)" style="cursor:pointer;" class='bx bx-chevron-up'></i>
+              <i *ngIf="this.EstadoActual == 'DESCENDENTE'" (click)="ordenarAlfabeticamente(head)" style="cursor:pointer;" class='bx bx-chevron-down'></i>
+
+            </div>
+          </th>
 
           </tr>
           <tbody>
@@ -180,10 +191,10 @@
                   <img class="img-logo" src="../../../assets/AXXA.jpeg" />
                   <div class="tittle__ajust">
                     <div>{{cargaModal.siniestro}}</div>
-                    <div class="style-font">{{cargaModal.fecha_asignacion}} - {{cargaModal.origen}}</div>            
+                    <div class="style-font">{{cargaModal.fecha_asignacion | date:'fullDate'}} - {{cargaModal.origen}}</div>            
                   </div>
                 </div>
-                <button class="button "style="margin-bottom:40px;" 
+                <button (click)="exportarCargaEspecifica(cargaModal)" class="button "style="margin-bottom:40px;" 
                   ><span>Exportar</span>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -287,7 +298,7 @@
                 </div>
                 <div class="header__btns2">
                   <button (click)="crearComentario(this.cajaDescripcionComentario)" class="button">Guardar</button>
-                  <a class="btncancel" href="sign-up.html">Cancelar</a>
+                  <button (click)="CerrarModal()" class="btncancel" >Cancelar</button>
                 </div>
 
                 <div *ngFor="let comentario of comentarios" class="section-comment">

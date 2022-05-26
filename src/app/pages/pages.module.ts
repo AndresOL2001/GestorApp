@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { PagesRoutingModule } from './pages-routing.module';
 import { HomeComponent } from './home/home.component';
@@ -10,6 +10,16 @@ import { NgxColorsModule } from 'ngx-colors';
 import { SharedModule } from '../shared/shared.module';
 import {NgxPaginationModule} from 'ngx-pagination';
 import { ExportarComponent } from './exportar/exportar.component';
+import { registerLocaleData } from '@angular/common';
+
+// importar locales
+import localePy from '@angular/common/locales/es-PY';
+import localePt from '@angular/common/locales/pt';
+import localeEn from '@angular/common/locales/en';
+
+registerLocaleData(localePy, 'es');
+registerLocaleData(localePt, 'pt');
+registerLocaleData(localeEn, 'en')
 
 @NgModule({
   declarations: [HomeComponent, EstatusComponent, ImportarComponent, ExportarComponent],
@@ -24,6 +34,6 @@ import { ExportarComponent } from './exportar/exportar.component';
     FormsModule
     
   ],
-  providers: [DatePipe]
+  providers: [DatePipe,{ provide: LOCALE_ID, useValue: 'es' }]
 })
 export class PagesModule { }
