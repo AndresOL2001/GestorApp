@@ -101,15 +101,13 @@ export class LinkedList {
 
 
   public getByValue(value:unknown) {
-
-    while(this.head !=null){
-      if(this.head.value == value){
-        return this.head.next.value;
+    let temp: NodeLink = this.head;
+    while(temp !=null){
+      if(temp.value == value){
+        return temp.next.value;
       }
-      this.head = this.head.next;
+      temp = temp.next;
     }
-
-
   }
 
 }

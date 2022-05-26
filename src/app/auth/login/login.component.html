@@ -1,13 +1,15 @@
+<div class="contenedor-login">
 <div class="page page_simple">
   <div class="entry">
     <div class="entry__wrapper">
       <div class="h2 entry__title">Gestoria Ventura</div>
       <div class="entry__top">
         <h3>Ingrese los siguientes datos para iniciar sesion.</h3>
+        <form [formGroup]="formLogin">
       <div class="entry__fieldset">
         <div class="field field_icon">
           <div class="field__wrap">
-            <input class="field__input" type="emial" name="email" placeholder="Your email">
+            <input class="field__input" type="email" name="email" placeholder="Your email">
             <div class="field__icon">
               <svg class="icon icon-mail">
                 <use xlink:href="#icon-mail"></use>
@@ -24,9 +26,12 @@
               </svg>
             </div>
           </div>
-        </div><a class="button entry__button" [routerLink]="'/home'">Sign in</a>
+        </div>
+        <button type="button" [routerLink]="'/home'">Iniciar Sesión </button>
       </div>
-      <div class="entry__note">Este sitio esta protegio poe reCAPCHA y la politica de <br>privaciodad de Gestoria Ventura</div>
+      <div class="entry__note">Este sitio esta protegio por reCAPTCHA y la politica de privacidad de Gestoria Ventura</div>
+    </form>
     </div>
   </div>
+</div>
 </div>

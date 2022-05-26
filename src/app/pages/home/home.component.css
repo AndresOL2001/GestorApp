@@ -837,6 +837,13 @@
       .font_form{
         font-size:12px;
         font-weight:100;
+    
+      }
+
+      .font_form_input{
+        width:150%;
+        font-size:12px;
+        font-weight:100;
       }
 
       th div{
@@ -925,3 +932,5 @@
       border-radius: 50%;
       cursor: pointer;
     }
+
+    

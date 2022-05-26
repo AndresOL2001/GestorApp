@@ -11,8 +11,9 @@ export class CargaGrService {
 
   constructor(private http:HttpClient) { }
 
-  //public url = "http://socialpets.club/api"; 
+ // public url = "http://socialpets.club/api"; 
   public url = "http://localhost:8080/api";
+
   cargasGr:cargaGrExp[] = [];
   getCargas(){
     return this.http.get(this.url+`/cargaGr`);
@@ -80,4 +81,24 @@ export class CargaGrService {
   getComentarios(id:string){
     return this.http.get(this.url+`/cargaGr/comentarios/${id}`);
   }
+
+  eliminarComentario(id:number){
+    return this.http.delete(this.url+`/cargaGr/comentario/${id}`)
+  }
+
+  actualizarCarga(idCarga:string,idEstado:number){
+    return this.http.post(this.url+`/cargaGr/actualizar/${idCarga}`,idEstado );
+
+  }
+
+
+  buscarTodo(valor:string){
+    return this.http.get(this.url+`/cargaGr/buscar/${valor}`);
+
+  }
+
+  actualizarComentario(id:number,contenido:string){
+    return this.http.put(this.url+`/cargaGr/comentario/${id}`,contenido);
+  }
+
 }

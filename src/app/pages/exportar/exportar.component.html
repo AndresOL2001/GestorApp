@@ -36,14 +36,17 @@
                 </button>
               </div>
             </div>
-  
+            
             <div class="select1">
-              <select class="select-btn" name="Days">
-                <option>15/05/22 - </option>
-                <option>Este mes</option>
+              <select (change)="cambioFiltroFecha($event.target.value)" class="select-btn" name="Days">
+                <option>Hoy</option>
                 <option>Esta semana</option>
+                <option>Este mes</option>
                 <option>Este Año</option>
+                <option>Personalizada</option>
+              
               </select>
+              
             </div>
   
             <div class="select2">

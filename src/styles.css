@@ -1,3 +1,4 @@
+
 :root{
   /* ===== Colors ===== */
   --body-color: #E4E9F7;
@@ -3147,7 +3148,7 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-handle {
   letter-spacing: -.03em; }
 
 .h2 {
-  font-size: 48px;
+  font-size: 42px;
   line-height: 1;
   letter-spacing: -.03em; }
 
@@ -13275,7 +13276,7 @@ body.dark .notification .actions__button {
   body.dark .entry {
     background: #1A1D1F; }
   .entry__wrapper {
-    max-width: 296px; 
+    max-width: 350px; 
     }
     @media only screen and (max-width: 767px) {
       .entry__wrapper {

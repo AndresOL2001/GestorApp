@@ -80,7 +80,7 @@
                       <use xlink:href="#icon-arrow-left"></use>
                     </svg>
                   </button>
-                  <input class="search__input" type="text" placeholder="Buscar">
+                  <input #searchInput (keyup.enter)="buscar(searchInput.value)"class="search__input" type="text" placeholder="Buscar">
                   <button class="search__close">
                     <svg class="icon icon-close-circle">
                       <use xlink:href="#icon-close-circle"></use>
@@ -232,9 +232,9 @@
                         <h4 class="font_form">Cambiar estatus a:</h4>
 
                         <div class="select-table">
-                          <select class="select-btn" name="Estatus">
+                          <select (change)="cambiarEstatus($event.target.value)" class="select-btn" name="Estatus">
                             <option>{{cargaModal.nombreestado}}</option>
-                            <option *ngIf="listaEstados.getByValue(cargaModal.nombreestado) != null">{{listaEstados.getByValue(cargaModal.nombreestado)}}</option>
+                            <option *ngIf="estadoModalNext != null">{{estadoModalNext}}</option>
                            
                           </select>
                         </div>
@@ -297,13 +297,17 @@
                     <div class="field__wrap">
                       <h4 class="info__Estatus" [ngStyle]="{'color': comentario.color}">{{comentario.nombre}}</h4>
                     </div>
-                    <p class="font_form">
+                    <p *ngIf="!banderaEditar" class="font_form">
                       {{comentario.comentario}}
                     </p>
+                     <input id="inputActualizarComentario" *ngIf="banderaEditar" class="font_form_input" [value]="comentario.comentario">
                     <div class="header__btns2">
-                      <button class="btncoments">Editar</button>
-                      <button class="btncoments">Eliminar</button>
+                      <button *ngIf="!banderaEditar" (click)="abrirEditarComentario()" class="btncoments">Editar</button>
+                      <button *ngIf="banderaEditar" (click)="actualizarComentarioCargadoModal(comentario.id_Comentario)" class="btncoments">Guardar</button>
+                      <button (click)="abrirAlertaEliminarComentario(comentario.id_Comentario)" class="btncoments">Eliminar</button>
+
                     </div>
+                    
                   </div>
                 </div>
 
@@ -315,6 +319,46 @@
       </div>
     </div>
   </div>
+</div>
+
+<div *ngIf="dispararAlertaError" class="popup popup_success js-popup js-popup-success animation visible">
+  <div class="popup__overlay js-popup-overlay"></div>
+  <div class="popup__wrap js-popup-wrap">
+    <div class="success">
+      <div class="success__iconError"> ❌ </div>
+      <div class="success__info">¿Estas seguro que deseas eliminar este comentario?</div>
+      <div class=" h2 success__price ">Advertencia</div>
+      <div class="success__text">Si eliminas este comentario perderas toda la informacion referente a el</div>
+      <button (click)="eliminarComentario()" class="button success__button js-popup-close" style="margin-right:3px;">Aceptar</button>
+      <button (click)="cerrarAlerta()" class="button-stroke users__button">Cancelar</button>
+
+    </div>
+    <button (click)="cerrarAlerta()" class="popup__close js-popup-close">
+      <svg class="icon icon-close ">
+        <use xlink:href="#icon-close"></use>
+      </svg>
+    </button>
+  </div>
+</div>
+
+<div *ngIf="dispararAlerta" class="popup popup_success js-popup js-popup-success animation visible">
+  <div class="popup__overlay js-popup-overlay"></div>
+  <div class="popup__wrap js-popup-wrap">
+    <div class="success">
+      <div class="success__icon">🎉</div>
+      <div class="success__info">!Acción realizada correctamente !</div>
+      <div class=" h2 success__price ">Correcto </div>
+      <div class="success__text">Registro actualizado correctamente </div>
+      <button (click)="cerrarAlerta()" class="button success__button js-popup-close">Hecho!</button>
+    </div>
+    <button (click)="cerrarAlerta()" class="popup__close js-popup-close">
+      <svg class="icon icon-close ">
+        <use xlink:href="#icon-close"></use>
+      </svg>
+    </button>
+  </div>
+</div>
+
 
 <!-- <div *ngIf="cargasGr" class="panel">
   <div class="panel__info">

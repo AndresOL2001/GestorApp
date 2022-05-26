@@ -5,7 +5,9 @@
 export const environment = {
   production: false,
   login:'/auth/login',
-  register:'/auth/register'
+  register:'/auth/register',
+  user:'admin',
+  password:'gestoriaventura@22'
 };
 
 /*
