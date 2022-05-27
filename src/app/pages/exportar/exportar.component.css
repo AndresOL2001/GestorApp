@@ -878,3 +878,31 @@
 
     }
 
+    .inputdate input{
+      margin:10px;
+    }
+    
+    
+    input[type="date"]{
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 5px;
+    text-align: center;
+    }
+    
+    .inputdate label{
+      font-size: 12px;
+    }
+
+    .color-label-calendar{
+      color:#666666;
+      font-family: "Inter";
+    }
+
+    .inputdate{
+      display: flex;
+      font-size: 10px;
+      margin: 6px;
+      align-items:center;
+      justify-content:right;
+    }

@@ -29,6 +29,9 @@ export class ExportarComponent implements OnInit {
   lastWeekFormat;
   todayFormat;
 
+  //bandera
+  mostrarCalendario = false;
+
   pageHeaders = [
     'SINIESTRO',
     'ESTADO',
@@ -124,6 +127,7 @@ export class ExportarComponent implements OnInit {
       }
     } else if (event == 'Personalizada') {
       console.log(event);
+      this.mostrarCalendario=true;
 
       
     } else {
