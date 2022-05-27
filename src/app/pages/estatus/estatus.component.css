@@ -11,8 +11,19 @@
         padding-left:10px;
 }
 
-.schedule .schedule__col{
-        margin-left:10px;
-        margin-right:10px;
 
+@media only screen and (max-width: 1024px){
+.card {
+     margin-left: 0; 
 }
+.page__inner{
+        padding-left: 119px;
+}
+     
+}
+
+@media only screen and (max-width: 768px){
+        
+.page__inner {
+        padding-left: 106px;
+}}

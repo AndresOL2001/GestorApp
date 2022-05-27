@@ -37,6 +37,74 @@
 
 <div class="page__inner">
   <div class="page__container">
+    <div class="page__title h3">Nuevo Estatus</div>
+    <div class="create">
+      <div class="create__row">
+        <div class="create__col">
+          <div class="create__card card">
+            <div class="card__head">
+              <div class="title-green card_title">Nombre y Descripción</div>
+             
+            </div>
+            <form id="createForm" [formGroup]="estadoForm" (ngSubmit)="crearEstado()">
+            <div class="field">
+              <div class="tooltip">Abreviatura <svg class="icon icon-info">
+                <use xlink:href="#icon-info"></use>
+              </svg>
+                  <span class="tooltiptext">Maximo 3 caracteres</span>
+          
+              </div>
+              <div class="field__wrap">
+                <input formControlName="abreviatura"class="field__input" type="text" name="title" required>
+              </div>
+            </div>
+            <div class="field">
+              <div class="tooltip">Nombre del estatus <svg class="icon icon-info">
+                <use xlink:href="#icon-info"></use>
+              </svg>
+                  <span  class="tooltiptext">Maximo 30 caracteres</span>
+          
+              </div>
+              <div class="field__wrap">
+                <input formControlName="nombre" class="field__input" type="text" name="title" required>
+              </div>
+            </div>
+            <div class="field">
+              <div class="tooltip">Color <svg class="icon icon-info">
+                <use xlink:href="#icon-info"></use>
+              </svg>
+                  <span class="tooltiptext">Escoga un color</span>
+          
+              </div>
+              <div class="field__wrap">
+                <ngx-colors
+                ngx-colors-trigger
+                style="display: inline-block; margin:5px;"
+                formControlName="color"
+              ></ngx-colors>
+              </div>
+            </div>
+            <div class="editor">
+              <div class="tooltip">Descripcion <svg class="icon icon-info">
+                <use xlink:href="#icon-info"></use>
+              </svg>
+                  <span class="tooltiptext">Maximo 50 caracteres</span>
+          
+              </div>
+            <ckeditor formControlName="descripcion" [editor]="editor" ></ckeditor>
+                  
+              </div>
+            
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="page__inner">
+  <div class="page__container">
     <div class="page__title h3">Estatus</div>
     <div class="drafts card">
       <div class="card__head">
@@ -127,5 +195,18 @@
         </div>
       </div>
     </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="panel__info">
+    <svg class="icon icon-check-all">
+      <use xlink:href="#icon-check-all"></use>
+    </svg>Last saved <span>Oct 4, 2021 - 23:32</span>
+  </div>
+  <div class="panel__btns">
+    <button (click)="borrarTodo()" type="button" class="button-stroke panel__button">Cancelar</button>
+    <button (click)="crearEstado()" form="createForm" type="submit" class="button panel__button">Guardar</button>
+    
   </div>
 </div>

@@ -74,7 +74,10 @@ estado:Estado;
     this.estadoForm.controls["color"].setValue(estado.color);
   }
 
-   
+borrarTodo(){
+  console.log("aquiaqui")
+  this.estadoForm.reset();
+}   
 
   crearEstado(){
 

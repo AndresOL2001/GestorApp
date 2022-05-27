@@ -6,12 +6,12 @@
         <div *ngIf="mostrarCalendario" class="inputdate" style="font-size:10px;">
           <div class="areas">
            <label class="color-label-calendar">Rango de fechas del:  
-             <input type="date" />
+             <input (change)="obtenerValorCalendario($event)" [(ngModel)]="desdeCalendar" id="desdeCalendar" type="date" />
            </label>
           </div>
-          <div>
+          <div *ngIf="banderaHastaFecha">
            <label>al:   </label>
-           <input type="date" />
+           <input [min]="desdeCalendar" (change)="filtrarFechaPersonalizada($event)" [(ngModel)]="hastaCalendar" id="hastaCalendar"type="date" />
           </div>
          </div>
 

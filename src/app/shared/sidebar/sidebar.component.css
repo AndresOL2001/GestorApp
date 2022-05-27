@@ -32,9 +32,33 @@ header .image-text .profession{
   margin-left: 26px;
 }
 
+.space-nav-text{
+  margin-left: 15px;
+}
+
+.imagenesDashboard{
+  text-align: center;
+  margin-left: 15px;
+  height: auto;
+  width:33x;
+}
+
 .img-icono{
   width: 33px;
   height: auto;
   margin-left: 10px;
   border-radius: 100px;
 }
+
+.sidebar__foot {
+  margin-top: 24px;
+  padding-top: 18px;
+  border-top: 2px solid #F4F4F4; }
+  @media only screen and (max-width: 1259px) {
+    .sidebar__foot {
+      margin-top: 12px;
+      padding-top: 12px; } }
+  body.dark .sidebar__foot {
+    border-color: #272B30; }
+.sidebar .theme {
+  margin-top: 16px; }
