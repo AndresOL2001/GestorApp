@@ -30,18 +30,22 @@ export class SidebarComponent implements OnInit {
        toggle.addEventListener("click", () => {
         sidebar.classList.toggle("close");
         if(this.posicionNavbar){
+          
           this.posicionNavbar = false;
-          navbarposition.style.cssText = null;
-            }else{
+          navbarposition.classList.add('slide-left');
+          navbarposition.classList.remove('slide-right');
+
+
+        }else{
               this.posicionNavbar = true;
-              navbarposition.style.cssText = 'left: 145px;';
+              navbarposition.classList.add('slide-right');
+              navbarposition.classList.remove('slide-left');
+
        }
       })
 
 
-      searchBtn.addEventListener("click", () => {
-        sidebar.classList.remove("close");
-      })
+     
 
   }
 

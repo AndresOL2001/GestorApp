@@ -4,6 +4,7 @@ import { cargaGr, cargaGrExp } from '../models/cargaGr';
 import { DatePipe } from '@angular/common';
 import { Comentario } from '../models/comentario';
 import { CargaGrConDetalle } from '../models/cargaGrConDetalle';
+import { cargaGrIds } from '../models/cargaGrIds';
 
 @Injectable({
   providedIn: 'root'
@@ -81,29 +82,32 @@ export class CargaGrService {
     return this.http.post(this.url+`/cargaGr/exportarEspecifica`,cargaAux,{ responseType: 'blob'} );
   }
 
-
-  //apartado comentarios
-  crearComentario(comentario:Comentario,id:number){
-    return this.http.post(this.url+`/cargaGr/crearComentario/${id}`,comentario);
-  }
-
-  getComentarios(id:string){
-    return this.http.get(this.url+`/cargaGr/comentarios/${id}`);
-  }
-
-  eliminarComentario(id:number){
-    return this.http.delete(this.url+`/cargaGr/comentario/${id}`)
-  }
-
   actualizarCarga(idCarga:string,idEstado:number,proveedor:string){
     return this.http.post(this.url+`/cargaGr/actualizar/${idCarga}/${idEstado}`,proveedor );
 
   }
 
-
   buscarTodo(valor:string){
     return this.http.get(this.url+`/cargaGr/buscar/${valor}`);
 
+  }
+
+  borrarCargas(firstNameIds){
+   
+    return this.http.delete(this.url+`/cargaGr/${firstNameIds}`);
+  }
+
+ //apartado comentarios
+ crearComentario(comentario:Comentario,id:number){
+  return this.http.post(this.url+`/cargaGr/crearComentario/${id}`,comentario);
+}
+
+getComentarios(id:string){
+  return this.http.get(this.url+`/cargaGr/comentarios/${id}`);
+}
+
+  eliminarComentario(id:number){
+    return this.http.delete(this.url+`/cargaGr/comentario/${id}`)
   }
 
   actualizarComentario(id:number,contenido:string){

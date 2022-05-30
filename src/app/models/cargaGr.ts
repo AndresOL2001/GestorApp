@@ -19,6 +19,7 @@ export interface cargaGr {
     color:string;
     nombreestado:string;
     proveedor:string;
+    checked:boolean;
     
 
 }

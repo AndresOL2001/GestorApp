@@ -1,9 +1,99 @@
-<div *ngIf="cargasGr" class="page__inner">
-    <div class="page__container margen-left">
-      <div class="page__title h3">Consultar Y Exportar</div>
-      <div class="drafts card">
+<div *ngIf="!cargasGr || cargasGr.length== 0" class="page__inner__home">
+  <div class="hi-dash-welcome-bac">Hola Administrador,</div>
+  <h1 class="campaigns poppins-semi-bold-mirage-40px">
+    <span class="span poppins-semi-bold-mirage-40px">Bienvenido</span><span class="span1">&nbsp;</span><span
+      class="span poppins-semi-bold-mirage-40px">👋</span>
+  </h1>
+  <img class="x6" src="../../../assets/exceldatos.svg" />
+  <p class="an-no-hay-informacin-registrada">Aún no hay información registrada.</p>
+  <p class="empieza-importando-t">Empieza importando tu primer layout&nbsp;&nbsp;.xls<br />de Carga GR.</p>
+  <div [routerLink]="'/home/importar'" class="stylesecondary-size">
+    <img class="ui-icon" src="../../../assets/iconImportarLayout.svg" />
+    <div class="importar-layout">Importar layout</div>
+  </div>
+</div>
 
-        <div *ngIf="mostrarCalendario" class="inputdate" style="font-size:10px;">
+<div *ngIf="cargasGr && cargasGr.length>0" class="enter-amount">
+  <img class="ui-iconchecklight" src="../../../assets/check_green.svg" />
+  <div class="overlap-group3">
+    <div class="registros-container">
+      <div class="carga-de-registros-correcta">Carga de registros correcta</div>
+      <p class="se-han-importado-40-registros-pt">Se han importado {{cargasGr?.length}} registros PT</p>
+    </div>
+    <div class="ellipse-328"></div>
+  </div>
+</div>
+
+
+<div *ngIf="cargasGr"class="page__inner2">
+  <div  class="page__container2">
+    <div class="page__title h3">PT'S</div>
+    
+    <div  class="drafts card">
+      <div class="card__title">Exportar y consultar</div>
+      <div class="card__head">
+        <div id="homeTableId" class="wrapper1">
+          
+          <div class="search">
+            <div class="search__head">
+              <button class="search__start">
+                <svg class="icon icon-search">
+                  <use xlink:href="#icon-search"></use>
+                </svg>
+              </button>
+              <button class="search__direction">
+                <svg class="icon icon-arrow-left">
+                  <use xlink:href="#icon-arrow-left"></use>
+                </svg>
+              </button>
+              <input #searchInput (keyup.enter)="buscar(searchInput.value)"class="search__input" type="text" placeholder="Buscar">
+              <button class="search__close">
+                <svg class="icon icon-close-circle">
+                  <use xlink:href="#icon-close-circle"></use>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+
+          <div class="select1">
+              <select (change)="cambioFiltroFecha($event.target.value)" [(ngModel)]="FiltroFecha" class="select-btn" name="Days">
+              <option>Fecha</option>
+              <option>Hoy</option>
+              <option>Esta Semana</option>
+              <option>Este Mes</option>
+              <option>Este Año</option>
+              <option>Personalizada</option>
+             </select>
+          </div>
+
+
+         <div class="select2">
+             <select (change)="cambioFiltroEstado($event.target.value)" [(ngModel)]="FiltroEstado" class="select-btn" name="Estatus" >
+              <option>Estado</option>
+              <option>Creado</option>
+              <option>Asignado</option>
+              <option>Notificado</option>
+              <option>Localizado</option>
+              <option>Gestoria en tramite</option>
+              <option>Validacion digital</option>
+              <option>Documentos entregados</option>
+              </select>
+          </div>
+
+          <div>
+                <div class="content">
+                  <div class="search1">
+                    <i class="uil uil-search"></i>
+                    <input spellcheck="false" type="text" placeholder="Search">
+                  </div>
+                  <ul class="options"></ul>
+                </div>
+              </div>
+         
+          
+            </div>
+            <div *ngIf="mostrarCalendario" class="inputdate" style="font-size:10px;">
           <div class="areas">
            <label class="color-label-calendar">Rango de fechas del:  
              <input (change)="obtenerValorCalendario($event)" [(ngModel)]="desdeCalendar" id="desdeCalendar" type="date" />
@@ -14,161 +104,318 @@
            <input [min]="desdeCalendar" (change)="filtrarFechaPersonalizada($event)" [(ngModel)]="hastaCalendar" id="hastaCalendar"type="date" />
           </div>
          </div>
-
-        <div class="card__head2">
-
-         
-
-          <div class="wrapper1">
-  
-  
-            <div>
-              <div class="content">
-                <div class="search1">
-                  <i class="uil uil-search"></i>
-                  <input spellcheck="false" type="text" placeholder="Search" />
-                </div>
-                <ul class="options"></ul>
-              </div>
-            </div>
-  
-            <div class="search">
-              <div class="search__head">
-                <button class="search__start">
-                  <svg class="icon icon-search">
-                    <use xlink:href="#icon-search"></use>
-                  </svg>
-                </button>
-                <button class="search__direction">
-                  <svg class="icon icon-arrow-left">
-                    <use xlink:href="#icon-arrow-left"></use>
-                  </svg>
-                </button>
-                <input #searchInput (keyup.enter)="buscar(searchInput.value)"class="search__input" type="text" placeholder="Buscar">
-                <button class="search__close">
-                  <svg class="icon icon-close-circle">
-                    <use xlink:href="#icon-close-circle"></use>
-                  </svg>
-                </button>
-              </div>
-            </div>
-            
-            <div class="select1">
-              <select (change)="cambioFiltroFecha($event.target.value)" [(ngModel)]="FiltroFecha" class="select-btn" name="Days">
-                <option>Fecha</option>
-                <option>Hoy</option>
-                <option>Esta semana</option>
-                <option>Este mes</option>
-                <option>Este Año</option>
-                <option>Personalizada</option>
-              
-              </select>
-              
-            </div>
-  
-            <div class="select2">
-              <select (change)="cambioFiltroEstado($event.target.value)" [(ngModel)]="FiltroEstado" class="select-btn" name="Estatus">
-                <option>Estado</option>
-                <option>Creado</option>
-                <option>Asignado</option>
-                <option>Notificado</option>
-                <option>Asignado</option>
-                <option>Localizado</option>
-                <option>Gestoria en Tramite</option>
-                <option>Validacion Digital</option>
-                <option>Documentos Entregados</option>
-              </select>
-            </div>
-            
-          </div>
-          
-        </div>
-
-          <button (click)="exportarCargas(this.cargasGr)" class="button-stroke users__button boton-posicion">
-            <img class="imgbtnprint" src="../../../assets/btnImportar.svg" />Exportar xlsx</button>
-
-        <div class="table-container2">
-          <div class="title-purple card__title">Listado de PT's</div>
-          <table class="table-rwd2">
-            <tr>
-              <th></th>
-              <th>#</th>
-              <th>
-                <div>Fecha de Asignacion
-                  <i *ngIf="this.EstadoFecha == 'NORMAL'" (click)="ordenarFecha(head)" style="cursor:pointer;" class='bx bx-expand-vertical'></i>
-                  <i *ngIf="this.EstadoFecha == 'ASCENDENTE'" (click)="ordenarFecha(head)" style="cursor:pointer;" class='bx bx-chevron-up'></i>
-                  <i *ngIf="this.EstadoFecha == 'DESCENDENTE'" (click)="ordenarFecha(head)" style="cursor:pointer;" class='bx bx-chevron-down'></i>
     
-                </div>
-              </th>
-              <th class="left" *ngFor="let head of pageHeaders">
-                <div>{{head}}
-                  <i *ngIf="this.EstadoActual == 'NORMAL'" (click)="ordenarAlfabeticamente(head)" style="cursor:pointer;" class='bx bx-expand-vertical'></i>
-                  <i *ngIf="this.EstadoActual == 'ASCENDENTE'" (click)="ordenarAlfabeticamente(head)" style="cursor:pointer;" class='bx bx-chevron-up'></i>
-                  <i *ngIf="this.EstadoActual == 'DESCENDENTE'" (click)="ordenarAlfabeticamente(head)" style="cursor:pointer;" class='bx bx-chevron-down'></i>
-                </div>
+      </div>  
+      <button (click)="exportarCargas(this.cargasGr)" class="button-stroke users__button boton-posicion">
+        <img class="imgbtnprint" src="../../../assets/btnImportar.svg" />Exportar xlsx</button>
+        
+        <div class="table-container2">
+        <table class="table-rwd2">
+
+          <tr>
+            <th></th>
+            <th>#</th>
+            <th><div class="normal" >Fecha de Asignacion
+              <i *ngIf="this.EstadoFecha == 'NORMAL'" (click)="ordenarFecha(head)" style="cursor:pointer;" class='bx bx-expand-vertical'></i>
+              <i *ngIf="this.EstadoFecha == 'ASCENDENTE'" (click)="ordenarFecha(head)" style="cursor:pointer;" class='bx bx-chevron-up'></i>
+              <i *ngIf="this.EstadoFecha == 'DESCENDENTE'" (click)="ordenarFecha(head)" style="cursor:pointer;" class='bx bx-chevron-down'></i>
+
+            </div></th>
+            <th class="left"  *ngFor="let head of pageHeaders">
+              <div class="normal">{{head}}
+              <i *ngIf="this.EstadoActual == 'NORMAL'" (click)="ordenarAlfabeticamente(head)" style="cursor:pointer;" class='bx bx-expand-vertical'></i>
+              <i *ngIf="this.EstadoActual == 'ASCENDENTE'" (click)="ordenarAlfabeticamente(head)" style="cursor:pointer;" class='bx bx-chevron-up'></i>
+              <i *ngIf="this.EstadoActual == 'DESCENDENTE'" (click)="ordenarAlfabeticamente(head)" style="cursor:pointer;" class='bx bx-chevron-down'></i>
+
+            </div>
+          </th>
+
+          </tr>
+          <tbody>
+          <tr (click)="abrirModal(carga)" style="cursor: pointer;" class="trmargin" *ngFor="let carga of cargasGr | paginate: { itemsPerPage: registrosPorPagina, currentPage: page }; let i=index;">
+            <th (click)="$event.stopPropagation()"> 
+              <label class="checkbox">
+                <input (change)="conteoIdsEliminar()" [(ngModel)]="carga.checked" name="groupA"
+                  #checkboxes class="checkbox_input"
+                  type="checkbox"/><span class="checkboxinner"><span class="checkbox_tick"></span
+                ></span>
+              </label>
+          </th>
+            <td class="normalTd">{{ cargasGr.indexOf(carga)+1}}</td>
+            <td class="date normalTd" style="color:#707070;text-align: center;">{{carga.fecha_asignacion | date: 'yyyy-MM-dd':'GMT' }}</td>
+            <td class="left normalTd">{{carga.siniestro}}</td>
+            <td class="left normalTd"><div class="field__wrap">
+              <h4 class="info__Estatus" [ngStyle]="{'color': carga.color}">{{carga.nombreestado}}</h4>
+             </div></td>
+            <td class="left normalTd" >{{carga.origen}}</td>
+            <td  class="left normalTd">{{carga.niu}}</td>
+            <td  class="left normalTd">{{carga.ov}}</td>
+            <td  class="left normalTd">{{carga.personalizada}}</td>
+            <td  class="left normalTd">{{carga.nombre}}</td>
+            <td  class="left normalTd">{{carga.correo}}</td>
+            <td  class="left normalTd">{{carga.telefono1}}</td>
+            <td  class="left normalTd">{{carga.telefono2}}</td>
+            <td  class="left normalTd">{{carga.marca}}</td>
+            <td  class="left normalTd">{{carga.modelo}}</td>
+            <td  class="left normalTd">{{carga["año"]}}</td>
+            <td  class="left normalTd">{{carga.serie}}</td>
+            <td  class="left normalTd">{{carga.observaciones}}</td>
+            <td  class="left normalTd">{{carga.proveedor}}</td>
+
+          </tr>
+        </tbody>
+        </table>
+
+        
+
+
+      </div>
+      <div class="footer-table">
+      <span class="footer-text">Numero de registros activos: {{cargasGr.length}}</span>
+      <div class="footer-text-right">
+        <div class="footer-combobox">
+      <span class="footer-text">Mostrar registros por pagina </span>
+
+          <select [(ngModel)]="registrosPorPagina" class="select-btn-footer"  >
             
-            </tr>
-            <tbody>
-              <tr
-                class="trmargin"
-                *ngFor="
-                  let carga of cargasGr
-                    | paginate: { itemsPerPage: registrosPorPagina, currentPage: page };
-                  let i = index
-                "
-              >
-                <th>
-                 
-                </th>
-                <td>{{ i + 1 }}</td>
-                <td class="date">
-                  {{ carga.fecha_asignacion | date: "yyyy-MM-dd" }}
-                </td>
-                <td class="left">{{ carga.siniestro }}</td>
-                <td class="left">
-                  <div class="field__wrap">
-                    <h4 class="info__Estatus"  [ngStyle]="{'color': carga.color}" >{{carga.nombreestado}}</h4>
+           <option *ngFor="let size of pageSizes" [value]="size" class="option-footer">
+            {{size}}
+          </option>
+           
+
+           </select>
+   
+    </div>
+      <pagination-controls  (pageChange)="page = $event"  responsive="true"   previousLabel="<"
+        nextLabel=">"   maxSize =""></pagination-controls>
+      </div>
+    </div>
+    </div>
+    <div *ngIf="banderaAnimacion">
+      <div class="page__inner">
+        <div class="page__container2">
+          <div class="create">
+            <div class="create__row">
+              <div class="create__col">
+                <div id="cardMove" class="card cardMoveForm slide-left-home">
+                  <div class="header__modal">
+                    <label (click)="CerrarModal()">X</label>
                   </div>
-                </td>
-                <td class="left">{{ carga.origen }}</td>
-                <td class="left">{{ carga.niu }}</td>
-                <td class="left">{{ carga.ov }}</td>
-                <td class="left">{{ carga.personalizada }}</td>
-                <td class="left">{{ carga.nombre }}</td>
-                <td class="left">{{ carga.correo }}</td>
-                <td class="left">{{ carga.telefono1 }}</td>
-                <td class="left">{{ carga.telefono2 }}</td>
-                <td class="left">{{ carga.marca }}</td>
-                <td class="left">{{ carga.modelo }}</td>
-                <td class="left">{{ carga["año"] }}</td>
-                <td class="left">{{ carga.serie }}</td>
-                <td class="left">{{ carga.observaciones }}</td>
-                <td class="left">{{ carga.proveedor }}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="footer-table">
-            <span class="footer-text">Numero de registros activos: {{cargasGr.length}}</span>
-            <div class="footer-text-right">
-              <div class="footer-combobox">
-            <span class="footer-text">Mostrar registros por pagina </span>
-      
-                <select [(ngModel)]="registrosPorPagina" class="select-btn-footer"  >
-                  
-                 <option *ngFor="let size of pageSizes" [value]="size" class="option-footer">
-                  {{size}}
-                </option>
-                 
-      
-                 </select>
-         
-          </div>
-            <pagination-controls  (pageChange)="page = $event"  responsive="true"   previousLabel="<"
-              nextLabel=">"   maxSize =""></pagination-controls>
+                  <div class="card__head">
+                    <div class="card_title">
+                      <img class="img-logo" src="../../../assets/AXXA.jpeg" />
+                      <div class="tittle__ajust">
+                        <div>{{cargaModal.siniestro}}</div>
+                        <div class="style-font">{{cargaModal.fecha_asignacion | date:'fullDate'}} - {{cargaModal.origen}}</div>            
+                      </div>
+                    </div>
+                    <button (click)="exportarCargaEspecifica(cargaModal)" class="button "style="margin-bottom:40px;" 
+                      ><span>Exportar</span>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="23"
+                        height="23"
+                        style="fill: white; transform: msFilter"
+                      >
+                        <path d="m12 16 4-5h-3V4h-2v7H8z"></path>
+                        <path
+                          d="M20 18H4v-7H2v7c0 1.103.897 2 2 2h16c1.103 0 2-.897 2-2v-7h-2v7z"
+                        ></path></svg></button>
+                  </div>
+                  <div class="card__mail">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      style="fill: #b0bec5; transform: msFilter"
+                    >
+                      <path
+                        d="M20 4H4c-1.103 0-2 .897-2 2v12c0 1.103.897 2 2 2h16c1.103 0 2-.897 2-2V6c0-1.103-.897-2-2-2zm0 2v.511l-8 6.223-8-6.222V6h16zM4 18V9.044l7.386 5.745a.994.994 0 0 0 1.228 0L20 9.044 20.002 18H4z"
+                      ></path>
+                    </svg>
+                    <a class="correo-electronico"
+                      ><span>{{cargaModal.correo}}</span></a
+                    >
+                  </div>
+                  <hr class="hr" />
+    
+                  <form>
+                    <div class="field">
+                      <div class="tooltip">
+                        Estatus Actual
+                        <svg class="icon icon-info">
+                          <use xlink:href="#icon-info"></use>
+                        </svg>
+                      </div>
+                      <div class="field__wrap">
+                        <h4 class="info__Estatus" [ngStyle]="{'color': cargaModal.color}">{{cargaModal.nombreestado}}</h4>
+                      </div>
+                      <hr />
+    
+                      <div class="input__Status">
+                        <div>
+    
+                          <div class="wrapper1">
+                            <h4 class="font_form">Proveedor:</h4>
+    
+                            <div class="select-table">
+                              <select (change)="cambiarProveedor($event.target.value)" class="select-btn" name="Estatus">
+                                <option>{{cargaModal.proveedor}}</option>
+                                <option *ngIf="cargaModal.proveedor != 1">1</option>
+                                <option *ngIf="cargaModal.proveedor != 2">2</option>
+                               
+                              </select>
+                            </div>
+                          </div>
+    
+                          <div  class="wrapper1">
+                            <h4 class="font_form">Cambiar estatus a:</h4>
+    
+                            <div class="select-table">
+                              <select [disabled]="!proveedorAsignado" (change)="cambiarEstatus($event.target.value)" class="select-btn" name="Estatus">
+                                <option>{{cargaModal.nombreestado}}</option>
+                                <option *ngIf="estadoModalNext != null">{{estadoModalNext}}</option>
+                               
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="field">
+                          <div class="field__wrap"></div>
+    
+                          <div class="content">
+                            <div class="search1">
+                              <i class="uil uil-search"></i>
+                              <input
+                                spellcheck="false"
+                                type="text"
+                                placeholder="Search"
+                              />
+                            </div>
+                            <ul class="options"></ul>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="field">
+                      <div class="tooltip margintool">
+                        Actividad
+                        <svg class="icon icon-info">
+                          <use xlink:href="#icon-info"></use>
+                        </svg>
+                        <span class="tooltiptext">Maximo 30 caracteres</span>
+                      </div>
+                      <div class="input__Actividad">
+                        <div>
+                          <h4 class="font_form">Historial de estatus:</h4>
+                        </div>
+                        <div>
+                          <p class="font_form">Mas recientes primero</p>
+                        </div>
+                      </div>
+                    </div>
+    
+                    <div class="editor">
+                      <div class="tooltip">
+                        Comentarios
+                        <svg class="icon icon-info">
+                          <use xlink:href="#icon-info"></use>
+                        </svg>
+                        <span class="tooltiptext">El valor de la caja no puede ser nulo</span>
+                      </div>
+                      <ckeditor name="editorComentario" [(ngModel)]="cajaDescripcionComentario" [editor]="editor"></ckeditor>
+                    </div>
+                    <div class="header__btns2">
+                      <button (click)="crearComentario(this.cajaDescripcionComentario)" class="button">Guardar</button>
+                      <button (click)="CerrarModal()" class="btncancel" >Cancelar</button>
+                    </div>
+    
+                    <div *ngFor="let comentario of comentarios" class="section-comment">
+                      <img class="img-logo" src="../../../assets/AXXA.jpeg" />
+                      <div class="section-text">
+                        <h4>Automatico <span>hace 16 minutos</span></h4>
+                        <div class="field__wrap">
+                          <h4 class="info__Estatus" [ngStyle]="{'color': comentario.color}">{{comentario.nombre}}</h4>
+                        </div>
+                        <p *ngIf="!banderaEditar" class="font_form">
+                          {{comentario.comentario}}
+                        </p>
+                     <!--     <input id="inputActualizarComentario" *ngIf="banderaEditar" class="font_form_input" [value]="comentario.comentario">
+                        <div class="header__btns2">
+                          <button *ngIf="!banderaEditar" (click)="abrirEditarComentario()" class="btncoments">Editar</button>
+                          <button *ngIf="banderaEditar" (click)="actualizarComentarioCargadoModal(comentario.id_Comentario)" class="btncoments">Guardar</button>
+                          <button (click)="abrirAlertaEliminarComentario(comentario.id_Comentario)" class="btncoments">Eliminar</button>
+    
+                        </div> -->
+                        
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
             </div>
           </div>
+        </div>
       </div>
     </div>
   </div>
+  </div>
+   
+
+<!-- <div *ngIf="dispararAlertaError" class="popup popup_success js-popup js-popup-success animation visible">
+  <div class="popup__overlay js-popup-overlay"></div>
+  <div class="popup__wrap js-popup-wrap">
+    <div class="success">
+      <div class="success__iconError"> ❌ </div>
+      <div class="success__info">¿Estas seguro que deseas eliminar este comentario?</div>
+      <div class=" h2 success__price ">Advertencia</div>
+      <div class="success__text">Si eliminas este comentario perderas toda la informacion referente a el</div>
+      <button (click)="eliminarComentario()" class="button success__button js-popup-close" style="margin-right:3px;">Aceptar</button>
+      <button (click)="cerrarAlerta()" class="button-stroke users__button">Cancelar</button>
+
+    </div>
+    <button (click)="cerrarAlerta()" class="popup__close js-popup-close">
+      <svg class="icon icon-close ">
+        <use xlink:href="#icon-close"></use>
+      </svg>
+    </button>
+  </div>
+</div> -->
+
+<!-- <div *ngIf="dispararAlertaErrorActualizar" class="popup popup_success js-popup js-popup-success animation visible">
+  <div class="popup__overlay js-popup-overlay"></div>
+  <div class="popup__wrap js-popup-wrap">
+    <div class="success">
+      <div class="success__iconError"> ❌ </div>
+      <div class="success__info">{{mensajeError}}</div>
+      <div class=" h2 success__price ">Error</div>
+      <div class="success__text">Favor de corregir los errores </div>
+      <button (click)="cerrarAlerta()" class="button-stroke users__button">Aceptar</button>
+
+    </div>
+    <button (click)="cerrarAlerta()" class="popup__close js-popup-close">
+      <svg class="icon icon-close ">
+        <use xlink:href="#icon-close"></use>
+      </svg>
+    </button>
+  </div>
+</div> -->
+
+<!-- <div *ngIf="dispararAlerta" class="popup popup_success js-popup js-popup-success animation visible">
+  <div class="popup__overlay js-popup-overlay"></div>
+  <div class="popup__wrap js-popup-wrap">
+    <div class="success">
+      <div class="success__icon">🎉</div>
+      <div class="success__info">!Acción realizada correctamente !</div>
+      <div class=" h2 success__price ">Correcto </div>
+      <div class="success__text">{{mensajeExito}} </div>
+      <button (click)="cerrarAlerta()" class="button success__button js-popup-close">Hecho!</button>
+    </div>
+    <button (click)="cerrarAlerta()" class="popup__close js-popup-close">
+      <svg class="icon icon-close ">
+        <use xlink:href="#icon-close"></use>
+      </svg>
+    </button>
+  </div>
+</div>
+ -->

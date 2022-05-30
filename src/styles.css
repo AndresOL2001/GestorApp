@@ -38,7 +38,11 @@ body{
 #d8d8d8;
   border-radius: 8px;
 }
-
+*{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
 ::selection{
   background-color: var(--primary-color);
   color: #fff;
@@ -2732,6 +2736,17 @@ img {
 
 body.dark .some-icon {
   display: none; }
+
+body.dark .info__Estatus{
+  background: rgb(26 29 31);
+}
+body.dark .ngx-pagination a{
+color:white;
+}
+
+body.dark .ngx-pagination .disabled{
+  color:#000000
+}
 
 .some-icon-dark {
   display: none; }

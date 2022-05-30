@@ -25,13 +25,13 @@
 </div>
 
 
-<div *ngIf="cargasGr"class="page__inner">
-  <div class="page__container margen-left">
+<div *ngIf="cargasGr"class="page__inner2">
+  <div  class="page__container2">
     <div class="page__title h3">PT'S</div>
-    <div class="drafts card">
-      <div class="title-purple card__title">Listado de PT's</div>
+    <div  class="drafts card">
+      <div class="card__title">Listado de PT's</div>
       <div class="card__head">
-        <div class="wrapper1">
+        <div id="homeTableId" class="wrapper1">
 
 
           <div class="select1">
@@ -97,13 +97,14 @@
           <tr>
             <th></th>
             <th>#</th>
-            <th><div>Fecha de Asignacion
+            <th><div [ngClass]="{'normal': banderaModal === false, 'thOpen' : banderaModal === true }">Fecha de Asignacion
               <i *ngIf="this.EstadoFecha == 'NORMAL'" (click)="ordenarFecha(head)" style="cursor:pointer;" class='bx bx-expand-vertical'></i>
               <i *ngIf="this.EstadoFecha == 'ASCENDENTE'" (click)="ordenarFecha(head)" style="cursor:pointer;" class='bx bx-chevron-up'></i>
               <i *ngIf="this.EstadoFecha == 'DESCENDENTE'" (click)="ordenarFecha(head)" style="cursor:pointer;" class='bx bx-chevron-down'></i>
 
             </div></th>
-            <th class="left" *ngFor="let head of pageHeaders"><div>{{head}}
+            <th [ngClass]="{'left ': banderaModal === false, 'leftModalOpen ' : banderaModal === true }"  *ngFor="let head of pageHeaders">
+              <div [ngClass]="{'normal': banderaModal === false, 'thOpen' : banderaModal === true }">{{head}}
               <i *ngIf="this.EstadoActual == 'NORMAL'" (click)="ordenarAlfabeticamente(head)" style="cursor:pointer;" class='bx bx-expand-vertical'></i>
               <i *ngIf="this.EstadoActual == 'ASCENDENTE'" (click)="ordenarAlfabeticamente(head)" style="cursor:pointer;" class='bx bx-chevron-up'></i>
               <i *ngIf="this.EstadoActual == 'DESCENDENTE'" (click)="ordenarAlfabeticamente(head)" style="cursor:pointer;" class='bx bx-chevron-down'></i>
@@ -113,39 +114,43 @@
 
           </tr>
           <tbody>
-          <tr class="trmargin" *ngFor="let carga of cargasGr | paginate: { itemsPerPage: registrosPorPagina, currentPage: page }; let i=index;">
-            <th> 
+          <tr (click)="abrirModal(carga)" style="cursor: pointer;" class="trmargin" *ngFor="let carga of cargasGr | paginate: { itemsPerPage: registrosPorPagina, currentPage: page }; let i=index;">
+            <th (click)="$event.stopPropagation()"> 
               <label class="checkbox">
-                <input (click)="abrirModal(checkbox,carga)" [disabled]="banderaModal" name="groupA"
-                  #checkbox class="checkbox_input"
+                <input (change)="conteoIdsEliminar()" [(ngModel)]="carga.checked" name="groupA"
+                  #checkboxes class="checkbox_input"
                   type="checkbox"/><span class="checkboxinner"><span class="checkbox_tick"></span
                 ></span>
               </label>
           </th>
-            <td>{{ cargasGr.indexOf(carga)+1}}</td>
-            <td class="date" >{{carga.fecha_asignacion | date: 'yyyy-MM-dd':'GMT' }}</td>
-            <td class="left">{{carga.siniestro}}</td>
-            <td class="left"><div class="field__wrap">
+            <td class="normalTd">{{ cargasGr.indexOf(carga)+1}}</td>
+            <td class="date normalTd" style="color:#707070;text-align: center;">{{carga.fecha_asignacion | date: 'yyyy-MM-dd':'GMT' }}</td>
+            <td  [ngClass]="{'left normalTd': banderaModal === false, 'leftModalOpen normalTdOpen' : banderaModal === true }">{{carga.siniestro}}</td>
+            <td [ngClass]="{'left normalTd': banderaModal === false, 'leftModalOpen normalTdOpen' : banderaModal === true }" class="left"><div class="field__wrap">
               <h4 class="info__Estatus" [ngStyle]="{'color': carga.color}">{{carga.nombreestado}}</h4>
              </div></td>
-            <td class="left">{{carga.origen}}</td>
-            <td class="left">{{carga.niu}}</td>
-            <td class="left">{{carga.ov}}</td>
-            <td class="left">{{carga.personalizada}}</td>
-            <td class="left">{{carga.nombre}}</td>
-            <td class="left">{{carga.correo}}</td>
-            <td class="left">{{carga.telefono1}}</td>
-            <td class="left">{{carga.telefono2}}</td>
-            <td class="left">{{carga.marca}}</td>
-            <td class="left">{{carga.modelo}}</td>
-            <td class="left">{{carga["año"]}}</td>
-            <td class="left">{{carga.serie}}</td>
-            <td class="left">{{carga.observaciones}}</td>
-            <td class="left">{{carga.proveedor}}</td>
+            <td  [ngClass]="{'left normalTd': banderaModal === false, 'leftModalOpen normalTdOpen' : banderaModal === true }">{{carga.origen}}</td>
+            <td  [ngClass]="{'left normalTd': banderaModal === false, 'leftModalOpen normalTdOpen' : banderaModal === true }">{{carga.niu}}</td>
+            <td  [ngClass]="{'left normalTd': banderaModal === false, 'leftModalOpen normalTdOpen' : banderaModal === true }">{{carga.ov}}</td>
+            <td  [ngClass]="{'left normalTd': banderaModal === false, 'leftModalOpen normalTdOpen' : banderaModal === true }">{{carga.personalizada}}</td>
+            <td  [ngClass]="{'left normalTd': banderaModal === false, 'leftModalOpen normalTdOpen' : banderaModal === true }">{{carga.nombre}}</td>
+            <td  [ngClass]="{'left normalTd': banderaModal === false, 'leftModalOpen normalTdOpen' : banderaModal === true }">{{carga.correo}}</td>
+            <td  [ngClass]="{'left normalTd': banderaModal === false, 'leftModalOpen normalTdOpen' : banderaModal === true }">{{carga.telefono1}}</td>
+            <td  [ngClass]="{'left normalTd': banderaModal === false, 'leftModalOpen normalTdOpen' : banderaModal === true }">{{carga.telefono2}}</td>
+            <td  [ngClass]="{'left normalTd': banderaModal === false, 'leftModalOpen normalTdOpen' : banderaModal === true }">{{carga.marca}}</td>
+            <td  [ngClass]="{'left normalTd': banderaModal === false, 'leftModalOpen normalTdOpen' : banderaModal === true }">{{carga.modelo}}</td>
+            <td  [ngClass]="{'left normalTd': banderaModal === false, 'leftModalOpen normalTdOpen' : banderaModal === true }">{{carga["año"]}}</td>
+            <td  [ngClass]="{'left normalTd': banderaModal === false, 'leftModalOpen normalTdOpen' : banderaModal === true }">{{carga.serie}}</td>
+            <td  [ngClass]="{'left normalTd': banderaModal === false, 'leftModalOpen normalTdOpen' : banderaModal === true }">{{carga.observaciones}}</td>
+            <td  [ngClass]="{'left normalTd': banderaModal === false, 'leftModalOpen normalTdOpen' : banderaModal === true }">{{carga.proveedor}}</td>
 
           </tr>
         </tbody>
         </table>
+
+        
+
+
       </div>
       <div class="footer-table">
       <span class="footer-text">Numero de registros activos: {{cargasGr.length}}</span>
@@ -168,180 +173,178 @@
       </div>
     </div>
     </div>
-  </div>
-</div>
-
-<div *ngIf="banderaModal">
-  <div class="page__inner pageform">
-    <div class="page__container">
-      <div class="create">
-        <div class="create__row">
-          <div class="create__col">
-            <div class="create__card card cardMoveForm">
-              <div class="header__modal">
-                <label (click)="CerrarModal()">X</label>
-              </div>
-              <div class="card__head">
-                <div class="card_title">
-                  <img class="img-logo" src="../../../assets/AXXA.jpeg" />
-                  <div class="tittle__ajust">
-                    <div>{{cargaModal.siniestro}}</div>
-                    <div class="style-font">{{cargaModal.fecha_asignacion | date:'fullDate'}} - {{cargaModal.origen}}</div>            
+    <div *ngIf="banderaAnimacion">
+      <div class="page__inner">
+        <div class="page__container2">
+          <div class="create">
+            <div class="create__row">
+              <div class="create__col">
+                <div id="cardMove" class="card cardMoveForm slide-left-home">
+                  <div class="header__modal">
+                    <label (click)="CerrarModal()">X</label>
                   </div>
-                </div>
-                <button (click)="exportarCargaEspecifica(cargaModal)" class="button "style="margin-bottom:40px;" 
-                  ><span>Exportar</span>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="23"
-                    height="23"
-                    style="fill: white; transform: msFilter"
-                  >
-                    <path d="m12 16 4-5h-3V4h-2v7H8z"></path>
-                    <path
-                      d="M20 18H4v-7H2v7c0 1.103.897 2 2 2h16c1.103 0 2-.897 2-2v-7h-2v7z"
-                    ></path></svg></button>
-              </div>
-              <div class="card__mail">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  style="fill: #b0bec5; transform: msFilter"
-                >
-                  <path
-                    d="M20 4H4c-1.103 0-2 .897-2 2v12c0 1.103.897 2 2 2h16c1.103 0 2-.897 2-2V6c0-1.103-.897-2-2-2zm0 2v.511l-8 6.223-8-6.222V6h16zM4 18V9.044l7.386 5.745a.994.994 0 0 0 1.228 0L20 9.044 20.002 18H4z"
-                  ></path>
-                </svg>
-                <a class="correo-electronico"
-                  ><span>{{cargaModal.correo}}</span></a
-                >
-              </div>
-              <hr class="hr" />
-
-              <form>
-                <div class="field">
-                  <div class="tooltip">
-                    Estatus Actual
-                    <svg class="icon icon-info">
-                      <use xlink:href="#icon-info"></use>
-                    </svg>
-                  </div>
-                  <div class="field__wrap">
-                    <h4 class="info__Estatus" [ngStyle]="{'color': cargaModal.color}">{{cargaModal.nombreestado}}</h4>
-                  </div>
-                  <hr />
-
-                  <div class="input__Status">
-                    <div>
-
-                      <div class="wrapper1">
-                        <h4 class="font_form">Proveedor:</h4>
-
-                        <div class="select-table">
-                          <select (change)="cambiarProveedor($event.target.value)" class="select-btn" name="Estatus">
-                            <option>{{cargaModal.proveedor}}</option>
-                            <option *ngIf="cargaModal.proveedor != 1">1</option>
-                            <option *ngIf="cargaModal.proveedor != 2">2</option>
-                           
-                          </select>
-                        </div>
+                  <div class="card__head">
+                    <div class="card_title">
+                      <img class="img-logo" src="../../../assets/AXXA.jpeg" />
+                      <div class="tittle__ajust">
+                        <div>{{cargaModal.siniestro}}</div>
+                        <div class="style-font">{{cargaModal.fecha_asignacion | date:'fullDate'}} - {{cargaModal.origen}}</div>            
                       </div>
-
-                      <div  class="wrapper1">
-                        <h4 class="font_form">Cambiar estatus a:</h4>
-
-                        <div class="select-table">
-                          <select [disabled]="!proveedorAsignado" (change)="cambiarEstatus($event.target.value)" class="select-btn" name="Estatus">
-                            <option>{{cargaModal.nombreestado}}</option>
-                            <option *ngIf="estadoModalNext != null">{{estadoModalNext}}</option>
-                           
-                          </select>
+                    </div>
+                    <button (click)="exportarCargaEspecifica(cargaModal)" class="button "style="margin-bottom:40px;" 
+                      ><span>Exportar</span>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="23"
+                        height="23"
+                        style="fill: white; transform: msFilter"
+                      >
+                        <path d="m12 16 4-5h-3V4h-2v7H8z"></path>
+                        <path
+                          d="M20 18H4v-7H2v7c0 1.103.897 2 2 2h16c1.103 0 2-.897 2-2v-7h-2v7z"
+                        ></path></svg></button>
+                  </div>
+                  <div class="card__mail">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      style="fill: #b0bec5; transform: msFilter"
+                    >
+                      <path
+                        d="M20 4H4c-1.103 0-2 .897-2 2v12c0 1.103.897 2 2 2h16c1.103 0 2-.897 2-2V6c0-1.103-.897-2-2-2zm0 2v.511l-8 6.223-8-6.222V6h16zM4 18V9.044l7.386 5.745a.994.994 0 0 0 1.228 0L20 9.044 20.002 18H4z"
+                      ></path>
+                    </svg>
+                    <a class="correo-electronico"
+                      ><span>{{cargaModal.correo}}</span></a
+                    >
+                  </div>
+                  <hr class="hr" />
+    
+                  <form>
+                    <div class="field">
+                      <div class="tooltip">
+                        Estatus Actual
+                        <svg class="icon icon-info">
+                          <use xlink:href="#icon-info"></use>
+                        </svg>
+                      </div>
+                      <div class="field__wrap">
+                        <h4 class="info__Estatus" [ngStyle]="{'color': cargaModal.color}">{{cargaModal.nombreestado}}</h4>
+                      </div>
+                      <hr />
+    
+                      <div class="input__Status">
+                        <div>
+    
+                          <div class="wrapper1">
+                            <h4 class="font_form">Proveedor:</h4>
+    
+                            <div class="select-table">
+                              <select (change)="cambiarProveedor($event.target.value)" class="select-btn" name="Estatus">
+                                <option>{{cargaModal.proveedor}}</option>
+                                <option *ngIf="cargaModal.proveedor != 1">1</option>
+                                <option *ngIf="cargaModal.proveedor != 2">2</option>
+                               
+                              </select>
+                            </div>
+                          </div>
+    
+                          <div  class="wrapper1">
+                            <h4 class="font_form">Cambiar estatus a:</h4>
+    
+                            <div class="select-table">
+                              <select [disabled]="!proveedorAsignado" (change)="cambiarEstatus($event.target.value)" class="select-btn" name="Estatus">
+                                <option>{{cargaModal.nombreestado}}</option>
+                                <option *ngIf="estadoModalNext != null">{{estadoModalNext}}</option>
+                               
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="field">
+                          <div class="field__wrap"></div>
+    
+                          <div class="content">
+                            <div class="search1">
+                              <i class="uil uil-search"></i>
+                              <input
+                                spellcheck="false"
+                                type="text"
+                                placeholder="Search"
+                              />
+                            </div>
+                            <ul class="options"></ul>
+                          </div>
                         </div>
                       </div>
                     </div>
                     <div class="field">
-                      <div class="field__wrap"></div>
-
-                      <div class="content">
-                        <div class="search1">
-                          <i class="uil uil-search"></i>
-                          <input
-                            spellcheck="false"
-                            type="text"
-                            placeholder="Search"
-                          />
+                      <div class="tooltip margintool">
+                        Actividad
+                        <svg class="icon icon-info">
+                          <use xlink:href="#icon-info"></use>
+                        </svg>
+                        <span class="tooltiptext">Maximo 30 caracteres</span>
+                      </div>
+                      <div class="input__Actividad">
+                        <div>
+                          <h4 class="font_form">Historial de estatus:</h4>
                         </div>
-                        <ul class="options"></ul>
+                        <div>
+                          <p class="font_form">Mas recientes primero</p>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </div>
-                <div class="field">
-                  <div class="tooltip margintool">
-                    Actividad
-                    <svg class="icon icon-info">
-                      <use xlink:href="#icon-info"></use>
-                    </svg>
-                    <span class="tooltiptext">Maximo 30 caracteres</span>
-                  </div>
-                  <div class="input__Actividad">
-                    <div>
-                      <h4 class="font_form">Historial de estatus:</h4>
+    
+                    <div class="editor">
+                      <div class="tooltip">
+                        Comentarios
+                        <svg class="icon icon-info">
+                          <use xlink:href="#icon-info"></use>
+                        </svg>
+                        <span class="tooltiptext">El valor de la caja no puede ser nulo</span>
+                      </div>
+                      <ckeditor name="editorComentario" [(ngModel)]="cajaDescripcionComentario" [editor]="editor"></ckeditor>
                     </div>
-                    <div>
-                      <p class="font_form">Mas recientes primero</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="editor">
-                  <div class="tooltip">
-                    Comentarios
-                    <svg class="icon icon-info">
-                      <use xlink:href="#icon-info"></use>
-                    </svg>
-                    <span class="tooltiptext">El valor de la caja no puede ser nulo</span>
-                  </div>
-                  <ckeditor name="editorComentario" [(ngModel)]="cajaDescripcionComentario" [editor]="editor"></ckeditor>
-                </div>
-                <div class="header__btns2">
-                  <button (click)="crearComentario(this.cajaDescripcionComentario)" class="button">Guardar</button>
-                  <button (click)="CerrarModal()" class="btncancel" >Cancelar</button>
-                </div>
-
-                <div *ngFor="let comentario of comentarios" class="section-comment">
-                  <img class="img-logo" src="../../../assets/AXXA.jpeg" />
-                  <div class="section-text">
-                    <h4>Automatico <span>hace 16 minutos</span></h4>
-                    <div class="field__wrap">
-                      <h4 class="info__Estatus" [ngStyle]="{'color': comentario.color}">{{comentario.nombre}}</h4>
-                    </div>
-                    <p *ngIf="!banderaEditar" class="font_form">
-                      {{comentario.comentario}}
-                    </p>
-                     <input id="inputActualizarComentario" *ngIf="banderaEditar" class="font_form_input" [value]="comentario.comentario">
                     <div class="header__btns2">
-                      <button *ngIf="!banderaEditar" (click)="abrirEditarComentario()" class="btncoments">Editar</button>
-                      <button *ngIf="banderaEditar" (click)="actualizarComentarioCargadoModal(comentario.id_Comentario)" class="btncoments">Guardar</button>
-                      <button (click)="abrirAlertaEliminarComentario(comentario.id_Comentario)" class="btncoments">Eliminar</button>
-
+                      <button (click)="crearComentario(this.cajaDescripcionComentario)" class="button">Guardar</button>
+                      <button (click)="CerrarModal()" class="btncancel" >Cancelar</button>
                     </div>
-                    
-                  </div>
+    
+                    <div *ngFor="let comentario of comentarios" class="section-comment">
+                      <img class="img-logo" src="../../../assets/AXXA.jpeg" />
+                      <div class="section-text">
+                        <h4>Automatico <span>hace 16 minutos</span></h4>
+                        <div class="field__wrap">
+                          <h4 class="info__Estatus" [ngStyle]="{'color': comentario.color}">{{comentario.nombre}}</h4>
+                        </div>
+                        <p *ngIf="!banderaEditar" class="font_form">
+                          {{comentario.comentario}}
+                        </p>
+                     <!--     <input id="inputActualizarComentario" *ngIf="banderaEditar" class="font_form_input" [value]="comentario.comentario">
+                        <div class="header__btns2">
+                          <button *ngIf="!banderaEditar" (click)="abrirEditarComentario()" class="btncoments">Editar</button>
+                          <button *ngIf="banderaEditar" (click)="actualizarComentarioCargadoModal(comentario.id_Comentario)" class="btncoments">Guardar</button>
+                          <button (click)="abrirAlertaEliminarComentario(comentario.id_Comentario)" class="btncoments">Eliminar</button>
+    
+                        </div> -->
+                        
+                      </div>
+                    </div>
+                  </form>
                 </div>
-
-                   
-              </form>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
+  </div>
+   
 
-<div *ngIf="dispararAlertaError" class="popup popup_success js-popup js-popup-success animation visible">
+<!-- <div *ngIf="dispararAlertaError" class="popup popup_success js-popup js-popup-success animation visible">
   <div class="popup__overlay js-popup-overlay"></div>
   <div class="popup__wrap js-popup-wrap">
     <div class="success">
@@ -359,7 +362,7 @@
       </svg>
     </button>
   </div>
-</div>
+</div> -->
 
 <div *ngIf="dispararAlertaErrorActualizar" class="popup popup_success js-popup js-popup-success animation visible">
   <div class="popup__overlay js-popup-overlay"></div>
@@ -387,7 +390,7 @@
       <div class="success__icon">🎉</div>
       <div class="success__info">!Acción realizada correctamente !</div>
       <div class=" h2 success__price ">Correcto </div>
-      <div class="success__text">Registro actualizado correctamente </div>
+      <div class="success__text">{{mensajeExito}} </div>
       <button (click)="cerrarAlerta()" class="button success__button js-popup-close">Hecho!</button>
     </div>
     <button (click)="cerrarAlerta()" class="popup__close js-popup-close">
@@ -395,5 +398,17 @@
         <use xlink:href="#icon-close"></use>
       </svg>
     </button>
+  </div>
+</div>
+
+<div *ngIf="abrirFooter" class="panel">
+  <div class="panel__info">
+    <svg class="icon icon-check-all">
+      <use xlink:href="#icon-check-all"></use>
+    </svg>Registros Seleccionados <span>{{this.count}}</span>
+  </div>
+  <div class="panel__btns">
+    <button (click)="cancelarEliminarIds()" type="button" class="button-stroke panel__button">Cancelar</button>
+    <button (click)="eliminarIds()"form="createForm" type="submit" class="button panel__button">Eliminar</button>   
   </div>
 </div>

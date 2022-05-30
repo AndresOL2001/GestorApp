@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { LinkedList } from 'src/app/Helpers/LinkedListEstados';
 import { cargaGr } from 'src/app/models/cargaGr';
 import { CargaGrConDetalle } from 'src/app/models/cargaGrConDetalle';
@@ -62,6 +62,7 @@ export class HomeComponent implements OnInit {
   //banderas
   banderaEditar = false;
   banderaModal = false;
+  banderaAnimacion = false;
 
   //Comentarios
   estadosComentarios: Estado[] = [];
@@ -80,16 +81,28 @@ export class HomeComponent implements OnInit {
   dispararAlertaError = false;
   dispararAlertaErrorActualizar = false;
   mensajeError = "";
+  mensajeExito = "";
 
   //Variables proveedores
   proveedorAsignado = false;
+
+  //List<Ids> delete
+  listaCargasIdsDelete = [];
+  abrirFooter = false;
+
+  @ViewChildren("checkboxes") checkboxes: QueryList<ElementRef>
+cancelarEliminar() {
+         this.checkboxes.forEach((element) => {
+              element.nativeElement.checked = false;
+    });
+}
 
   constructor(
     private cargaService: CargaGrService,
     private nav: NavbarService,
     private datePipe: DatePipe,
     private estadoService: EstadosService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.FiltroEstado = 'Estado';
@@ -110,6 +123,7 @@ export class HomeComponent implements OnInit {
     });
 
     this.cargaService.getCargas().subscribe((resp: cargaGr[]) => {
+      resp.forEach(carga => carga.checked = false);
       console.log(resp);
       this.cargasGr = resp;
       this.cargasView = resp;
@@ -208,7 +222,6 @@ export class HomeComponent implements OnInit {
       'Este Mes': this.lastMonthFormat,
       Hoy: this.todayFormat,
     };
-    console.log('lol' + this.FiltroEstado);
 
     if (this.EstadoFecha == 'NORMAL') {
       this.cargasGr.sort(
@@ -387,22 +400,15 @@ export class HomeComponent implements OnInit {
     this.lastYearFormat = this.datePipe.transform(today, 'yyyy-MM-dd');
   }
 
-  abrirModal(checkbox, carga: cargaGr) {
+  abrirModal(carga: cargaGr) {
+    this.banderaAnimacion = true;
+    this.banderaModal = true;
     this.estadoModalNext = '';
     this.estadoModalNext = this.listaEstados.getByValue(carga.nombreestado);
 
- 
-
-    this.checkboxRef = checkbox;
-    if (checkbox.checked) {
-      this.banderaModal = true;
-    } else {
-      this.banderaModal = false;
-    }
-
     this.cargaModal = carga;
 
-    if(this.cargaModal.proveedor != 'No Asignado'){
+    if (this.cargaModal.proveedor != 'No Asignado') {
       this.proveedorAsignado = true;
     }
 
@@ -417,7 +423,7 @@ export class HomeComponent implements OnInit {
         this.comentarios = [];
         if (this.comentarios.length == 0) {
           this.crearComentario(
-            'Registro importado correctamente y registrado con estatus de CREADO.'
+            'Registro importado correctamente y registrado con estatus de CREADO.', false
           );
         }
       }
@@ -425,29 +431,34 @@ export class HomeComponent implements OnInit {
   }
 
   CerrarModal() {
-    this.checkboxRef.checked = false;
+    const card = document.getElementById("cardMove")
+    card.classList.add('slide-right-home');
     this.banderaModal = false;
-    this.proveedorAsignado = false;
+    setTimeout(() => {
+      this.banderaAnimacion = false;
+      this.proveedorAsignado = false;
+    }, 350);
+
   }
 
- /*  exportarCargas(cargasGr) {
-    this.cargaService.exportarCargas(cargasGr).subscribe((resp) => {
-      const blob = new Blob([resp], {
-        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-      });
+  /*  exportarCargas(cargasGr) {
+     this.cargaService.exportarCargas(cargasGr).subscribe((resp) => {
+       const blob = new Blob([resp], {
+         type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+       });
+ 
+       //window.open(url);
+       let link = document.createElement('a');
+       link.href = window.URL.createObjectURL(blob);
+       let date = new Date();
+       let dateFormat = this.datePipe.transform(date, 'yyyy-MM-dd');
+       link.download = `${dateFormat} / cargaGr`;
+ 
+       link.click();
+     });
+   } */
 
-      //window.open(url);
-      let link = document.createElement('a');
-      link.href = window.URL.createObjectURL(blob);
-      let date = new Date();
-      let dateFormat = this.datePipe.transform(date, 'yyyy-MM-dd');
-      link.download = `${dateFormat} / cargaGr`;
-
-      link.click();
-    });
-  } */
-
-  crearComentario(comentarioDescripcion: string) {
+  crearComentario(comentarioDescripcion: string, dispararAlerta: boolean) {
     comentarioDescripcion = comentarioDescripcion.replace(/(<([^>]+)>)/gi, '');
 
     let estadoNuevoComentario = this.estadosComentarios.filter(
@@ -470,11 +481,12 @@ export class HomeComponent implements OnInit {
       this.cargaService
         .crearComentario(comentario, estadoNuevoComentario[0].IdEstado)
         .subscribe((resp) => {
-          this.dispararAlerta = true;
+          this.mensajeExito = "Comentario creado exitosamente!"
+          this.dispararAlerta = dispararAlerta;
           console.log(resp);
           this.actualizarComentarios();
         });
-    }else{
+    } else {
       this.mensajeError = "El comentario no puede ser nulo"
       this.dispararAlertaErrorActualizar = true;
     }
@@ -488,10 +500,11 @@ export class HomeComponent implements OnInit {
           this.cargaModal.proveedor
         )
         .subscribe((resp) => {
+          this.mensajeExito = "Registro actualizado correctamente!"
           this.dispararAlerta = true;
           console.log(resp);
         });
-    }else{
+    } else {
       this.mensajeError = "Favor de escoger un proveedor valido";
       this.dispararAlertaErrorActualizar = true;
     }
@@ -530,6 +543,7 @@ export class HomeComponent implements OnInit {
 
     this.cargaService.actualizarComentario(id, valorInput).subscribe((resp) => {
       console.log(resp);
+      this.mensajeExito = "Comentario Actualizado correctamente!"
       this.dispararAlerta = true;
       this.actualizarComentarios();
     });
@@ -540,7 +554,7 @@ export class HomeComponent implements OnInit {
   cerrarAlerta() {
     this.dispararAlertaError = false;
     this.dispararAlerta = false;
-    this.dispararAlertaErrorActualizar=false;
+    this.dispararAlertaErrorActualizar = false;
   }
 
   eliminarComentario() {
@@ -550,7 +564,9 @@ export class HomeComponent implements OnInit {
         console.log(resp);
 
         this.actualizarComentarios();
+        this.mensajeExito = "Comentario Eliminado correctamente"
         this.dispararAlerta = true;
+
       });
     this.dispararAlertaError = false;
   }
@@ -561,14 +577,14 @@ export class HomeComponent implements OnInit {
   }
 
   exportarCargaEspecifica(cargaModal: cargaGr) {
-   // const formatYmd = (date) => date.toISOString().slice(0, 10);
+    // const formatYmd = (date) => date.toISOString().slice(0, 10);
     let cargaEspecifica: CargaGrConDetalle = {};
     cargaEspecifica.color = cargaModal.color;
     cargaEspecifica.correo = cargaModal.correo;
     cargaEspecifica.estadoActual = cargaModal.nombreestado;
     cargaEspecifica.origen = cargaModal.origen;
     cargaEspecifica.siniestro = cargaModal.siniestro;
-    cargaEspecifica.fechaAsignacion =this.datePipe.transform(cargaModal.fecha_asignacion,"yyyy-MM-dd");/*  formatYmd(
+    cargaEspecifica.fechaAsignacion = this.datePipe.transform(cargaModal.fecha_asignacion, "yyyy-MM-dd");/*  formatYmd(
       new Date(cargaModal.fecha_asignacion)) */
     ;
     cargaEspecifica.proveedor = cargaModal.proveedor;
@@ -607,4 +623,52 @@ export class HomeComponent implements OnInit {
       this.proveedorAsignado = true;
     }
   }
+  count = 0;
+  conteoIdsEliminar(){
+    this.count = 0;
+    this.cargasGr.forEach(item => {
+      if (item['checked']) {
+        this.count = this.count + 1;
+      }
+    })
+    console.log(this.count);
+
+    if(this.count >0){
+      this.abrirFooter = true;
+    }else{
+      this.abrirFooter = false;
+    }
+
+  }
+
+  cancelarEliminarIds(){
+    this.cancelarEliminar();
+    this.abrirFooter = false;
+  }
+
+  eliminarIds(){
+
+    this.cargasGr.forEach(x => {
+      if(x.checked){
+        this.listaCargasIdsDelete.push(x.id);
+      }
+    })
+    console.log(this.listaCargasIdsDelete);
+
+    this.cargaService.borrarCargas(this.listaCargasIdsDelete).subscribe(resp => {
+      console.log(resp);
+      this.mensajeExito = "Registros Eliminados Correctamente !"
+      this.dispararAlerta = true;
+      this.listaCargasIdsDelete = [];
+      this.count = 0;
+      this.cargaService.getCargas().subscribe( (resp:cargaGr[]) => {
+        this.cargasGr = resp;
+      })
+    },err => {
+      console.log(err);
+      this.listaCargasIdsDelete = [];
+      this.count = 0;
+    })
+  }
+
 }
