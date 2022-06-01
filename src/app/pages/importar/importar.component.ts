@@ -1,7 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { CargaGrService } from '../../services/carga-gr.service';
 import * as ClassicEditor from '../../../../ckeditor/build/ckEditor';
 import { NavbarService } from 'src/app/services/navbar.service';
+import { cargaGr } from 'src/app/models/cargaGr';
+import { DatePipe } from '@angular/common';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-importar',
@@ -17,11 +20,157 @@ export class ImportarComponent implements OnInit {
   dispararAlerta=false;
   dispararAlertaError=false;
   errorMensaje:string;
-  constructor(private cargaGrService:CargaGrService,private nav:NavbarService) { }
+  cargasGr:cargaGr[];
+  cargasView:cargaGr[];
+  abrirFooter=false;
+  mostrarAvisoRegistros: boolean;
+  registrosPorPagina = 5;
+  //Fechas
+  lastYearFormat;
+  lastMonthFormat;
+  lastWeekFormat;
+  todayFormat;
+
+  //Filtros
+  EstadoActual
+  EstadoFecha
+
+  pageHeaders = [
+    'SINIESTRO',
+    'ESTADO',
+    'ORIGEN',
+    'NIU',
+    'OV',
+    'PERSONALIZADA',
+    'NOMBRE',
+    'CORREO',
+    'TELEFONO1',
+    'TELEFONO2',
+    'MARCA',
+    'MODELO',
+    'AÑO',
+    'SERIE',
+    'OBSERVACIONES',
+    'PROVEEDOR'
+  ];
+
+  pageSizes = [5, 10, 15, 20, 30, 40, 50];
+
+  constructor(private cargaGrService:CargaGrService,private nav:NavbarService,private datePipe:DatePipe) { }
 
   ngOnInit(): void {
+    this.EstadoFecha = 'NORMAL';
+    this.EstadoActual = 'NORMAL';
     this.nav.show();
+    this.cargaGrService.getCargas().subscribe((resp: cargaGr[]) => {
+      resp = resp.filter(carga => carga.nombreestado == 'Creado');
+      resp.forEach(carga => carga.checked = false);
+     // console.log(resp);
+      this.cargasGr = resp;
+      this.cargasView = resp;
+       if(this.cargasGr.length>0){
+        this.mostrarAvisoRegistros = true;
+      } 
+      
+      setTimeout(() => {
+        let registrosAlert = document.getElementById("registrosAlerta2");
+        registrosAlert.classList.add("fade-in2")
+       setTimeout(() => {
+         this.mostrarAvisoRegistros = false;
+       },1500)
+      },2000) 
+    
+    }); 
   }
+
+  ordenarAlfabeticamente(head: string) {
+  
+    if (head == 'ESTADO') {
+      head = 'nombreestado';
+    }
+
+    if (this.EstadoActual == 'NORMAL') {
+      this.EstadoActual = 'ASCENDENTE';
+
+      this.cargasGr.sort(function (a, b) {
+        if (a[head.toLowerCase()] > b[head.toLowerCase()]) {
+          return 1;
+        }
+        if (a[head.toLowerCase()] < b[head.toLowerCase()]) {
+          return -1;
+        }
+        return 0;
+      });
+
+
+      // console.log(this.EstadoActual);
+    } else if (this.EstadoActual == 'ASCENDENTE') {
+      //console.log("entraste aqui")
+
+      this.cargasGr.sort(function (a, b) {
+        if (a[head.toLowerCase()] < b[head.toLowerCase()]) {
+          return 1;
+        }
+        if (a[head.toLowerCase()] > b[head.toLowerCase()]) {
+          return -1;
+        }
+        return 0;
+      });
+      this.EstadoActual = 'DESCENDENTE';
+
+
+    } else {
+      this.cargaGrService.getCargas().subscribe((resp: cargaGr[]) => {
+        resp = resp.filter(carga => carga.nombreestado == 'Creado');
+
+        this.cargasView = resp;
+       
+          this.cargasGr = resp;
+      
+        // this.obtenerTotalIndicesTabla();
+      });
+      this.EstadoActual = 'NORMAL';
+    }
+  }
+
+  ordenarFecha() {
+   
+
+    if (this.EstadoFecha == 'NORMAL') {
+      this.cargasGr.sort(
+        (a, b) =>
+          Date.parse(b.fecha_asignacion) - Date.parse(a.fecha_asignacion)
+      );
+      this.EstadoFecha = 'ASCENDENTE';
+ 
+    } else if (this.EstadoFecha == 'ASCENDENTE') {
+      this.cargasGr.sort(
+        (a, b) =>
+          Date.parse(a.fecha_asignacion) - Date.parse(b.fecha_asignacion)
+      );
+      this.EstadoFecha = 'DESCENDENTE';
+   
+    } else {
+      this.cargaGrService.getCargas().subscribe((resp: cargaGr[]) => {
+        resp = resp.filter(carga => carga.nombreestado == 'Creado');
+        this.cargasView = resp;
+        this.cargasGr = resp;
+        // this.obtenerTotalIndicesTabla();
+      });
+      this.EstadoFecha = 'NORMAL';
+    }
+  }
+
+  buscar(termino: string) {
+    //console.log(termino);
+
+    this.cargaGrService.buscarTodo(termino).subscribe((resp: cargaGr[]) => {
+      resp = resp.filter(x=> x.nombreestado == 'Creado');
+      this.cargasGr = resp;
+    });
+  }
+
+  
 
   onFileSelected(event){
     if (event.target.files.length > 0) {
@@ -42,7 +191,7 @@ export class ImportarComponent implements OnInit {
     let extension = this.fileName.substring(this.fileName.lastIndexOf('.')+1, this.fileName.length);
     if(extension == 'xlsx'){
       this.cargaGrService.postCargas(file).subscribe(resp => {
-        console.log(resp);
+        //console.log(resp);
         this.dispararAlerta=true;
         this.dispararAlertaError=false;
         this.cancelarLayout();
@@ -52,7 +201,7 @@ export class ImportarComponent implements OnInit {
       })
     }else if(extension == 'csv'){
       this.cargaGrService.postCargasCSV(file).subscribe(resp => {
-        console.log(resp);
+       // console.log(resp);
         this.dispararAlerta=true;
         this.cancelarLayout();
       },err=>{
@@ -70,5 +219,35 @@ export class ImportarComponent implements OnInit {
   cerrarAlerta(){
     this.dispararAlerta = false;
     this.cancelarLayout();
+  }
+
+  count = 0;
+  conteoIdsEliminar(){
+    this.count = 0;
+    this.cargasGr.forEach(item => {
+      if (item['checked']) {
+        this.count = this.count + 1;
+      }
+    })
+    console.log(this.count);
+
+    if(this.count >0){
+      this.abrirFooter = true;
+    }else{
+      this.abrirFooter = false;
+    }
+
+  }
+
+  @ViewChildren("checkboxes") checkboxes: QueryList<ElementRef>
+  cancelarEliminar() {
+           this.checkboxes.forEach((element) => {
+                element.nativeElement.checked = false;
+      });
+  }
+
+  cancelarEliminarIds(){
+    this.cancelarEliminar();
+    this.abrirFooter = false;
   }
   }

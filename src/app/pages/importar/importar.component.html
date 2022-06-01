@@ -1,3 +1,36 @@
+<div *ngIf="!cargasGr || cargasGr.length== 0" class="page__inner__home2 ">
+  <div class="hi-dash-welcome-bac">Hola Administrador,</div>
+  <h1 class="campaigns poppins-semi-bold-mirage-40px">
+    <span class="span poppins-semi-bold-mirage-40px">Bienvenido</span><span class="span1">&nbsp;</span><span
+      class="span poppins-semi-bold-mirage-40px">👋</span>
+  </h1>
+
+  <div class="import-Layour-center">
+    <img class="img-import-layout" src="../../../assets/exceldatos.svg" />
+    <p>Aún no hay información registrada.</p>
+    <p class="text-secondary">Empieza importando tu primer layout&nbsp;&nbsp;.xls<br />de Carga GR.</p>
+    <button class="buttonLayount-import">
+      <div [routerLink]="'/home/importar'" class="contenido-button">
+        <img src="../../../assets/iconImportarLayout.svg" />
+        <div>Importar layout</div>
+      </div>
+    </button>
+  </div>
+
+</div>
+
+<div id="registrosAlerta2" *ngIf="cargasGr && cargasGr.length>0 && mostrarAvisoRegistros" class="enter-amount-green">
+  <img class="ui-iconchecklight" src="../../../assets/check_green.svg" />
+  <div class="overlap-group3">
+    <div class="registros-container">
+      <div class="carga-de-registros-correcta">Carga de registros correcta</div>
+      <p class="se-han-importado-40-registros-pt">Se han importado {{cargasGr?.length}} registros PT</p>
+    </div>
+    <div class="ellipse-328"></div>
+  </div>
+</div>
+
+
 <div *ngIf="dispararAlertaError" class="enter-amount">
   <img class="ui-iconchecklight" src="../../../assets/errorCargaLayout.svg" />
   <div class="overlap-group3">
@@ -27,63 +60,203 @@
   </div>
 </div>
 
+<div *ngIf="cargasGr" class="page__inner2">
+  <div class="page__container2">
+    <div class="page__title h3">PT'S</div>
+    <div class="drafts card">
+      <div class="card__title">Listado de PT's</div>
+      <div class="card__head">
+        <div id="homeTableId" class="wrapper1">
 
-<div class="container espacio">
-  <div class="create__card card">
-    <div class="card__head">
-      <div class="title-blue card__title">
-        <h2>LayoutGr</h2>
-      </div>
-    </div>
-    <div *ngIf="!banderaArchivoCargado" class="media__content">El Layout debe de ser un archivo .xls o cvs, debera de
-      cumplir con los lineamientos y formatos indicados para su correcta importacion al sistema</div>
-    <div *ngIf="!banderaArchivoCargado" class="file">
-      <div class="file__label">LayoutGr
-        <div class="tooltip" title="Maximum 100 characters. No HTML or emoji allowed">
-          <svg class="icon icon-info">
-            <use xlink:href="#icon-info"></use>
-          </svg>
+          <div>
+            <div class="content">
+              <div class="search1">
+                <i class="uil uil-search"></i>
+                <input spellcheck="false" type="text" placeholder="Search">
+              </div>
+              <ul class="options"></ul>
+            </div>
+          </div>
+
+          <div class="search">
+            <div class="search__head">
+              <button class="search__start">
+                <svg class="icon icon-search">
+                  <use xlink:href="#icon-search"></use>
+                </svg>
+              </button>
+              <button class="search__direction">
+                <svg class="icon icon-arrow-left">
+                  <use xlink:href="#icon-arrow-left"></use>
+                </svg>
+              </button>
+              <input #searchInput (keyup.enter)="buscar(searchInput.value)" class="search__input" type="text"
+                placeholder="Buscar">
+              <button class="search__close">
+                <svg class="icon icon-close-circle">
+                  <use xlink:href="#icon-close-circle"></use>
+                </svg>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="file__wrap">
-        <input class="file__input" id="valor" type="file" (change)="onFileSelected($event)">
-        <div *ngIf="!banderaArchivoCargado" class="file__box">
-          <svg class="icon icon-upload">
-            <use xlink:href="#icon-upload"></use>
-          </svg>
-          <span>Click para adjuntar archivo .xls o .cvs</span>
+
+      <div class="table-container2">
+        <table class="table-rwd2">
+
+          <tr>
+            <th>#</th>
+            <th>
+              <div class="normal">Fecha de Asignacion
+                <i *ngIf="this.EstadoFecha == 'NORMAL'" (click)="ordenarFecha(head)" style="cursor:pointer;"
+                  class='bx bx-expand-vertical'></i>
+                <i *ngIf="this.EstadoFecha == 'ASCENDENTE'" (click)="ordenarFecha(head)" style="cursor:pointer;"
+                  class='bx bx-chevron-up'></i>
+                <i *ngIf="this.EstadoFecha == 'DESCENDENTE'" (click)="ordenarFecha(head)" style="cursor:pointer;"
+                  class='bx bx-chevron-down'></i>
+
+              </div>
+            </th>
+            <th class="left" *ngFor="let head of pageHeaders">
+              <div class="normal">{{head}}
+                <i *ngIf="this.EstadoActual == 'NORMAL'" (click)="ordenarAlfabeticamente(head)" style="cursor:pointer;"
+                  class='bx bx-expand-vertical'></i>
+                <i *ngIf="this.EstadoActual == 'ASCENDENTE'" (click)="ordenarAlfabeticamente(head)"
+                  style="cursor:pointer;" class='bx bx-chevron-up'></i>
+                <i *ngIf="this.EstadoActual == 'DESCENDENTE'" (click)="ordenarAlfabeticamente(head)"
+                  style="cursor:pointer;" class='bx bx-chevron-down'></i>
+
+              </div>
+            </th>
+
+          </tr>
+          <tbody>
+            <tr class="trmargin"
+              *ngFor="let carga of cargasGr | paginate: { itemsPerPage: registrosPorPagina, currentPage: page }; let i=index;">
+              <!--    <th (click)="$event.stopPropagation()"> 
+              <label class="checkbox">
+                <input (change)="conteoIdsEliminar()" [(ngModel)]="carga.checked" name="groupA"
+                  #checkboxes class="checkbox_input"
+                  type="checkbox"/><span class="checkboxinner"><span class="checkbox_tick"></span
+                ></span>
+              </label>
+          </th> -->
+              <td class="normalTd">{{ cargasGr.indexOf(carga)+1}}</td>
+              <td class="date normalTd" style="color:#707070;text-align: center;">{{carga.fecha_asignacion | date:
+                'yyyy-MM-dd':'GMT' }}</td>
+              <td class="left normalTd">{{carga.siniestro}}</td>
+              <td class="left normalTd" class="left">
+                <div class="field__wrap">
+                  <h4 class="info__Estatus" [ngStyle]="{'color': carga.color}">{{carga.nombreestado}}</h4>
+                </div>
+              </td>
+              <td class="left normalTd">{{carga.origen}}</td>
+              <td class="left normalTd">{{carga.niu}}</td>
+              <td class="left normalTd">{{carga.ov}}</td>
+              <td class="left normalTd">{{carga.personalizada}}</td>
+              <td class="left normalTd">{{carga.nombre}}</td>
+              <td class="left normalTd">{{carga.correo}}</td>
+              <td class="left normalTd">{{carga.telefono1}}</td>
+              <td class="left normalTd">{{carga.telefono2}}</td>
+              <td class="left normalTd">{{carga.marca}}</td>
+              <td class="left normalTd">{{carga.modelo}}</td>
+              <td class="left normalTd">{{carga["año"]}}</td>
+              <td class="left normalTd">{{carga.serie}}</td>
+              <td class="left normalTd">{{carga.observaciones}}</td>
+              <td class="left normalTd">{{carga.proveedor}}</td>
+
+            </tr>
+          </tbody>
+        </table>
+
+
+
+
+      </div>
+      <div class="footer-table">
+        <span class="footer-text">Numero de registros activos: {{cargasGr.length}}</span>
+        <div class="footer-text-right">
+          <div class="footer-combobox">
+            <span class="footer-text">Mostrar registros por pagina </span>
+
+            <select [(ngModel)]="registrosPorPagina" class="select-btn-footer">
+
+              <option *ngFor="let size of pageSizes" [value]="size" class="option-footer">
+                {{size}}
+              </option>
+
+
+            </select>
+
+          </div>
+          <pagination-controls (pageChange)="page = $event" responsive="true" previousLabel="<" nextLabel=">"
+            maxSize=""></pagination-controls>
+        </div>
+      </div>
+    </div>
+
+    <div id="importarSeccion" class="container espacio">
+      <div class="create__card card">
+        <div class="card__head">
+          <div class="title-blue card__title">
+            <h2>LayoutGr</h2>
+          </div>
+        </div>
+        <div *ngIf="!banderaArchivoCargado" class="media__content">El Layout debe de ser un archivo .xls o cvs, debera
+          de
+          cumplir con los lineamientos y formatos indicados para su correcta importacion al sistema</div>
+        <div *ngIf="!banderaArchivoCargado" class="file">
+          <div class="file__label">LayoutGr
+            <div class="tooltip" title="Maximum 100 characters. No HTML or emoji allowed">
+              <svg class="icon icon-info">
+                <use xlink:href="#icon-info"></use>
+              </svg>
+            </div>
+          </div>
+          <div class="file__wrap">
+            <input class="file__input" id="valor" type="file" (change)="onFileSelected($event)">
+            <div *ngIf="!banderaArchivoCargado" class="file__box">
+              <svg class="icon icon-upload">
+                <use xlink:href="#icon-upload"></use>
+              </svg>
+              <span>Click para adjuntar archivo .xls o .cvs</span>
+            </div>
+
+          </div>
+        </div>
+        <div *ngIf="banderaArchivoCargado" class="contenedor__cargado">
+          <div class="file__box__cargado">
+            <button (click)="cerrarAlerta()" class="popup__close__importar js-popup-close">
+              <svg class="icon icon-close ">
+                <use xlink:href="#icon-close"></use>
+              </svg>
+            </button>
+            <h3>{{fileName}}</h3>
+            <div>
+              <p class="media__content__cargado">{{size}} kb</p>
+              <!--#6F767E-->
+
+            </div>
+          </div>
         </div>
 
       </div>
     </div>
-    <div *ngIf="banderaArchivoCargado" class="contenedor__cargado">
-      <div class="file__box__cargado">
-        <button (click)="cerrarAlerta()" class="popup__close__importar js-popup-close">
-          <svg class="icon icon-close ">
-            <use xlink:href="#icon-close"></use>
-          </svg>
-        </button>
-        <h3>{{fileName}}</h3>
-        <div>
-          <p class="media__content__cargado">{{size}} kb</p>
-          <!--#6F767E-->
 
+    <div class="footer">
+      <div class="contenedor_footer">
+        <div class="panel">
+          <div class="panel__info">
+            <svg class="icon icon-check-all">
+              <use xlink:href="#icon-check-all"></use>
+            </svg>Last saved <span>Oct 4, 2021 - 23:32</span>
+          </div>
+          <div class="panel__btns">
+            <button (click)="cancelarLayout()" type="button" class="button-stroke panel__button">Cancelar</button>
+            <button (click)="cargarLayout(file)" form="createForm" type="submit"
+              class="button panel__button">Guardar</button>
+          </div>
         </div>
       </div>
     </div>
-
-  </div>
-</div>
-
-<div  class="panel">
-  <div class="panel__info">
-    <svg class="icon icon-check-all">
-      <use xlink:href="#icon-check-all"></use>
-    </svg>Last saved <span>Oct 4, 2021 - 23:32</span>
-  </div>
-  <div class="panel__btns">
-    <button type="button" class="button-stroke panel__button">Cancelar</button>
-    <button form="createForm" type="submit" class="button panel__button">Guardar</button>   
-  </div>
-</div>
-  

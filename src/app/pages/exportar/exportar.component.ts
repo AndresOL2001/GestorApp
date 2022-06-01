@@ -1,9 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { cargaGr } from 'src/app/models/cargaGr';
 import { CargaGrService } from 'src/app/services/carga-gr.service';
 import { NavbarService } from 'src/app/services/navbar.service';
 import { DatePipe } from '@angular/common';
-import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-exportar',
@@ -11,8 +10,15 @@ import { filter } from 'rxjs/operators';
   styleUrls: ['./exportar.component.css']
 })
 export class ExportarComponent implements OnInit {
+  listaCargasIdsDelete=[];
+  mensajeExito: string;
+  dispararAlerta: boolean;
 
-  constructor(private cargaService: CargaGrService, private navService: NavbarService, private datePipe: DatePipe) { }
+  constructor(private cargaService: CargaGrService, private navService: NavbarService, private datePipe: DatePipe) {   }
+  selected:any;
+
+
+  @ViewChildren("checkboxes") checkboxes: QueryList<ElementRef>
   cargasGr;
   cargasView;
   registrosPorPagina = 5;
@@ -20,10 +26,13 @@ export class ExportarComponent implements OnInit {
 
   //Filtrados tabla
   FiltroEstado;
-  FiltroFecha;
+  FiltroFecha = {
+    titulo:'Sin Fecha',
+    imagen:'../../../assets/sinfecha.png'
+  };
   EstadoActual = 'NORMAL';
   EstadoFecha = 'NORMAL';
-
+  open = false;
   //Fechas
   lastYearFormat;
   lastMonthFormat;
@@ -57,29 +66,89 @@ export class ExportarComponent implements OnInit {
     'PROVEEDOR'
   ];
 
+  dropdownOptions = [
+    {
+      titulo:'Fecha',
+      imagen:'../../../assets/sinfecha.png'
+    },
+    {
+      titulo:'Hoy',
+      imagen:'../../../assets/hoy.png'
+    },
+    {
+      titulo:'Esta Semana',
+      imagen:'../../../assets/semana.png'
+    },
+    {
+      titulo:'Este Mes',
+      imagen:'../../../assets/mes.png'
+    },
+    {
+      titulo:'Personalizada',
+      imagen:'../../../assets/personalizada.png'
+    }
+
+  ]
+
+  mostrarAvisoRegistros = false;
+  abrirFooter = false;
+
 
   ngOnInit(): void {
     this.navService.show();
     this.FiltroEstado = 'Estado';
-    this.FiltroFecha = 'Fecha';
+    this.FiltroFecha.titulo = this.dropdownOptions[0].titulo;
     this.InicializarFechas();
 
     this.cargaService.getCargas().subscribe((resp: cargaGr[]) => {
+      resp.forEach(carga => carga.checked = false);
       this.cargasGr = resp;
       this.cargasView = resp;
-      console.log(resp);
+      if(this.cargasGr.length>0){
+        this.mostrarAvisoRegistros = true;
+      } 
     });
+
+    setTimeout(() => {
+      let registrosAlert = document.getElementById("registrosAlerta");
+      registrosAlert.classList.add("fade-in3")
+     setTimeout(() => {
+       this.mostrarAvisoRegistros = false;
+     },1500)
+    },3000)
+    
   }
 
-  /*   cambioFiltroFecha(event){
-  if(event == 'Personalizada'){
-    console.log("entre");
-    let a = document.getElementById('desde');
-    let b = document.getElementById('hasta');
-      a.click();
-      b.click();
+  count = 0;
+  conteoIdsEliminar(){
+    this.count = 0;
+    this.cargasGr.forEach(item => {
+      if (item['checked']) {
+        this.count = this.count + 1;
+      }
+    })
+    console.log(this.count);
+
+    if(this.count >0){
+      this.abrirFooter = true;
+    }else{
+      this.abrirFooter = false;
+    }
+
   }
-   */
+
+  cancelarEliminar() {
+    this.checkboxes.forEach((element) => {
+         element.nativeElement.checked = false;
+});
+}
+
+
+  cancelarEliminarIds(){
+    this.cancelarEliminar();
+    this.abrirFooter = false;
+  }
+
   cambioFiltroFecha(event) {
     if (event == 'Fecha') {
       this.mostrarCalendario=false;
@@ -175,7 +244,7 @@ export class ExportarComponent implements OnInit {
       'Este Año': this.lastYearFormat,
       'Esta Semana': this.lastWeekFormat,
       'Este Mes': this.lastMonthFormat,
-      Hoy: this.todayFormat,
+      'Hoy': this.todayFormat,
     };
 
     this.cargaService.getCargas().subscribe((resp: cargaGr[]) => {
@@ -183,8 +252,8 @@ export class ExportarComponent implements OnInit {
     });
 
     if (event == 'Estado') {
-      if (this.FiltroFecha != 'Fecha') {
-        if (this.FiltroFecha != 'Hoy') {
+      if (this.FiltroFecha.titulo != 'Fecha') {
+        if (this.FiltroFecha.titulo != 'Hoy') {
           this.cargasGr = this.cargasView.filter(
             (x) => x.fecha_asignacion > switchFecha[this.EstadoFecha]
           );
@@ -197,17 +266,17 @@ export class ExportarComponent implements OnInit {
 
       // this.obtenerTotalIndicesTabla();
     } else {
-      if (this.FiltroFecha != 'Fecha') {
-        if (this.FiltroFecha != 'Hoy') {
+      if (this.FiltroFecha.titulo != 'Fecha') {
+        if (this.FiltroFecha.titulo != 'Hoy') {
           this.cargasGr = this.cargasView.filter(
             (x) =>
-              x.fecha_asignacion > switchFecha[this.FiltroFecha] &&
+              x.fecha_asignacion > switchFecha[this.FiltroFecha.titulo] &&
               x.nombreestado == this.FiltroEstado
           );
         } else {
           this.cargasGr = this.cargasView.filter(
             (x) =>
-              x.fecha_asignacion == switchFecha[this.FiltroFecha] &&
+              x.fecha_asignacion == switchFecha[this.FiltroFecha.titulo] &&
               x.nombreestado == this.FiltroEstado
           );
         }
@@ -218,7 +287,6 @@ export class ExportarComponent implements OnInit {
       }
     }
   }
-
 
 
   exportarCargas(cargasGr) {
@@ -235,6 +303,9 @@ export class ExportarComponent implements OnInit {
       link.download = `${dateFormat} / cargaGr`;
 
       link.click();
+      this.mensajeExito = "La exportacion se a realizado exitosamente"
+      this.dispararAlerta = true;
+
     });
   }
 
@@ -247,7 +318,7 @@ export class ExportarComponent implements OnInit {
       'Este Mes': this.lastMonthFormat,
       Hoy: this.todayFormat,
     };
-    console.log(this.FiltroEstado);
+    //console.log(this.FiltroEstado);
 
     if (head == 'ESTADO') {
       head = 'nombreestado';
@@ -270,9 +341,9 @@ export class ExportarComponent implements OnInit {
         this.cargasGr.filter((x) => x.nombreestado == this.FiltroEstado);
       }
 
-      if (this.FiltroFecha != 'Fecha') {
+      if (this.FiltroFecha.titulo != 'Fecha') {
         this.cargasGr.filter(
-          (x) => x.fecha_asignacion > switchFecha[this.FiltroFecha]
+          (x) => x.fecha_asignacion > switchFecha[this.FiltroFecha.titulo]
         );
       }
       // console.log(this.EstadoActual);
@@ -294,24 +365,24 @@ export class ExportarComponent implements OnInit {
         this.cargasGr.filter((x) => x.nombreestado == this.FiltroEstado);
       }
 
-      if (this.FiltroFecha != 'Fecha') {
+      if (this.FiltroFecha.titulo != 'Fecha') {
         this.cargasGr.filter(
-          (x) => x.fecha_asignacion > switchFecha[this.FiltroFecha]
+          (x) => x.fecha_asignacion > switchFecha[this.FiltroFecha.titulo]
         );
       }
     } else {
       this.cargaService.getCargas().subscribe((resp: cargaGr[]) => {
         this.cargasView = resp;
         
-        if (this.FiltroFecha != 'Fecha' && this.FiltroEstado != 'Estado') {
+        if (this.FiltroFecha.titulo != 'Fecha' && this.FiltroEstado != 'Estado') {
           this.cargasGr.filter(
             (x) =>
-              x.fecha_asignacion > switchFecha[this.FiltroFecha] &&
+              x.fecha_asignacion > switchFecha[this.FiltroFecha.titulo] &&
               x.nombreestado == this.FiltroEstado
           );
-        } else if (this.FiltroFecha != 'Fecha') {
+        } else if (this.FiltroFecha.titulo != 'Fecha') {
 
-            if(this.FiltroFecha== 'Personalizada'){
+            if(this.FiltroFecha.titulo== 'Personalizada'){
             if(this.banderaHastaFecha){ 
               console.log("entraste a personalizada");
               this.cargasGr = this.cargasView.filter(x => x.fecha_asignacion > this.desdeCalendar && x.fecha_asignacion < this.hastaCalendar);
@@ -319,7 +390,7 @@ export class ExportarComponent implements OnInit {
             }
           }else{
             this.cargasGr = this.cargasView.filter(
-              (x) => x.fecha_asignacion > switchFecha[this.FiltroFecha]
+              (x) => x.fecha_asignacion > switchFecha[this.FiltroFecha.titulo]
             );
           }
          
@@ -369,7 +440,7 @@ export class ExportarComponent implements OnInit {
       this.cargaService.getCargas().subscribe((resp: cargaGr[]) => {
         this.cargasView = resp;
 
-        if (this.FiltroFecha != 'Fecha') {
+        if (this.FiltroFecha.titulo != 'Fecha') {
           if (this.EstadoFecha != 'Hoy') {
             console.log('ENTRASTE AQUI AÑO');
             this.cargasGr.filter(
@@ -395,7 +466,7 @@ export class ExportarComponent implements OnInit {
           }
         }
 
-        if (this.FiltroEstado == 'Estado' && this.FiltroFecha == 'Fecha') {
+        if (this.FiltroEstado == 'Estado' && this.FiltroFecha.titulo == 'Fecha') {
           console.log('uwuwuwu');
           this.cargasGr = resp;
         }
@@ -420,17 +491,61 @@ export class ExportarComponent implements OnInit {
     this.lastYearFormat = this.datePipe.transform(today, 'yyyy-MM-dd');
   }
 
-  obtenerValorCalendario(event){
-    this.desdeCalendar = event.target.value;
-    if(this.desdeCalendar != null || this.desdeCalendar != ""){
-      this.banderaHastaFecha = true;
-    } 
-  }
 
-  filtrarFechaPersonalizada(event){
-    this.hastaCalendar = event.target.value;
+  filtrarFechaPersonalizada(){
 
     console.log("Desde "+this.desdeCalendar+" hasta "+this.hastaCalendar);
     this.cargasGr = this.cargasView.filter(x => x.fecha_asignacion > this.desdeCalendar && x.fecha_asignacion < this.hastaCalendar);
+  }
+
+  eliminarIds(){
+
+    this.cargasGr.forEach(x => {
+      if(x.checked){
+        this.listaCargasIdsDelete.push(x.id);
+      }
+    })
+    console.log(this.listaCargasIdsDelete);
+
+    this.cargaService.borrarCargas(this.listaCargasIdsDelete).subscribe(resp => {
+      console.log(resp);
+      this.mensajeExito = "Registros Eliminados Correctamente !"
+      this.dispararAlerta = true;
+      this.listaCargasIdsDelete = [];
+      this.count = 0;
+      this.cargaService.getCargas().subscribe( (resp:cargaGr[]) => {
+        this.cargasGr = resp;
+      })
+      this.abrirFooter = false;
+    },err => {
+      console.log(err);
+      this.listaCargasIdsDelete = [];
+      this.count = 0;
+    })
+  }
+
+  cerrarAlerta() {
+    this.dispararAlerta = false;
+  }
+
+  abrirDrop(){
+    this.open = true;
+  }
+
+  actualizarFecha(opcion){
+    this.FiltroFecha = opcion;
+    console.log(opcion);
+    if(opcion?.titulo == 'Personalizada'){
+      this.mostrarCalendario = true;
+    }else{
+      this.mostrarCalendario = false;
+    }
+  }
+
+  choosedDate(event){
+    this.mostrarCalendario = false;
+     this.desdeCalendar = this.datePipe.transform(new Date(event.chosenLabel.split(" ")[0]),'yyyy-MM-dd');
+     this.hastaCalendar = this.datePipe.transform(new Date(event.chosenLabel.split(" ")[2]),'yyyy-MM-dd');
+     this.filtrarFechaPersonalizada();
   }
 }

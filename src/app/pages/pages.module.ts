@@ -16,6 +16,7 @@ import { registerLocaleData } from '@angular/common';
 import localePy from '@angular/common/locales/es-PY';
 import localePt from '@angular/common/locales/pt';
 import localeEn from '@angular/common/locales/en';
+import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 
 registerLocaleData(localePy, 'es');
 registerLocaleData(localePt, 'pt');
@@ -31,7 +32,8 @@ registerLocaleData(localeEn, 'en')
     NgxColorsModule,
     SharedModule,
     NgxPaginationModule,
-    FormsModule
+    FormsModule,
+    NgxDaterangepickerMd.forRoot()
     
   ],
   providers: [DatePipe,{ provide: LOCALE_ID, useValue: 'es' }]

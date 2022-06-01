@@ -21,11 +21,6 @@ header .image-text .profession{
   justify-content: center;
 }
 
-.sidebar header .image img{
-  width: 30px;
-  border-radius: 6px;
-}
-
 .sidebar header .logo-text{
   display: flex;
   flex-direction: column;
@@ -44,12 +39,39 @@ header .image-text .profession{
 }
 
 .img-icono{
-  width: 33px;
+  width: auto;
   height: auto;
-  margin-left: 10px;
   border-radius: 100px;
 }
 
+.img-icono-open{
+  width: 200px;
+  height: 200px;
+  border-radius: 100px;
+}
+
+
+
+.cerrado{
+  width: 35px !important;
+  border-radius: 6px;
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* margin: 0 auto; */
+  margin-left: 10px;
+}
+.open{
+  width: 300px;
+  height: auto;
+  border-radius: 6px;
+  background-size: cover;
+  margin-left: 10px !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .sidebar__foot {
   margin-top: 24px;
   padding-top: 18px;
@@ -63,4 +85,23 @@ header .image-text .profession{
 .sidebar .theme {
   margin-top: 16px; }
 
+  /* responsive */
+@media (min-width: 1507px) {
   
+
+
+}
+
+@media (min-width: 1696px) {
+ 
+
+
+}
+@media (min-width: 1809px) {
+
+
+}
+@media (min-width: 2036px) {
+  
+
+}

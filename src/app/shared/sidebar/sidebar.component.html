@@ -2,15 +2,15 @@
   <header>
     <div class="image-text">
       <span class="image">
-        <div class="img-icono">
-        <img src="../../../assets/gestoriaVentura.png" alt="icon">
-      </div>
+        <img *ngIf="!this.posicionNavbar" class="cerrado" src="../../../assets/logo_gestoria_ventura_close.svg.jpg" alt="icon">
+        <img *ngIf="this.posicionNavbar" class="open" src="../../../assets/logo_gestoria_ventura.svg" alt="icon">
+
       </span>
 
-      <div class="text logo-text">
+  <!--     <div class="text logo-text">
         <span class="name">Gestoria</span>
         <span class="profession">Ventura</span>
-      </div>
+      </div> -->
     </div>
     <i  class='bx bx-chevron-right toggle'></i>
 
@@ -68,7 +68,7 @@
     </div>
     <div *ngIf="posicionNavbar" class="sidebar__foot">
       <label class="theme js-theme">
-        <input  #input (change)="modo($event)" class="theme__input" type="checkbox"/>
+        <input [checked]="oscuro" id="inputOscuro" #input (change)="modo($event)" class="theme__input" type="checkbox"/>
         <span class="theme__inner">
 
           

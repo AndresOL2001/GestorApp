@@ -1,3 +1,5 @@
 export const environment = {
-  production: true
+  production: true,
+  user:'admin',
+  password:'gestoriaventura@22'
 };

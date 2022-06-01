@@ -275,10 +275,25 @@ display: block;
       padding: 40px; 
       align-items:center;
       justify-content:center;
-      margin-top: 0 !important;
+      margin-top: 80px !important;
       margin:80px;
       width:100%;
     }
+    .button-stroke{
+    background: #2a85ff;
+    box-shadow: 0 0 0 2px #ffffff inset;
+      color: white !important;
+      line-height: normal !important;
+    }
+    .button-stroke:hover{
+      background: #0069f6;
+    }
+    .contenedor_footer{
+      position:fixed;
+        bottom:0;
+        left:0;
+        right:0;
+      }
   
     .card_title{
       margin-top: 10px;
@@ -472,7 +487,10 @@ display: block;
         font-size:12px;
         margin-right:20px;
         color:#666;
+         /* width:200px;  */
       }
+
+      
        option{
         font-size:15px; 
          color:#666;
@@ -596,7 +614,7 @@ display: block;
         margin-right: auto; }
       
        .table-rwd2 th,    .table-rwd2 td {
-          padding: .8em;
+          padding: 1.5em;
        }
       
         .table-rwd2 td:hover {
@@ -798,14 +816,112 @@ display: block;
       footer{
         position:relative;
       }
-      .contenedor-footer{
-        position:absolute;
-        bottom:0;
-        right:0;
-        left:0;
-      }
       
       /* Responsidve */
+      option{
+        background: white;
+      }
+      
+      .dropdown2 {
+        height: 38px;
+        padding: 0px 14px;
+        font-size: 15px;
+        font-weight: 400;
+        font-family: "Inter";
+        background: #fff;
+        border-radius: 10px;
+        border: 2px solid rgb(0 0 0 / 10%);
+        justify-content: space-between;
+      }
+      .drop2{
+          position: absolute;
+          top: calc(100% + 0.2rem);
+          left: 0px;
+          opacity: 0;
+          width: 102%;
+          height: auto;
+          transition: opacity 150ms ease-in-out 0s, transform 150ms ease-in-out 0s;
+          background: #ffff;
+          border-radius:0px;
+          z-index:55;
+      }
+      .btndropstyle .btnspace div{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .one{
+      }
+      .two{
+        position: absolute;
+        right: 3px;
+        top: 7px;
+      }
+      
+      .btnconfig{
+        font-size: 12px;
+        margin-right: 20px;
+        color: #666;
+      }
+
+      .md-drppicker {
+        z-index: 9999;
+        overflow: auto; 
+      }
+      
+      .ngx-daterangepicker-material {
+        z-index: 9999;
+        overflow: auto; 
+      }
+      
+      
+      .btndropstyle{
+        width:250px;
+        padding: 0 20px;
+        line-height: 20px;
+        background: #F4F4F4;
+        border-radius: 9px;
+        border: 2px solid rgb(0 0 0 / 10%);
+        justify-content: space-between;;
+        margin-left:10px;
+        height: 38px;
+        margin: 12px;
+      }
+      
+      li{
+        font-size: 15px;
+        color: #666;
+        width: 100%;
+        cursor: pointer;
+        padding:2px 20px;
+        text-align:left;
+        font-family: "Inter";
+        font-weight: 100;
+      }   
+      
+      li span{
+        margin-left:8px;
+      }
+      
+      li:hover {
+        cursor: pointer;
+        background-color: #1A8CFF;
+        color: white;
+      }   
+      .dropdown-images-fechas{
+        width: 30px;
+        height:30px;
+      }
+      
+      .imagenUl{
+        width: 21px;
+        margin-bottom: 4px;
+      }
+
+      li span:hover , li img:hover  {
+      background: none;
+      color: white;
+      }
       
       @media only screen and (max-width: 320px) {
       
@@ -884,6 +1000,12 @@ display: block;
           height: 85%;
           overflow-y: scroll;
       
+    }
+
+    .calendario-position{
+      position: absolute;
+      margin-left: 300px;
+      margin-top: 70px;
     }
   /*
     box-shadow: 0px 2px 13px -2px rgb(0 0 0 / 75%);
@@ -1056,6 +1178,14 @@ display: block;
 	        animation: slide-left-home 0.2s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
 }
 
+.card__head{
+  display: flex;
+  align-items: center;
+  justify-content: stretch;
+  flex-wrap: wrap;
+  padding-left:10px;
+  padding-right:10px;
+}
 
 /* responsive */
 @media (min-width: 1507px) {
@@ -1149,3 +1279,30 @@ display: block;
 }
 
 }
+
+.width_search{
+  width: 250px;
+  height: 42px;}
+
+  .fade-in3 {
+    -webkit-animation: fade-in3 1.2s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+            animation: fade-in3 1.2s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+  }
+  
+
+   @-webkit-keyframes fade-in3 {
+    0% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+  @keyframes fade-in3 {
+    0% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }

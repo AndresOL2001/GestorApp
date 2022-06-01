@@ -90,6 +90,8 @@ export class HomeComponent implements OnInit {
   listaCargasIdsDelete = [];
   abrirFooter = false;
 
+  mostrarAvisoRegistros = false;
+
   @ViewChildren("checkboxes") checkboxes: QueryList<ElementRef>
 cancelarEliminar() {
          this.checkboxes.forEach((element) => {
@@ -124,9 +126,21 @@ cancelarEliminar() {
 
     this.cargaService.getCargas().subscribe((resp: cargaGr[]) => {
       resp.forEach(carga => carga.checked = false);
-      console.log(resp);
+      //console.log(resp);
       this.cargasGr = resp;
       this.cargasView = resp;
+      if(this.cargasGr.length>0){
+        this.mostrarAvisoRegistros = true;
+      }
+      
+      setTimeout(() => {
+        let registrosAlert = document.getElementById("registrosAlerta");
+        registrosAlert.classList.add("fade-in")
+       setTimeout(() => {
+         this.mostrarAvisoRegistros = false;
+       },1500)
+      },3000)
+
     });
   }
 
@@ -137,7 +151,7 @@ cancelarEliminar() {
       'Este Mes': this.lastMonthFormat,
       Hoy: this.todayFormat,
     };
-    console.log(this.FiltroEstado);
+    //console.log(this.FiltroEstado);
 
     if (head == 'ESTADO') {
       head = 'nombreestado';
@@ -247,7 +261,7 @@ cancelarEliminar() {
 
         if (this.FiltroFecha != 'Fecha') {
           if (this.EstadoFecha != 'Hoy') {
-            console.log('ENTRASTE AQUI AÑO');
+            //console.log('ENTRASTE AQUI AÑO');
             this.cargasGr.filter(
               (x) => x.fecha_asignacion > switchFecha[this.EstadoFecha]
             );
@@ -265,7 +279,7 @@ cancelarEliminar() {
         }
 
         if (this.FiltroEstado == 'Estado' && this.FiltroFecha == 'Fecha') {
-          console.log('uwuwuwu');
+         // console.log('uwuwuwu');
           this.cargasGr = resp;
         }
         // this.obtenerTotalIndicesTabla();
@@ -343,7 +357,7 @@ cancelarEliminar() {
             x.nombreestado == this.FiltroEstado
         );
       } else {
-        console.log('uwuuwuwuwu');
+        //console.log('uwuuwuwuwu');
         this.cargasGr = this.cargasView.filter(
           (x) => x.fecha_asignacion > this.lastYearFormat
         );
@@ -361,7 +375,7 @@ cancelarEliminar() {
         );
       }
     } else if (event == 'Esta Semana') {
-      console.log(event);
+      //console.log(event);
 
       if (this.FiltroEstado != 'Estado') {
         this.cargasGr = this.cargasView.filter(
@@ -441,23 +455,6 @@ cancelarEliminar() {
 
   }
 
-  /*  exportarCargas(cargasGr) {
-     this.cargaService.exportarCargas(cargasGr).subscribe((resp) => {
-       const blob = new Blob([resp], {
-         type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-       });
- 
-       //window.open(url);
-       let link = document.createElement('a');
-       link.href = window.URL.createObjectURL(blob);
-       let date = new Date();
-       let dateFormat = this.datePipe.transform(date, 'yyyy-MM-dd');
-       link.download = `${dateFormat} / cargaGr`;
- 
-       link.click();
-     });
-   } */
-
   crearComentario(comentarioDescripcion: string, dispararAlerta: boolean) {
     comentarioDescripcion = comentarioDescripcion.replace(/(<([^>]+)>)/gi, '');
 
@@ -483,7 +480,7 @@ cancelarEliminar() {
         .subscribe((resp) => {
           this.mensajeExito = "Comentario creado exitosamente!"
           this.dispararAlerta = dispararAlerta;
-          console.log(resp);
+        //  console.log(resp);
           this.actualizarComentarios();
         });
     } else {
@@ -502,7 +499,7 @@ cancelarEliminar() {
         .subscribe((resp) => {
           this.mensajeExito = "Registro actualizado correctamente!"
           this.dispararAlerta = true;
-          console.log(resp);
+         // console.log(resp);
         });
     } else {
       this.mensajeError = "Favor de escoger un proveedor valido";
@@ -514,7 +511,7 @@ cancelarEliminar() {
     this.cargaService
       .getComentarios(this.cargaModal.id)
       .subscribe((resp: any) => {
-        console.log(resp);
+       // console.log(resp);
         this.comentarios = resp;
       });
   }
@@ -524,10 +521,10 @@ cancelarEliminar() {
   }
 
   buscar(termino: string) {
-    console.log(termino);
+   // console.log(termino);
 
     this.cargaService.buscarTodo(termino).subscribe((resp: any) => {
-      console.log(resp);
+    //  console.log(resp);
       this.cargasGr = resp;
     });
   }
@@ -542,7 +539,7 @@ cancelarEliminar() {
     ).value;
 
     this.cargaService.actualizarComentario(id, valorInput).subscribe((resp) => {
-      console.log(resp);
+     // console.log(resp);
       this.mensajeExito = "Comentario Actualizado correctamente!"
       this.dispararAlerta = true;
       this.actualizarComentarios();
@@ -561,7 +558,7 @@ cancelarEliminar() {
     this.cargaService
       .eliminarComentario(this.IdComentarioEliminar)
       .subscribe((resp) => {
-        console.log(resp);
+      //  console.log(resp);
 
         this.actualizarComentarios();
         this.mensajeExito = "Comentario Eliminado correctamente"
@@ -569,6 +566,7 @@ cancelarEliminar() {
 
       });
     this.dispararAlertaError = false;
+  
   }
 
   abrirAlertaEliminarComentario(id: number) {
@@ -631,7 +629,7 @@ cancelarEliminar() {
         this.count = this.count + 1;
       }
     })
-    console.log(this.count);
+    //console.log(this.count);
 
     if(this.count >0){
       this.abrirFooter = true;
@@ -653,10 +651,10 @@ cancelarEliminar() {
         this.listaCargasIdsDelete.push(x.id);
       }
     })
-    console.log(this.listaCargasIdsDelete);
+   // console.log(this.listaCargasIdsDelete);
 
     this.cargaService.borrarCargas(this.listaCargasIdsDelete).subscribe(resp => {
-      console.log(resp);
+     // console.log(resp);
       this.mensajeExito = "Registros Eliminados Correctamente !"
       this.dispararAlerta = true;
       this.listaCargasIdsDelete = [];
@@ -664,6 +662,7 @@ cancelarEliminar() {
       this.cargaService.getCargas().subscribe( (resp:cargaGr[]) => {
         this.cargasGr = resp;
       })
+      this.abrirFooter = false;
     },err => {
       console.log(err);
       this.listaCargasIdsDelete = [];

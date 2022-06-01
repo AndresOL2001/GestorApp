@@ -13,8 +13,8 @@ export class CargaGrService {
 
   constructor(private http:HttpClient,private datePipe:DatePipe) { }
 
- // public url = "http://socialpets.club/api"; 
-  public url = "http://localhost:8080/api";
+  public url = "http://socialpets.club/api"; 
+ // public url = "http://localhost:8080/api";
 
   cargasGr:cargaGrExp[] = [];
   getCargas(){

@@ -4,16 +4,21 @@
     <span class="span poppins-semi-bold-mirage-40px">Bienvenido</span><span class="span1">&nbsp;</span><span
       class="span poppins-semi-bold-mirage-40px">👋</span>
   </h1>
-  <img class="x6" src="../../../assets/exceldatos.svg" />
-  <p class="an-no-hay-informacin-registrada">Aún no hay información registrada.</p>
-  <p class="empieza-importando-t">Empieza importando tu primer layout&nbsp;&nbsp;.xls<br />de Carga GR.</p>
-  <div [routerLink]="'/home/importar'" class="stylesecondary-size">
-    <img class="ui-icon" src="../../../assets/iconImportarLayout.svg" />
-    <div class="importar-layout">Importar layout</div>
+  <div class="import-Layour-center">
+    <img class="img-import-layout" src="../../../assets/exceldatos.svg" />
+    <p>Aún no hay información registrada.</p>
+    <p class="text-secondary">Empieza importando tu primer layout&nbsp;&nbsp;.xls<br />de Carga GR.</p>
+  <button class="buttonLayount-import">
+    <div  [routerLink]="'/home/importar'" class="contenido-button" >
+      <img  src="../../../assets/iconImportarLayout.svg" />
+      <div>Importar layout</div>
+    </div>
+  </button>
+  
   </div>
 </div>
 
-<div *ngIf="cargasGr && cargasGr.length>0" class="enter-amount">
+<div id="registrosAlerta" *ngIf="cargasGr && cargasGr.length>0 && mostrarAvisoRegistros" class="enter-amount">
   <img class="ui-iconchecklight" src="../../../assets/check_green.svg" />
   <div class="overlap-group3">
     <div class="registros-container">
@@ -26,7 +31,7 @@
 
 
 <div *ngIf="cargasGr"class="page__inner2">
-  <div  class="page__container2">
+  <div id="pageContainer" class="page__container2">
     <div class="page__title h3">PT'S</div>
     <div  class="drafts card">
       <div class="card__title">Listado de PT's</div>
@@ -173,7 +178,7 @@
       </div>
     </div>
     </div>
-    <div *ngIf="banderaAnimacion">
+    <div style="height:0;" *ngIf="banderaAnimacion">
       <div class="page__inner">
         <div class="page__container2">
           <div class="create">
@@ -292,7 +297,7 @@
                           <h4 class="font_form">Historial de estatus:</h4>
                         </div>
                         <div>
-                          <p class="font_form">Mas recientes primero</p>
+                          <p class="font_form">Filtar Mas recientes primero <i _ngcontent-rry-c58="" class="bx bx-expand-vertical" style="cursor: pointer;"></i></p>
                         </div>
                       </div>
                     </div>
@@ -401,7 +406,9 @@
   </div>
 </div>
 
-<div *ngIf="abrirFooter" class="panel">
+<div *ngIf="abrirFooter"  class="footer">
+  <div class="contenedor_footer">
+<div class="panel">
   <div class="panel__info">
     <svg class="icon icon-check-all">
       <use xlink:href="#icon-check-all"></use>
@@ -411,4 +418,6 @@
     <button (click)="cancelarEliminarIds()" type="button" class="button-stroke panel__button">Cancelar</button>
     <button (click)="eliminarIds()"form="createForm" type="submit" class="button panel__button">Eliminar</button>   
   </div>
+</div>
+</div>
 </div>
