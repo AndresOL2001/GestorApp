@@ -4,7 +4,6 @@ import * as ClassicEditor from '../../../../ckeditor/build/ckEditor';
 import { NavbarService } from 'src/app/services/navbar.service';
 import { cargaGr } from 'src/app/models/cargaGr';
 import { DatePipe } from '@angular/common';
-import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-importar',
@@ -24,6 +23,7 @@ export class ImportarComponent implements OnInit {
   cargasView:cargaGr[];
   abrirFooter=false;
   mostrarAvisoRegistros: boolean;
+  mostrarMensajeInicial:boolean;
   registrosPorPagina = 5;
   //Fechas
   lastYearFormat;
@@ -62,12 +62,15 @@ export class ImportarComponent implements OnInit {
     this.EstadoFecha = 'NORMAL';
     this.EstadoActual = 'NORMAL';
     this.nav.show();
+    this.mostrarMensajeInicial = true;
+
     this.cargaGrService.getCargas().subscribe((resp: cargaGr[]) => {
       resp = resp.filter(carga => carga.nombreestado == 'Creado');
       resp.forEach(carga => carga.checked = false);
      // console.log(resp);
       this.cargasGr = resp;
       this.cargasView = resp;
+      this.mostrarMensajeInicial = false;
        if(this.cargasGr.length>0){
         this.mostrarAvisoRegistros = true;
       } 

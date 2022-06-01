@@ -909,8 +909,8 @@ display: block;
         color: white;
       }   
       .dropdown-images-fechas{
-        width: 30px;
-        height:30px;
+        width: 21px;
+        height:21px;
       }
       
       .imagenUl{
@@ -1283,26 +1283,3 @@ display: block;
 .width_search{
   width: 250px;
   height: 42px;}
-
-  .fade-in3 {
-    -webkit-animation: fade-in3 1.2s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
-            animation: fade-in3 1.2s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
-  }
-  
-
-   @-webkit-keyframes fade-in3 {
-    0% {
-      opacity: 1;
-    }
-    100% {
-      opacity: 0;
-    }
-  }
-  @keyframes fade-in3 {
-    0% {
-      opacity: 1;
-    }
-    100% {
-      opacity: 0;
-    }
-  }

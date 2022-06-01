@@ -1,4 +1,4 @@
-<div  *ngIf="!cargasGr || cargasGr.length== 0" class="page__inner__home">
+<div  *ngIf="!cargasGr || cargasGr.length== 0 && mostrarMensajeInicial" class="page__inner__home">
   <div class="hi-dash-welcome-bac">Hola Administrador,</div>
   <h1 class="campaigns poppins-semi-bold-mirage-40px">
     <span class="span poppins-semi-bold-mirage-40px">Bienvenido</span><span class="span1">&nbsp;</span><span
@@ -15,16 +15,6 @@
     </div>
   </button>
   
-  </div>
-</div>
-<div id="registrosAlerta" *ngIf="cargasGr && cargasGr.length>0 && mostrarAvisoRegistros" class="enter-amount">
-  <img class="ui-iconchecklight" src="../../../assets/check_green.svg" />
-  <div class="overlap-group3">
-    <div class="registros-container">
-      <div class="carga-de-registros-correcta">Carga de registros correcta</div>
-      <p class="se-han-importado-40-registros-pt">Se han importado {{cargasGr?.length}} registros PT</p>
-    </div>
-    <div class="ellipse-328"></div>
   </div>
 </div>
 
@@ -268,16 +258,11 @@
       <div class="success__icon">
         <img src="../../../assets/excelICono.png">
       </div>
-      <div class="success__info">!Acción realizada correctamente !</div>
-      <div class=" h2 success__price ">Correcto </div>
-      <div class="success__text">{{mensajeExito}} </div>
-      <button (click)="cerrarAlerta()" class="button success__button js-popup-close">Hecho!</button>
+      <div class="success__info">Se ha generado el archivo</div>
+      <div class=" h2 success__price ">ReporteV.</div>
+      <div class="success__text">La exportación se ha realizado exitosamente.</div>
+      <button (click)="cerrarAlerta()" class="button success__button js-popup-close">De acuerdo</button>
     </div>
-    <button (click)="cerrarAlerta()" class="popup__close js-popup-close">
-      <svg class="icon icon-close ">
-        <use xlink:href="#icon-close"></use>
-      </svg>
-    </button>
   </div>
 </div>
 

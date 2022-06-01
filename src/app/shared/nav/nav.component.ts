@@ -1,5 +1,6 @@
 import { Component, OnInit} from '@angular/core';
 import { NavbarService } from 'src/app/services/navbar.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-nav',
@@ -8,11 +9,28 @@ import { NavbarService } from 'src/app/services/navbar.service';
 })
 export class NavComponent implements OnInit{
   
-  constructor() {}
+  constructor(private router:Router,private navService:NavbarService) {}
 
   ngOnInit(): void {
    
   }
 
+mostrarLogout:boolean = false;
+
+MostrarLogout(){
+  if(this.mostrarLogout){
+    this.mostrarLogout = false;
+  }else{
+    this.mostrarLogout = true;
+  }
+}
+
+cerrarSesion(){
+  console.log("aqui")
+  localStorage.removeItem("auth");
+  this.router.navigateByUrl("/auth");
+  this.navService.hide();
+
+}
 
 }

@@ -91,11 +91,13 @@ export class ExportarComponent implements OnInit {
   ]
 
   mostrarAvisoRegistros = false;
+  mostrarMensajeInicial:boolean;
   abrirFooter = false;
 
 
   ngOnInit(): void {
     this.navService.show();
+    this.mostrarMensajeInicial = true;
     this.FiltroEstado = 'Estado';
     this.FiltroFecha.titulo = this.dropdownOptions[0].titulo;
     this.InicializarFechas();
@@ -104,6 +106,7 @@ export class ExportarComponent implements OnInit {
       resp.forEach(carga => carga.checked = false);
       this.cargasGr = resp;
       this.cargasView = resp;
+      this.mostrarMensajeInicial = false;
       if(this.cargasGr.length>0){
         this.mostrarAvisoRegistros = true;
       } 

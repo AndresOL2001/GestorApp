@@ -1,4 +1,4 @@
-<div *ngIf="!cargasGr || cargasGr.length== 0" class="page__inner__home2 ">
+<div *ngIf="!cargasGr || cargasGr.length== 0 && mostrarMensajeInicial" class="page__inner__home2 ">
   <div class="hi-dash-welcome-bac">Hola Administrador,</div>
   <h1 class="campaigns poppins-semi-bold-mirage-40px">
     <span class="span poppins-semi-bold-mirage-40px">Bienvenido</span><span class="span1">&nbsp;</span><span
@@ -62,7 +62,7 @@
 
 <div *ngIf="cargasGr" class="page__inner2">
   <div class="page__container2">
-    <div class="page__title h3">PT'S</div>
+    <div class="page__title h3">Importar Layout</div>
     <div class="drafts card">
       <div class="card__title">Listado de PT's</div>
       <div class="card__head">
@@ -255,7 +255,7 @@
           <div class="panel__btns">
             <button (click)="cancelarLayout()" type="button" class="button-stroke panel__button">Cancelar</button>
             <button (click)="cargarLayout(file)" form="createForm" type="submit"
-              class="button panel__button">Guardar</button>
+              class="button panel__button">Cargar E Importar Registros</button>
           </div>
         </div>
       </div>
