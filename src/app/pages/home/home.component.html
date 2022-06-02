@@ -160,7 +160,7 @@
 
 
       </div>
-      <div class="footer-table">
+      <div [ngClass]="{'footer-table': banderaModal === false, 'thOpenFooter' : banderaModal === true }">
       <span class="footer-text">NUMERO DE REGISTROS ACTIVOS: {{cargasGr.length}}</span>
       <div class="footer-text-right">
         <div class="footer-combobox">
@@ -282,6 +282,7 @@
                             </div>
                           </div>
                         </div>
+
                         <div class="field">
                           <div class="field__wrap"></div>
     
@@ -299,6 +300,8 @@
                         </div>
                       </div>
                     </div>
+                    <hr class="hr" />
+
                     <div class="field">
                       <div class="tooltip margintool">
                         Actividad
@@ -311,12 +314,13 @@
                         <div>
                           <h4 class="font_form">Historial de estatus:</h4>
                         </div>
-                        <div>
+                        <!-- <div>
                           <p class="font_form">Filtar Mas recientes primero <i _ngcontent-rry-c58="" class="bx bx-expand-vertical" style="cursor: pointer;"></i></p>
-                        </div>
+                        </div> -->
                       </div>
                     </div>
-    
+                    <hr class="hr" />
+
                     <div class="editor">
                       <div class="tooltip">
                         Comentarios
@@ -363,26 +367,6 @@
   </div>
   </div>
    
-
-<!-- <div *ngIf="dispararAlertaError" class="popup popup_success js-popup js-popup-success animation visible">
-  <div class="popup__overlay js-popup-overlay"></div>
-  <div class="popup__wrap js-popup-wrap">
-    <div class="success">
-      <div class="success__iconError"> ❌ </div>
-      <div class="success__info">¿Estas seguro que deseas eliminar este comentario?</div>
-      <div class=" h2 success__price ">Advertencia</div>
-      <div class="success__text">Si eliminas este comentario perderas toda la informacion referente a el</div>
-      <button (click)="eliminarComentario()" class="button success__button js-popup-close" style="margin-right:3px;">Aceptar</button>
-      <button (click)="cerrarAlerta()" class="button-stroke users__button">Cancelar</button>
-
-    </div>
-    <button (click)="cerrarAlerta()" class="popup__close js-popup-close">
-      <svg class="icon icon-close ">
-        <use xlink:href="#icon-close"></use>
-      </svg>
-    </button>
-  </div>
-</div> -->
 
 <div *ngIf="dispararAlertaErrorActualizar" class="popup popup_success js-popup js-popup-success animation visible">
   <div class="popup__overlay js-popup-overlay"></div>

@@ -524,12 +524,19 @@ cancelarEliminar() {
   crearComentario(comentarioDescripcion: string, dispararAlerta: boolean) {
     console.log(this.cargaModal.nombreestado);
     comentarioDescripcion = comentarioDescripcion.replace(/(<([^>]+)>)/gi, '');
+    
 
     let estadoNuevoComentario = this.estadosComentarios.filter(
       (x) => x.nombre == this.estadoComentarioActual
     );
 
-    let cargasId: CargaComentario[] = [];
+    if(estadoNuevoComentario[0].nombre != this.cargaModal.nombreestado){
+      console.log('diferentes')
+    }else{
+      console.log('iguales');
+    }
+
+    /* let cargasId: CargaComentario[] = [];
 
     let cargaId: CargaComentario = {
       id: this.cargaModal.id,
@@ -548,6 +555,9 @@ cancelarEliminar() {
         this.dispararAlertaErrorActualizar = true;
         return;
       }
+
+    
+
       this.cargaService
         .crearComentario(comentario, estadoNuevoComentario[0].IdEstado)
         .subscribe((resp) => {
@@ -574,7 +584,7 @@ cancelarEliminar() {
           this.dispararAlerta = true;
          // console.log(resp);
         });
-    } 
+    }  */
   }
 
   actualizarComentarios() {

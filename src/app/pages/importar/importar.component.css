@@ -399,7 +399,9 @@
       }
       
       .table-container2 {
-        overflow-x: auto; }
+        overflow-x: scroll !important; 
+      
+      }
       
       .table-rwd2 {
         min-width: 900px; }
@@ -411,10 +413,10 @@
         .table-rwd2 th:first-child {
           width: 8em; }
       
-          .table-containe2r::-webkit-scrollbar{
-            background-color: #e1e1e4;
+          .table-container2::-webkit-scrollbar{
+            background-color: white;
             border-radius: 8px;
-          }
+          } 
       
       .table-rwd2 .left{
        padding-left: 70px;
