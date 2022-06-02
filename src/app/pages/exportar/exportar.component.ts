@@ -3,6 +3,8 @@ import { cargaGr } from 'src/app/models/cargaGr';
 import { CargaGrService } from 'src/app/services/carga-gr.service';
 import { NavbarService } from 'src/app/services/navbar.service';
 import { DatePipe } from '@angular/common';
+import { PaginationInstance } from 'ngx-pagination';
+import { drop } from '@syncfusion/ej2-angular-richtexteditor';
 
 @Component({
   selector: 'app-exportar',
@@ -32,8 +34,8 @@ export class ExportarComponent implements OnInit {
   };
   EstadoActual = 'NORMAL';
   EstadoFecha = 'NORMAL';
-  open = false;
-  //Fechas
+/*   open = false;
+ */  //Fechas
   lastYearFormat;
   lastMonthFormat;
   lastWeekFormat;
@@ -94,9 +96,21 @@ export class ExportarComponent implements OnInit {
   mostrarMensajeInicial:boolean;
   abrirFooter = false;
 
-
   ngOnInit(): void {
     this.navService.show();
+    window.addEventListener('click', function(e) {
+      /*2. Si el div con id clickbox contiene a e. target*/
+      if (document.getElementById('ulDrop').contains(e.target as HTMLElement)) {
+        //console.log("dentro");
+        document.getElementById('ulDrop2').style.cssText = "visibility:visible;"
+      } else {
+        //console.log("fuera");
+        document.getElementById('ulDrop2').style.cssText = "visibility:hidden;"
+
+      }
+    })
+
+
     this.mostrarMensajeInicial = true;
     this.FiltroEstado = 'Estado';
     this.FiltroFecha.titulo = this.dropdownOptions[0].titulo;
@@ -104,6 +118,9 @@ export class ExportarComponent implements OnInit {
 
     this.cargaService.getCargas().subscribe((resp: cargaGr[]) => {
       resp.forEach(carga => carga.checked = false);
+      resp.forEach((carga,i) => {
+        carga.index = i+1;
+      })
       this.cargasGr = resp;
       this.cargasView = resp;
       this.mostrarMensajeInicial = false;
@@ -112,13 +129,6 @@ export class ExportarComponent implements OnInit {
       } 
     });
 
-    setTimeout(() => {
-      let registrosAlert = document.getElementById("registrosAlerta");
-      registrosAlert.classList.add("fade-in3")
-     setTimeout(() => {
-       this.mostrarAvisoRegistros = false;
-     },1500)
-    },3000)
     
   }
 
@@ -154,9 +164,11 @@ export class ExportarComponent implements OnInit {
 
   cambioFiltroFecha(event) {
     if (event == 'Fecha') {
-      this.mostrarCalendario=false;
-
       this.cargaService.getCargas().subscribe((resp: cargaGr[]) => {
+        resp.forEach(carga => carga.checked = false);
+        resp.forEach((carga,i) => {
+          carga.index = i+1;
+        })
         this.cargasGr = resp;
         this.cargasView = resp;
         if (this.FiltroEstado != 'Estado') {
@@ -167,8 +179,6 @@ export class ExportarComponent implements OnInit {
         // this.obtenerTotalIndicesTabla();
       });
     } else if (event == 'Este Año') {
-      this.mostrarCalendario=false;
-
       if (this.FiltroEstado != 'Estado') {
         this.cargasGr = this.cargasView.filter(
           (x) =>
@@ -176,14 +186,12 @@ export class ExportarComponent implements OnInit {
             x.nombreestado == this.FiltroEstado
         );
       } else {
-        console.log('uwuuwuwuwu');
+        //console.log('uwuuwuwuwu');
         this.cargasGr = this.cargasView.filter(
           (x) => x.fecha_asignacion > this.lastYearFormat
         );
       }
     } else if (event == 'Este Mes') {
-      this.mostrarCalendario=false;
-
       if (this.FiltroEstado != 'Estado') {
         this.cargasGr = this.cargasView.filter(
           (x) =>
@@ -196,9 +204,7 @@ export class ExportarComponent implements OnInit {
         );
       }
     } else if (event == 'Esta Semana') {
-      console.log(event);
-      this.mostrarCalendario=false;
-
+      //console.log(event);
 
       if (this.FiltroEstado != 'Estado') {
         this.cargasGr = this.cargasView.filter(
@@ -211,12 +217,7 @@ export class ExportarComponent implements OnInit {
           (x) => x.fecha_asignacion > this.lastWeekFormat
         );
       }
-    } else if (event == 'Personalizada') {
-      console.log(event);
-      this.mostrarCalendario=true;
-      
     } else {
-      this.mostrarCalendario = false;
       if (this.FiltroEstado != 'Estado') {
         this.cargasGr = this.cargasView.filter(
           (x) =>
@@ -230,13 +231,15 @@ export class ExportarComponent implements OnInit {
       }
     }
   }
-
   
   buscar(termino: string) {
-    console.log(termino);
-
+/*     console.log(termino);
+ */
     this.cargaService.buscarTodo(termino).subscribe((resp: any) => {
-      console.log(resp);
+      resp.forEach(carga => carga.checked = false);
+      resp.forEach((carga,i) => {
+        carga.index = i+1;
+      })
       this.cargasGr = resp;
     });
   }
@@ -247,10 +250,14 @@ export class ExportarComponent implements OnInit {
       'Este Año': this.lastYearFormat,
       'Esta Semana': this.lastWeekFormat,
       'Este Mes': this.lastMonthFormat,
-      'Hoy': this.todayFormat,
+      Hoy: this.todayFormat,
     };
 
     this.cargaService.getCargas().subscribe((resp: cargaGr[]) => {
+      resp.forEach(carga => carga.checked = false);
+      resp.forEach((carga,i) => {
+        carga.index = i+1;
+      })
       this.cargasView = resp;
     });
 
@@ -315,6 +322,8 @@ export class ExportarComponent implements OnInit {
 
 
   ordenarAlfabeticamente(head: string) {
+
+
     const switchFecha = {
       'Este Año': this.lastYearFormat,
       'Esta Semana': this.lastWeekFormat,
@@ -325,6 +334,10 @@ export class ExportarComponent implements OnInit {
 
     if (head == 'ESTADO') {
       head = 'nombreestado';
+    }
+
+    if(head == '#'){
+      head = 'index';
     }
 
     if (this.EstadoActual == 'NORMAL') {
@@ -375,8 +388,11 @@ export class ExportarComponent implements OnInit {
       }
     } else {
       this.cargaService.getCargas().subscribe((resp: cargaGr[]) => {
+        resp.forEach(carga => carga.checked = false);
+        resp.forEach((carga,i) => {
+          carga.index = i+1;
+        })
         this.cargasView = resp;
-        
         if (this.FiltroFecha.titulo != 'Fecha' && this.FiltroEstado != 'Estado') {
           this.cargasGr.filter(
             (x) =>
@@ -384,26 +400,14 @@ export class ExportarComponent implements OnInit {
               x.nombreestado == this.FiltroEstado
           );
         } else if (this.FiltroFecha.titulo != 'Fecha') {
-
-            if(this.FiltroFecha.titulo== 'Personalizada'){
-            if(this.banderaHastaFecha){ 
-              console.log("entraste a personalizada");
-              this.cargasGr = this.cargasView.filter(x => x.fecha_asignacion > this.desdeCalendar && x.fecha_asignacion < this.hastaCalendar);
-  
-            }
-          }else{
-            this.cargasGr = this.cargasView.filter(
-              (x) => x.fecha_asignacion > switchFecha[this.FiltroFecha.titulo]
-            );
-          }
-         
+          this.cargasGr = this.cargasView.filter(
+            (x) => x.fecha_asignacion > switchFecha[this.FiltroFecha.titulo]
+          );
         } else if (this.FiltroEstado != 'Estado') {
-          console.log(3)
-
           this.cargasGr = this.cargasView.filter(
             (x) => x.nombreestado == this.FiltroEstado
           );
-      }else {
+        } else {
           this.cargasGr = resp;
         }
         // this.obtenerTotalIndicesTabla();
@@ -441,6 +445,10 @@ export class ExportarComponent implements OnInit {
       }
     } else {
       this.cargaService.getCargas().subscribe((resp: cargaGr[]) => {
+        resp.forEach(carga => carga.checked = false);
+        resp.forEach((carga,i) => {
+          carga.index = i+1;
+        })
         this.cargasView = resp;
 
         if (this.FiltroFecha.titulo != 'Fecha') {
@@ -517,6 +525,10 @@ export class ExportarComponent implements OnInit {
       this.listaCargasIdsDelete = [];
       this.count = 0;
       this.cargaService.getCargas().subscribe( (resp:cargaGr[]) => {
+        resp.forEach(carga => carga.checked = false);
+        resp.forEach((carga,i) => {
+          carga.index = i+1;
+        })
         this.cargasGr = resp;
       })
       this.abrirFooter = false;
@@ -530,10 +542,10 @@ export class ExportarComponent implements OnInit {
   cerrarAlerta() {
     this.dispararAlerta = false;
   }
-
+/* 
   abrirDrop(){
-    this.open = true;
-  }
+    this.open = false;
+  } */
 
   actualizarFecha(opcion){
     this.FiltroFecha = opcion;
@@ -542,6 +554,7 @@ export class ExportarComponent implements OnInit {
       this.mostrarCalendario = true;
     }else{
       this.mostrarCalendario = false;
+      this.cambioFiltroFecha(this.FiltroFecha.titulo)
     }
   }
 
@@ -551,4 +564,41 @@ export class ExportarComponent implements OnInit {
      this.hastaCalendar = this.datePipe.transform(new Date(event.chosenLabel.split(" ")[2]),'yyyy-MM-dd');
      this.filtrarFechaPersonalizada();
   }
+
+   //PAGINATIION
+   public filter: string = '';
+   public maxSize: number = 7;
+   public directionLinks: boolean = true;
+   public autoHide: boolean = false;
+   public responsive: boolean = false;
+   public config: PaginationInstance = {
+       id: 'advanced',
+       itemsPerPage: 5,
+       currentPage: 1
+   };
+   public labels: any = {
+       previousLabel: '<',
+       nextLabel: '>',
+       screenReaderPaginationLabel: 'Pagination',
+       screenReaderPageLabel: 'page',
+       screenReaderCurrentLabel: `You're on page`
+   };
+   public eventLog: string[] = [];
+ 
+ 
+   onPageChange(number: number) {
+       this.logEvent(`pageChange(${number})`);
+       this.config.currentPage = number;
+   }
+ 
+   onPageBoundsCorrection(number: number) {
+       this.logEvent(`pageBoundsCorrection(${number})`);
+       this.config.currentPage = number;
+   }
+ 
+ 
+   private logEvent(message: string) {
+       this.eventLog.unshift(`${new Date().toISOString()}: ${message}`)
+   }
+
 }

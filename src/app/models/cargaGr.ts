@@ -1,5 +1,6 @@
 export interface cargaGr {
 
+    index:number;
     id:string;
     fecha_asignacion:string;
     siniestro:string;
@@ -20,6 +21,7 @@ export interface cargaGr {
     nombreestado:string;
     proveedor:string;
     checked:boolean;
+
     
 
 }

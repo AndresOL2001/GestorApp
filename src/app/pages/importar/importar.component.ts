@@ -4,6 +4,7 @@ import * as ClassicEditor from '../../../../ckeditor/build/ckEditor';
 import { NavbarService } from 'src/app/services/navbar.service';
 import { cargaGr } from 'src/app/models/cargaGr';
 import { DatePipe } from '@angular/common';
+import { PaginationInstance } from 'ngx-pagination';
 
 @Component({
   selector: 'app-importar',
@@ -62,26 +63,19 @@ export class ImportarComponent implements OnInit {
     this.EstadoFecha = 'NORMAL';
     this.EstadoActual = 'NORMAL';
     this.nav.show();
-    this.mostrarMensajeInicial = true;
 
     this.cargaGrService.getCargas().subscribe((resp: cargaGr[]) => {
       resp = resp.filter(carga => carga.nombreestado == 'Creado');
-      resp.forEach(carga => carga.checked = false);
-     // console.log(resp);
+      resp.forEach((carga,i) => {
+        carga.index = i+1;
+      })
+      // console.log(resp);
       this.cargasGr = resp;
       this.cargasView = resp;
-      this.mostrarMensajeInicial = false;
+    //  this.mostrarMensajeInicial = false;
        if(this.cargasGr.length>0){
-        this.mostrarAvisoRegistros = true;
+      //  this.mostrarAvisoRegistros = true;
       } 
-      
-      setTimeout(() => {
-        let registrosAlert = document.getElementById("registrosAlerta2");
-        registrosAlert.classList.add("fade-in2")
-       setTimeout(() => {
-         this.mostrarAvisoRegistros = false;
-       },1500)
-      },2000) 
     
     }); 
   }
@@ -90,6 +84,10 @@ export class ImportarComponent implements OnInit {
   
     if (head == 'ESTADO') {
       head = 'nombreestado';
+    }
+
+    if(head == '#'){
+      head = 'index';
     }
 
     if (this.EstadoActual == 'NORMAL') {
@@ -125,6 +123,9 @@ export class ImportarComponent implements OnInit {
     } else {
       this.cargaGrService.getCargas().subscribe((resp: cargaGr[]) => {
         resp = resp.filter(carga => carga.nombreestado == 'Creado');
+        resp.forEach((carga,i) => {
+          carga.index = i+1;
+        })
 
         this.cargasView = resp;
        
@@ -156,6 +157,9 @@ export class ImportarComponent implements OnInit {
     } else {
       this.cargaGrService.getCargas().subscribe((resp: cargaGr[]) => {
         resp = resp.filter(carga => carga.nombreestado == 'Creado');
+        resp.forEach((carga,i) => {
+          carga.index = i+1;
+        })
         this.cargasView = resp;
         this.cargasGr = resp;
         // this.obtenerTotalIndicesTabla();
@@ -181,32 +185,73 @@ export class ImportarComponent implements OnInit {
       this.banderaArchivoCargado=true;
        this.fileName = this.file.name;
        this.size = this.file.size;
+       this.abrirFooter = true;
     }
   }
 
   cancelarLayout(){
     this.banderaArchivoCargado=false;
     this.file = null;
+    this.abrirFooter = false;
   }
 
+
+  cantidadRegistrosImportados:number;
   cargarLayout(file){
 
     let extension = this.fileName.substring(this.fileName.lastIndexOf('.')+1, this.fileName.length);
     if(extension == 'xlsx'){
-      this.cargaGrService.postCargas(file).subscribe(resp => {
-        //console.log(resp);
+      this.cargaGrService.postCargas(file).subscribe( (resp:any) => {
+        this.cantidadRegistrosImportados = resp.length;
+        this.mostrarAvisoRegistros = true;
+  
+      
+      setTimeout(() => {
+        let registrosAlert = document.getElementById("registrosAlerta2");
+        registrosAlert.classList.add("fade-in2")
+       setTimeout(() => {
+         this.mostrarAvisoRegistros = false;
+       },1500)
+      },2000)  
+    
         this.dispararAlerta=true;
         this.dispararAlertaError=false;
+        this.cargaGrService.getCargas().subscribe( (resp:cargaGr[]) => {
+          resp = resp.filter(carga => carga.nombreestado == 'Creado');
+          resp.forEach((carga,i) => {
+            carga.index = i+1;
+          })
+          this.cargasGr = resp;
+          this.cargasView = resp;
+        })
         this.cancelarLayout();
       },err=>{
         this.dispararAlertaError=true;
         this.errorMensaje = err.error.mensaje;
       })
     }else if(extension == 'csv'){
-      this.cargaGrService.postCargasCSV(file).subscribe(resp => {
-       // console.log(resp);
+      this.cargaGrService.postCargasCSV(file).subscribe((resp:any) => {
+        this.cantidadRegistrosImportados = resp.length;
+        this.mostrarAvisoRegistros = true;  
+      
+       setTimeout(() => {
+         let registrosAlert = document.getElementById("registrosAlerta2");
+         registrosAlert.classList.add("fade-in2")
+        setTimeout(() => {
+          this.mostrarAvisoRegistros = false;
+        },1500)
+       },2000)  
+
         this.dispararAlerta=true;
         this.cancelarLayout();
+        this.cargaGrService.getCargas().subscribe( (resp:cargaGr[]) => {
+          resp = resp.filter(carga => carga.nombreestado == 'Creado');
+          resp.forEach((carga,i) => {
+            carga.index = i+1;
+          })
+          this.cargasGr = resp;
+          this.cargasView = resp;
+        })
       },err=>{
         this.dispararAlertaError=true;
         this.errorMensaje = err.error.mensaje;
@@ -214,6 +259,14 @@ export class ImportarComponent implements OnInit {
     }else{
       this.dispararAlertaError=true;
       this.errorMensaje = "Cargue un archivo .csv o .xlsx";
+      setTimeout(() => {
+        let registrosAlert = document.getElementById("registrosAlertaError");
+        registrosAlert.classList.add("fade-in2")
+       setTimeout(() => {
+         this.dispararAlertaError = false;
+       },1500)
+      },2000)  
+
       this.cancelarLayout();
     }
    
@@ -224,33 +277,40 @@ export class ImportarComponent implements OnInit {
     this.cancelarLayout();
   }
 
-  count = 0;
-  conteoIdsEliminar(){
-    this.count = 0;
-    this.cargasGr.forEach(item => {
-      if (item['checked']) {
-        this.count = this.count + 1;
-      }
-    })
-    console.log(this.count);
-
-    if(this.count >0){
-      this.abrirFooter = true;
-    }else{
-      this.abrirFooter = false;
-    }
-
-  }
-
-  @ViewChildren("checkboxes") checkboxes: QueryList<ElementRef>
-  cancelarEliminar() {
-           this.checkboxes.forEach((element) => {
-                element.nativeElement.checked = false;
-      });
-  }
-
-  cancelarEliminarIds(){
-    this.cancelarEliminar();
-    this.abrirFooter = false;
-  }
+   //PAGINATIION
+   public filter: string = '';
+   public maxSize: number = 7;
+   public directionLinks: boolean = true;
+   public autoHide: boolean = false;
+   public responsive: boolean = false;
+   public config: PaginationInstance = {
+       id: 'advanced',
+       itemsPerPage: 5,
+       currentPage: 1
+   };
+   public labels: any = {
+       previousLabel: '<',
+       nextLabel: '>',
+       screenReaderPaginationLabel: 'Pagination',
+       screenReaderPageLabel: 'page',
+       screenReaderCurrentLabel: `You're on page`
+   };
+   public eventLog: string[] = [];
+ 
+ 
+   onPageChange(number: number) {
+       this.logEvent(`pageChange(${number})`);
+       this.config.currentPage = number;
+   }
+ 
+   onPageBoundsCorrection(number: number) {
+       this.logEvent(`pageBoundsCorrection(${number})`);
+       this.config.currentPage = number;
+   }
+ 
+ 
+   private logEvent(message: string) {
+       this.eventLog.unshift(`${new Date().toISOString()}: ${message}`)
+   }
+ 
   }

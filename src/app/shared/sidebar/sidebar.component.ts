@@ -11,6 +11,7 @@ export class SidebarComponent implements OnInit {
   oscuro = false;
   abierto =false;
   posicionNavbar = false;
+  
   constructor() {}
 
   ngOnInit(): void {
@@ -23,10 +24,10 @@ export class SidebarComponent implements OnInit {
         toggle = body.querySelector(".toggle"),
         searchBtn = body.querySelector(".nav-link"),
         modeSwitch = body.querySelector(".toggle-switch");
-       let modeText:any = body.querySelector(".mode-text");
        let navbarposition = document.getElementById("Searchead");
-       let pageContainer = document.getElementById("pageContainer")
-    
+
+
+
        toggle.addEventListener("click", () => {
         sidebar.classList.toggle("close");
         if(this.posicionNavbar){
@@ -68,9 +69,5 @@ export class SidebarComponent implements OnInit {
       this.oscuro=true;
     }
   }
- /*  desplegarDropdown(){
-    console.log("click")
-  } */
-
 
 }

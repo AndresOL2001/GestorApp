@@ -72,6 +72,17 @@ header .image-text .profession{
   align-items: center;
   justify-content: center;
 }
+
+.sidebar li a:hover,.sidebar li.active{
+  background-color: var(--primary-color);
+  border-radius:8px;
+} 
+
+
+.sidebar li a span.sidebar-active-a{
+  color:white;
+
+}
 .sidebar__foot {
   margin-top: 24px;
   padding-top: 18px;
@@ -85,23 +96,4 @@ header .image-text .profession{
 .sidebar .theme {
   margin-top: 16px; }
 
-  /* responsive */
-@media (min-width: 1507px) {
   
-
-
-}
-
-@media (min-width: 1696px) {
- 
-
-
-}
-@media (min-width: 1809px) {
-
-
-}
-@media (min-width: 2036px) {
-  
-
-}

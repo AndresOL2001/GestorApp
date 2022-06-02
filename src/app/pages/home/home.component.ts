@@ -1,5 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Component, ElementRef, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { PaginationInstance } from 'ngx-pagination';
 import { LinkedList } from 'src/app/Helpers/LinkedListEstados';
 import { cargaGr } from 'src/app/models/cargaGr';
 import { CargaGrConDetalle } from 'src/app/models/cargaGrConDetalle';
@@ -23,6 +24,11 @@ export class HomeComponent implements OnInit {
   checkboxRef;
   cargasGr: cargaGr[];
   cargasView: any[];
+
+    //calendarioFecha
+    desdeCalendar;
+    hastaCalendar;
+    banderaHastaFecha = false;
 
   //Tabla-Paginacion
   numeroTotalDePaginas: number;
@@ -50,7 +56,10 @@ export class HomeComponent implements OnInit {
 
   //Filtrados tabla
   FiltroEstado;
-  FiltroFecha;
+  FiltroFecha = {
+    titulo:'Sin Fecha',
+    imagen:'../../../assets/sinfecha.png'
+  };
   EstadoActual = 'NORMAL';
   EstadoFecha = 'NORMAL';
 
@@ -91,8 +100,36 @@ export class HomeComponent implements OnInit {
   abrirFooter = false;
 
   mostrarAvisoRegistros = false;
+  mostrarMensajeInicial;
+
+  //dropdown
+  dropdownOptions = [
+    {
+      titulo:'Fecha',
+      imagen:'../../../assets/sinfecha.png'
+    },
+    {
+      titulo:'Hoy',
+      imagen:'../../../assets/hoy.png'
+    },
+    {
+      titulo:'Esta Semana',
+      imagen:'../../../assets/semana.png'
+    },
+    {
+      titulo:'Este Mes',
+      imagen:'../../../assets/mes.png'
+    },
+    {
+      titulo:'Personalizada',
+      imagen:'../../../assets/personalizada.png'
+    }
+
+  ]
 
   @ViewChildren("checkboxes") checkboxes: QueryList<ElementRef>
+  mostrarCalendario: boolean;
+  open: boolean;
 cancelarEliminar() {
          this.checkboxes.forEach((element) => {
               element.nativeElement.checked = false;
@@ -108,8 +145,19 @@ cancelarEliminar() {
 
   ngOnInit(): void {
     this.FiltroEstado = 'Estado';
-    this.FiltroFecha = 'Fecha';
+    this.FiltroFecha.titulo = this.dropdownOptions[0].titulo;
     this.nav.show();
+    window.addEventListener('click', function(e) {
+      /*2. Si el div con id clickbox contiene a e. target*/
+      if (document.getElementById('ulDrop').contains(e.target as HTMLElement)) {
+        console.log("dentro");
+        document.getElementById('ulDrop2').style.cssText = "visibility:visible;"
+      } else {
+        console.log("fuera");
+        document.getElementById('ulDrop2').style.cssText = "visibility:hidden;"
+
+      }
+    })
     this.InicializarFechas();
     this.listaEstados.append('Estado');
     this.listaEstados.append('Creado');
@@ -119,32 +167,30 @@ cancelarEliminar() {
     this.listaEstados.append('Validacion Digital');
     this.listaEstados.append('Gestoria en tramite');
     this.listaEstados.append('Documentos Entregados');
+    this.mostrarMensajeInicial = true;
 
     this.estadoService.obtenerEstados().subscribe((resp: Estado[]) => {
       this.estadosComentarios = resp;
     });
-
     this.cargaService.getCargas().subscribe((resp: cargaGr[]) => {
       resp.forEach(carga => carga.checked = false);
-      //console.log(resp);
+      resp.forEach((carga,i) => {
+        carga.index = i+1;
+      })
+      console.log(resp);
       this.cargasGr = resp;
       this.cargasView = resp;
+      this.mostrarMensajeInicial = false;
       if(this.cargasGr.length>0){
         this.mostrarAvisoRegistros = true;
       }
-      
-      setTimeout(() => {
-        let registrosAlert = document.getElementById("registrosAlerta");
-        registrosAlert.classList.add("fade-in")
-       setTimeout(() => {
-         this.mostrarAvisoRegistros = false;
-       },1500)
-      },3000)
 
     });
   }
 
   ordenarAlfabeticamente(head: string) {
+
+
     const switchFecha = {
       'Este Año': this.lastYearFormat,
       'Esta Semana': this.lastWeekFormat,
@@ -155,6 +201,10 @@ cancelarEliminar() {
 
     if (head == 'ESTADO') {
       head = 'nombreestado';
+    }
+
+    if(head == '#'){
+      head = 'index';
     }
 
     if (this.EstadoActual == 'NORMAL') {
@@ -174,9 +224,9 @@ cancelarEliminar() {
         this.cargasGr.filter((x) => x.nombreestado == this.FiltroEstado);
       }
 
-      if (this.FiltroFecha != 'Fecha') {
+      if (this.FiltroFecha.titulo != 'Fecha') {
         this.cargasGr.filter(
-          (x) => x.fecha_asignacion > switchFecha[this.FiltroFecha]
+          (x) => x.fecha_asignacion > switchFecha[this.FiltroFecha.titulo]
         );
       }
       // console.log(this.EstadoActual);
@@ -198,23 +248,27 @@ cancelarEliminar() {
         this.cargasGr.filter((x) => x.nombreestado == this.FiltroEstado);
       }
 
-      if (this.FiltroFecha != 'Fecha') {
+      if (this.FiltroFecha.titulo != 'Fecha') {
         this.cargasGr.filter(
-          (x) => x.fecha_asignacion > switchFecha[this.FiltroFecha]
+          (x) => x.fecha_asignacion > switchFecha[this.FiltroFecha.titulo]
         );
       }
     } else {
       this.cargaService.getCargas().subscribe((resp: cargaGr[]) => {
+        resp.forEach(carga => carga.checked = false);
+        resp.forEach((carga,i) => {
+          carga.index = i+1;
+        })
         this.cargasView = resp;
-        if (this.FiltroFecha != 'Fecha' && this.FiltroEstado != 'Estado') {
+        if (this.FiltroFecha.titulo != 'Fecha' && this.FiltroEstado != 'Estado') {
           this.cargasGr.filter(
             (x) =>
-              x.fecha_asignacion > switchFecha[this.FiltroFecha] &&
+              x.fecha_asignacion > switchFecha[this.FiltroFecha.titulo] &&
               x.nombreestado == this.FiltroEstado
           );
-        } else if (this.FiltroFecha != 'Fecha') {
+        } else if (this.FiltroFecha.titulo != 'Fecha') {
           this.cargasGr = this.cargasView.filter(
-            (x) => x.fecha_asignacion > switchFecha[this.FiltroFecha]
+            (x) => x.fecha_asignacion > switchFecha[this.FiltroFecha.titulo]
           );
         } else if (this.FiltroEstado != 'Estado') {
           this.cargasGr = this.cargasView.filter(
@@ -257,9 +311,13 @@ cancelarEliminar() {
       }
     } else {
       this.cargaService.getCargas().subscribe((resp: cargaGr[]) => {
+        resp.forEach(carga => carga.checked = false);
+        resp.forEach((carga,i) => {
+          carga.index = i+1;
+        })
         this.cargasView = resp;
 
-        if (this.FiltroFecha != 'Fecha') {
+        if (this.FiltroFecha.titulo != 'Fecha') {
           if (this.EstadoFecha != 'Hoy') {
             //console.log('ENTRASTE AQUI AÑO');
             this.cargasGr.filter(
@@ -278,7 +336,7 @@ cancelarEliminar() {
           );
         }
 
-        if (this.FiltroEstado == 'Estado' && this.FiltroFecha == 'Fecha') {
+        if (this.FiltroEstado == 'Estado' && this.FiltroFecha.titulo == 'Fecha') {
          // console.log('uwuwuwu');
           this.cargasGr = resp;
         }
@@ -297,12 +355,16 @@ cancelarEliminar() {
     };
 
     this.cargaService.getCargas().subscribe((resp: cargaGr[]) => {
+      resp.forEach(carga => carga.checked = false);
+      resp.forEach((carga,i) => {
+        carga.index = i+1;
+      })
       this.cargasView = resp;
     });
 
     if (event == 'Estado') {
-      if (this.FiltroFecha != 'Fecha') {
-        if (this.FiltroFecha != 'Hoy') {
+      if (this.FiltroFecha.titulo != 'Fecha') {
+        if (this.FiltroFecha.titulo != 'Hoy') {
           this.cargasGr = this.cargasView.filter(
             (x) => x.fecha_asignacion > switchFecha[this.EstadoFecha]
           );
@@ -315,17 +377,17 @@ cancelarEliminar() {
 
       // this.obtenerTotalIndicesTabla();
     } else {
-      if (this.FiltroFecha != 'Fecha') {
-        if (this.FiltroFecha != 'Hoy') {
+      if (this.FiltroFecha.titulo != 'Fecha') {
+        if (this.FiltroFecha.titulo != 'Hoy') {
           this.cargasGr = this.cargasView.filter(
             (x) =>
-              x.fecha_asignacion > switchFecha[this.FiltroFecha] &&
+              x.fecha_asignacion > switchFecha[this.FiltroFecha.titulo] &&
               x.nombreestado == this.FiltroEstado
           );
         } else {
           this.cargasGr = this.cargasView.filter(
             (x) =>
-              x.fecha_asignacion == switchFecha[this.FiltroFecha] &&
+              x.fecha_asignacion == switchFecha[this.FiltroFecha.titulo] &&
               x.nombreestado == this.FiltroEstado
           );
         }
@@ -340,6 +402,10 @@ cancelarEliminar() {
   cambioFiltroFecha(event) {
     if (event == 'Fecha') {
       this.cargaService.getCargas().subscribe((resp: cargaGr[]) => {
+        resp.forEach(carga => carga.checked = false);
+        resp.forEach((carga,i) => {
+          carga.index = i+1;
+        })
         this.cargasGr = resp;
         this.cargasView = resp;
         if (this.FiltroEstado != 'Estado') {
@@ -456,6 +522,7 @@ cancelarEliminar() {
   }
 
   crearComentario(comentarioDescripcion: string, dispararAlerta: boolean) {
+    console.log(this.cargaModal.nombreestado);
     comentarioDescripcion = comentarioDescripcion.replace(/(<([^>]+)>)/gi, '');
 
     let estadoNuevoComentario = this.estadosComentarios.filter(
@@ -475,6 +542,12 @@ cancelarEliminar() {
     };
 
     if (comentario.comentario.length > 1) {
+
+      if(this.cargaModal.proveedor == 'No Asignado'){
+        this.mensajeError = "Favor de escoger un proveedor"
+        this.dispararAlertaErrorActualizar = true;
+        return;
+      }
       this.cargaService
         .crearComentario(comentario, estadoNuevoComentario[0].IdEstado)
         .subscribe((resp) => {
@@ -489,7 +562,7 @@ cancelarEliminar() {
     }
 
 
-    if (this.cargaModal.proveedor != 'No Asignado') {
+    if(this.cargaModal.proveedor == 'No Asignado' && this.cargaModal.nombreestado != 'Creado' ) {
       this.cargaService
         .actualizarCarga(
           this.cargaModal.id,
@@ -501,10 +574,7 @@ cancelarEliminar() {
           this.dispararAlerta = true;
          // console.log(resp);
         });
-    } else {
-      this.mensajeError = "Favor de escoger un proveedor valido";
-      this.dispararAlertaErrorActualizar = true;
-    }
+    } 
   }
 
   actualizarComentarios() {
@@ -525,6 +595,10 @@ cancelarEliminar() {
 
     this.cargaService.buscarTodo(termino).subscribe((resp: any) => {
     //  console.log(resp);
+    resp.forEach(carga => carga.checked = false);
+    resp.forEach((carga,i) => {
+      carga.index = i+1;
+    })
       this.cargasGr = resp;
     });
   }
@@ -660,6 +734,10 @@ cancelarEliminar() {
       this.listaCargasIdsDelete = [];
       this.count = 0;
       this.cargaService.getCargas().subscribe( (resp:cargaGr[]) => {
+        resp.forEach(carga => carga.checked = false);
+        resp.forEach((carga,i) => {
+          carga.index = i+1;
+        })
         this.cargasGr = resp;
       })
       this.abrirFooter = false;
@@ -670,4 +748,65 @@ cancelarEliminar() {
     })
   }
 
+  //PAGINATIION
+  public filter: string = '';
+  public maxSize: number = 7;
+  public directionLinks: boolean = true;
+  public autoHide: boolean = false;
+  public responsive: boolean = false;
+  public config: PaginationInstance = {
+      id: 'advanced',
+      itemsPerPage: 5,
+      currentPage: 1
+  };
+  public labels: any = {
+      previousLabel: '<',
+      nextLabel: '>',
+      screenReaderPaginationLabel: 'Pagination',
+      screenReaderPageLabel: 'page',
+      screenReaderCurrentLabel: `You're on page`
+  };
+  public eventLog: string[] = [];
+
+
+  onPageChange(number: number) {
+      this.logEvent(`pageChange(${number})`);
+      this.config.currentPage = number;
+  }
+
+  onPageBoundsCorrection(number: number) {
+      this.logEvent(`pageBoundsCorrection(${number})`);
+      this.config.currentPage = number;
+  }
+
+
+  private logEvent(message: string) {
+      this.eventLog.unshift(`${new Date().toISOString()}: ${message}`)
+  }
+
+  choosedDate(event){
+    this.mostrarCalendario = false;
+     this.desdeCalendar = this.datePipe.transform(new Date(event.chosenLabel.split(" ")[0]),'yyyy-MM-dd');
+     this.hastaCalendar = this.datePipe.transform(new Date(event.chosenLabel.split(" ")[2]),'yyyy-MM-dd');
+     this.filtrarFechaPersonalizada();
+  }
+  filtrarFechaPersonalizada() {
+    this.cargasGr = this.cargasView.filter(x => x.fecha_asignacion > this.desdeCalendar && x.fecha_asignacion < this.hastaCalendar);
+   }
+   abrirDrop(){
+    this.open = true;
+
+   }
+
+   
+   actualizarFecha(opcion){
+    this.FiltroFecha = opcion;
+    console.log(opcion);
+    if(opcion?.titulo == 'Personalizada'){
+      this.mostrarCalendario = true;
+    }else{
+      this.mostrarCalendario = false;
+      this.cambioFiltroFecha(this.FiltroFecha.titulo)
+    }
+  }
 }

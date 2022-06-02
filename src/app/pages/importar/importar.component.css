@@ -11,36 +11,32 @@
 }
 
 .enter-amount {
-    align-items: flex-start;
-    background-color: rgba(239, 239, 239, 1);
-    border: 0.5px solid 
-  #bdbdbd;
+  align-items: flex-start;
+  background-color: rgba(239, 239, 239, 1);
+  border: 0.5px solid #bdbdbd;
   border-left: 10px solid #a02626;
-    border-radius: 2px;
-    display: flex;
-    height: 97px;
-    margin-left: 120px;
-    padding: 23.5px 28px;
-    margin-top: 120px;
-    margin-bottom:0px !important;
-    width: 1110px;
+  border-radius: 2px;
+  display: flex;
+  height: 97px;
+  margin-left: 175px;
+  padding: 23.5px 28px;
+  margin-top: 130px;
+  width: 85%;
   }
 
-  .enter-amount-green {
+  .enter-amount-green{
     align-items: flex-start;
     background-color: rgba(239, 239, 239, 1);
-    border: 0.5px solid 
-  #bdbdbd;
-  border-left: 10px solid #219653;
+    border: 0.5px solid #bdbdbd;
+    border-left: 10px solid #219653;
     border-radius: 2px;
     display: flex;
     height: 97px;
-    margin-left: 120px;
+    margin-left: 175px;
     padding: 23.5px 28px;
-    margin-top: 120px;
-    width: 1110px;
-  }
-  
+    margin-top: 130px;
+    width: 85%;
+}
   .overlap-group3 {
     height: 46px;
     margin-left: 19px;
@@ -193,11 +189,12 @@
         max-width: 90%;
         margin: 0 auto;
     }
-  
+    .page__title2{
+      margin-bottom: 0px!important;
+    }
       .page__inner2 {
         display: flex;
         flex-direction: column;
-        min-height: calc(100vh - 96px);
         padding: 40px; 
         align-items:center;
         justify-content:center;
@@ -379,7 +376,12 @@
             .table-rwd2 td:first-of-type:after {
               content: ""; }
         .table-rwd2 tr:hover {
-          background: #f4f4f4;
+          border: 1px solid #2a85ff;
+          margin:3px;
+        }
+        .table-rwd2 .border-table:hover{
+          border:none;
+          background:transparent;
         }
       
           .table-rwd2 td .normalTd{
@@ -502,7 +504,9 @@
         right:0;
       }
 
-
+      .page__title2{
+        margin-bottom: 0px !important;
+      }
       /* responsive */
 @media (min-width: 1507px) {
   .table-rwd2 .left {

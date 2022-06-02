@@ -1,4 +1,4 @@
-<div  *ngIf="!cargasGr || cargasGr.length== 0 && mostrarMensajeInicial" class="page__inner__home">
+<div  *ngIf="(!cargasGr || cargasGr.length== 0) && mostrarMensajeInicial" class="page__inner__home">
   <div class="hi-dash-welcome-bac">Hola Administrador,</div>
   <h1 class="campaigns poppins-semi-bold-mirage-40px">
     <span class="span poppins-semi-bold-mirage-40px">Bienvenido</span><span class="span1">&nbsp;</span><span
@@ -86,20 +86,17 @@
              </select>
           </div>
  -->
- <div class="dropdown btndropstyle">
-  <button (click)="abrirDrop()"  class="feat-btn link btnconfig">
-  <div class="one"><span style="font-size: 12px;"> <img  class="imagenUl" [src]="FiltroFecha.imagen"> {{FiltroFecha.titulo}}</span></div>
+ <div id="ulDrop" class="dropdown btndropstyle">
+  <button  class="feat-btn link btnconfig">
+  <div class="one"><span style="font-size: 12px;">{{FiltroFecha.titulo}}</span></div>
   <div class="two"><span class='bx bx-chevron-down icone' style="font-size: 20px;" ></span></div>
   </button>
-  <ul *ngIf="open" class="dropdown-menu drop2" name="Days">
+  <ul id="ulDrop2" class="dropdown-menu drop2" name="Days">
 
-    <li (click)="actualizarFecha(opcion)" 
-    *ngFor="let opcion of dropdownOptions">
+    <li (click)="actualizarFecha(opcion)"*ngFor="let opcion of dropdownOptions">
     <img class="dropdown-images-fechas" [src]="opcion.imagen">
     <span>{{opcion?.titulo}}</span>
     </li>
-  
-   
     </ul> 
 </div>
 
@@ -124,9 +121,14 @@
         <div class="table-container2">
         <table class="table-rwd2">
 
-          <tr>
+          <tr class="border-table">
             <th></th>
-            <th>#</th>
+            <th><div style="width: 0% !important;">#   
+              <i *ngIf="this.EstadoActual == 'NORMAL'" (click)="ordenarAlfabeticamente('#')" style="cursor:pointer;" class='bx bx-expand-vertical'></i>
+              <i *ngIf="this.EstadoActual == 'ASCENDENTE'" (click)="ordenarAlfabeticamente('#')" style="cursor:pointer;" class='bx bx-chevron-up'></i>
+              <i *ngIf="this.EstadoActual == 'DESCENDENTE'" (click)="ordenarAlfabeticamente('#')" style="cursor:pointer;" class='bx bx-chevron-down'></i>
+            </div>
+            </th>
             <th><div class="normal" >Fecha de Asignacion
               <i *ngIf="this.EstadoFecha == 'NORMAL'" (click)="ordenarFecha(head)" style="cursor:pointer;" class='bx bx-expand-vertical'></i>
               <i *ngIf="this.EstadoFecha == 'ASCENDENTE'" (click)="ordenarFecha(head)" style="cursor:pointer;" class='bx bx-chevron-up'></i>
@@ -144,7 +146,7 @@
 
           </tr>
           <tbody>
-          <tr style="cursor: pointer;" class="trmargin" *ngFor="let carga of cargasGr | paginate: { itemsPerPage: registrosPorPagina, currentPage: page }; let i=index;">
+          <tr style="cursor: pointer;" class="trmargin" *ngFor="let carga of cargasGr | paginate: config; let i=index;">
             <th (click)="$event.stopPropagation()"> 
               <label class="checkbox">
                 <input (change)="conteoIdsEliminar()" [(ngModel)]="carga.checked" name="groupA"
@@ -153,7 +155,7 @@
                 ></span>
               </label>
           </th>
-            <td class="normalTd">{{ cargasGr.indexOf(carga)+1}}</td>
+            <td class="normalTd">{{ carga.index}}</td>
             <td class="date normalTd" style="color:#707070;text-align: center;">{{carga.fecha_asignacion | date: 'yyyy-MM-dd':'GMT' }}</td>
             <td class="left normalTd">{{carga.siniestro}}</td>
             <td class="left normalTd"><div class="field__wrap">
@@ -188,7 +190,7 @@
         <div class="footer-combobox">
       <span class="footer-text">Mostrar registros por pagina </span>
 
-          <select [(ngModel)]="registrosPorPagina" class="select-btn-footer"  >
+          <select [(ngModel)]="config.itemsPerPage" class="select-btn-footer"  >
             
            <option *ngFor="let size of pageSizes" [value]="size" class="option-footer">
             {{size}}
@@ -198,8 +200,19 @@
            </select>
    
     </div>
-      <pagination-controls  (pageChange)="page = $event"  responsive="true"   previousLabel="<"
-        nextLabel=">"   maxSize =""></pagination-controls>
+    <pagination-controls [id]="config.id"
+    [maxSize]="maxSize"
+    [directionLinks]="directionLinks"
+    [autoHide]="autoHide"
+    [responsive]="responsive"
+    [previousLabel]="labels.previousLabel"
+    [nextLabel]="labels.nextLabel"
+    [screenReaderPaginationLabel]="labels.screenReaderPaginationLabel"
+    [screenReaderPageLabel]="labels.screenReaderPageLabel"
+    [screenReaderCurrentLabel]="labels.screenReaderCurrentLabel"
+    (pageChange)="onPageChange($event)"
+    (pageBoundsCorrection)="onPageBoundsCorrection($event)"></pagination-controls>
+  </div>
       </div>
     </div>
     </div>
@@ -207,7 +220,6 @@
         
       
     
-  </div>
   </div>
    
  
@@ -259,7 +271,7 @@
         <img src="../../../assets/excelICono.png">
       </div>
       <div class="success__info">Se ha generado el archivo</div>
-      <div class=" h2 success__price ">ReporteV.</div>
+      <div class=" h2 success__price ">ReporteV.Xslx</div>
       <div class="success__text">La exportación se ha realizado exitosamente.</div>
       <button (click)="cerrarAlerta()" class="button success__button js-popup-close">De acuerdo</button>
     </div>

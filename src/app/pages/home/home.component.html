@@ -1,4 +1,4 @@
-<div *ngIf="!cargasGr || cargasGr.length== 0" class="page__inner__home">
+<div *ngIf="(!cargasGr || cargasGr.length== 0) && mostrarMensajeInicial" class="page__inner__home">
   <div class="hi-dash-welcome-bac">Hola Administrador,</div>
   <h1 class="campaigns poppins-semi-bold-mirage-40px">
     <span class="span poppins-semi-bold-mirage-40px">Bienvenido</span><span class="span1">&nbsp;</span><span
@@ -23,20 +23,29 @@
     <div class="page__title h3">PT'S</div>
     <div  class="drafts card">
       <div class="card__title">Listado de PT's</div>
+      <div class="calendario-position">
+        <ngx-daterangepicker-material *ngIf="mostrarCalendario"(choosedDate)="choosedDate($event)" [showDropdowns]="true">
+        </ngx-daterangepicker-material>
+        </div>
       <div class="card__head">
         <div id="homeTableId" class="wrapper1">
+         
 
-
-          <div class="select1">
-              <select (change)="cambioFiltroFecha($event.target.value)" [(ngModel)]="FiltroFecha" class="select-btn" name="Days">
-              <option>Fecha</option>
-              <option>Hoy</option>
-              <option>Esta Semana</option>
-              <option>Este Mes</option>
-              <option>Este Año</option>
-             </select>
+          <div id="ulDrop" class="dropdown btndropstyle">
+            <button class="feat-btn link btnconfig">
+            <div class="one"><span style="font-size: 12px;">{{FiltroFecha.titulo}}</span></div>
+            <div class="two"><span class='bx bx-chevron-down icone' style="font-size: 20px;" ></span></div>
+            </button>
+            <ul id="ulDrop2" class="dropdown-menu drop2" name="Days">
+          
+              <li (click)="actualizarFecha(opcion)"*ngFor="let opcion of dropdownOptions">
+              <img class="dropdown-images-fechas" [src]="opcion.imagen">
+              <span>{{opcion?.titulo}}</span>
+              </li>
+            
+             
+              </ul> 
           </div>
-
 
          <div class="select2">
              <select (change)="cambioFiltroEstado($event.target.value)" [(ngModel)]="FiltroEstado" class="select-btn" name="Estatus" >
@@ -87,9 +96,14 @@
         <div class="table-container2">
         <table class="table-rwd2">
 
-          <tr>
+          <tr class="border-table">
             <th></th>
-            <th>#</th>
+            <th><div style="width: 0% !important;">#   
+              <i *ngIf="this.EstadoActual == 'NORMAL'" (click)="ordenarAlfabeticamente('#')" style="cursor:pointer;" class='bx bx-expand-vertical'></i>
+              <i *ngIf="this.EstadoActual == 'ASCENDENTE'" (click)="ordenarAlfabeticamente('#')" style="cursor:pointer;" class='bx bx-chevron-up'></i>
+              <i *ngIf="this.EstadoActual == 'DESCENDENTE'" (click)="ordenarAlfabeticamente('#')" style="cursor:pointer;" class='bx bx-chevron-down'></i>
+            </div>
+            </th>
             <th><div [ngClass]="{'normal': banderaModal === false, 'thOpen' : banderaModal === true }">Fecha de Asignacion
               <i *ngIf="this.EstadoFecha == 'NORMAL'" (click)="ordenarFecha(head)" style="cursor:pointer;" class='bx bx-expand-vertical'></i>
               <i *ngIf="this.EstadoFecha == 'ASCENDENTE'" (click)="ordenarFecha(head)" style="cursor:pointer;" class='bx bx-chevron-up'></i>
@@ -107,7 +121,7 @@
 
           </tr>
           <tbody>
-          <tr (click)="abrirModal(carga)" style="cursor: pointer;" class="trmargin" *ngFor="let carga of cargasGr | paginate: { itemsPerPage: registrosPorPagina, currentPage: page }; let i=index;">
+          <tr (click)="abrirModal(carga)" style="cursor: pointer;" class="trmargin" *ngFor="let carga of cargasGr | paginate: config; let i=index;">
             <th (click)="$event.stopPropagation()"> 
               <label class="checkbox">
                 <input (change)="conteoIdsEliminar()" [(ngModel)]="carga.checked" name="groupA"
@@ -116,7 +130,8 @@
                 ></span>
               </label>
           </th>
-            <td class="normalTd">{{ cargasGr.indexOf(carga)+1}}</td>
+            <td  class="normalTd">{{carga.index}}</td>
+
             <td class="date normalTd" style="color:#707070;text-align: center;">{{carga.fecha_asignacion | date: 'yyyy-MM-dd':'GMT' }}</td>
             <td  [ngClass]="{'left normalTd': banderaModal === false, 'leftModalOpen normalTdOpen' : banderaModal === true }">{{carga.siniestro}}</td>
             <td [ngClass]="{'left normalTd': banderaModal === false, 'leftModalOpen normalTdOpen' : banderaModal === true }" class="left"><div class="field__wrap">
@@ -146,12 +161,12 @@
 
       </div>
       <div class="footer-table">
-      <span class="footer-text">Numero de registros activos: {{cargasGr.length}}</span>
+      <span class="footer-text">NUMERO DE REGISTROS ACTIVOS: {{cargasGr.length}}</span>
       <div class="footer-text-right">
         <div class="footer-combobox">
-      <span class="footer-text">Mostrar registros por pagina </span>
+      <span class="footer-text">Mostrar registros por página </span>
 
-          <select [(ngModel)]="registrosPorPagina" class="select-btn-footer"  >
+          <select [(ngModel)]="config.itemsPerPage" class="select-btn-footer"  >
             
            <option *ngFor="let size of pageSizes" [value]="size" class="option-footer">
             {{size}}
@@ -161,8 +176,20 @@
            </select>
    
     </div>
-      <pagination-controls  (pageChange)="page = $event"  responsive="true"   previousLabel="<"
-        nextLabel=">"   maxSize =""></pagination-controls>
+<!--       <pagination-controls  (pageChange)="page = $event"  responsive="true"   previousLabel="<"
+        nextLabel=">"   maxSize =""></pagination-controls> -->
+        <pagination-controls [id]="config.id"
+        [maxSize]="maxSize"
+        [directionLinks]="directionLinks"
+        [autoHide]="autoHide"
+        [responsive]="responsive"
+        [previousLabel]="labels.previousLabel"
+        [nextLabel]="labels.nextLabel"
+        [screenReaderPaginationLabel]="labels.screenReaderPaginationLabel"
+        [screenReaderPageLabel]="labels.screenReaderPageLabel"
+        [screenReaderCurrentLabel]="labels.screenReaderCurrentLabel"
+        (pageChange)="onPageChange($event)"
+        (pageBoundsCorrection)="onPageBoundsCorrection($event)"></pagination-controls>
       </div>
     </div>
     </div>
@@ -384,13 +411,8 @@
       <div class="success__info">!Acción realizada correctamente !</div>
       <div class=" h2 success__price ">Correcto </div>
       <div class="success__text">{{mensajeExito}} </div>
-      <button (click)="cerrarAlerta()" class="button success__button js-popup-close">Hecho!</button>
+      <button (click)="cerrarAlerta()" class="button success__button js-popup-close">De acuerdo</button>
     </div>
-    <button (click)="cerrarAlerta()" class="popup__close js-popup-close">
-      <svg class="icon icon-close ">
-        <use xlink:href="#icon-close"></use>
-      </svg>
-    </button>
   </div>
 </div>
 
