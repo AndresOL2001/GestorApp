@@ -752,6 +752,8 @@ export class HomeComponent implements OnInit {
         this.comentarios[i].id_Comentario;
     }
 
+    this.mostrarMensajeInicial = true;
+
     this.cargaService
       .exportarCargaEspecifica(cargaEspecifica)
       .subscribe((resp) => {
@@ -767,6 +769,7 @@ export class HomeComponent implements OnInit {
         link.download = `${dateFormat} / cargaEspecificaGr`;
 
         link.click();
+        this.mostrarMensajeInicial = false;
       });
   }
 

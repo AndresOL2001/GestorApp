@@ -179,6 +179,9 @@ export class ImportarComponent implements OnInit {
 
     this.cargaGrService.buscarTodo(termino).subscribe((resp: cargaGr[]) => {
       resp = resp.filter(x=> x.nombreestado == 'Creado');
+      resp.forEach((carga,i) => {
+        carga.index = i+1;
+      })
       this.cargasGr = resp;
     });
   }

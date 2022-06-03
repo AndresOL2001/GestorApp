@@ -104,7 +104,7 @@ export class LinkedList {
     let temp: NodeLink = this.head;
     while(temp !=null){
       if(temp.value == value){
-        return temp.next.value;
+        return temp.next?.value != null ? temp.next?.value : temp.next;
       }
       temp = temp.next;
     }

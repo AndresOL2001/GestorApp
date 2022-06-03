@@ -329,6 +329,7 @@ export class ExportarComponent implements OnInit {
 
 
   exportarCargas(cargasGr) {
+    this.mostrarMensajeInicial = true;
     this.cargaService.exportarCargas(cargasGr).subscribe((resp) => {
       const blob = new Blob([resp], {
         type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
@@ -342,6 +343,7 @@ export class ExportarComponent implements OnInit {
       link.download = `${dateFormat} / cargaGr`;
 
       link.click();
+      this.mostrarMensajeInicial = false;
       this.mensajeExito = "La exportacion se a realizado exitosamente"
       this.dispararAlerta = true;
 
