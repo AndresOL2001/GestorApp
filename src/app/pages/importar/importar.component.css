@@ -106,6 +106,12 @@
     width: 4px;
   }
   
+  .centrarLoader{
+    position: absolute;
+    top:50%;
+    left:50%
+
+  }
   
   
   .fade-in2 {
@@ -130,6 +136,8 @@
       opacity: 0;
     }
   }
+
+  
   
   /*TABLA*/
   .table-rwd {

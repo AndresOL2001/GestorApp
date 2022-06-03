@@ -54,12 +54,18 @@ export class ImportarComponent implements OnInit {
     'OBSERVACIONES',
     'PROVEEDOR'
   ];
-
+  espereUnMomento = false;
   pageSizes = [5, 10, 15, 20, 30, 40, 50];
 
   constructor(private cargaGrService:CargaGrService,private nav:NavbarService,private datePipe:DatePipe) { }
 
+  primeraVez:boolean = false;
   ngOnInit(): void {
+    if(localStorage.getItem('FirstTime')){
+      this.primeraVez = false;
+    }else{
+      this.primeraVez = true;
+    }
     this.EstadoFecha = 'NORMAL';
     this.EstadoActual = 'NORMAL';
     this.nav.show();
@@ -201,8 +207,10 @@ export class ImportarComponent implements OnInit {
 
     let extension = this.fileName.substring(this.fileName.lastIndexOf('.')+1, this.fileName.length);
     if(extension == 'xlsx'){
+      this.espereUnMomento = true;
       this.cargaGrService.postCargas(file).subscribe( (resp:any) => {
         this.cantidadRegistrosImportados = resp.length;
+        this.espereUnMomento = false;
         this.mostrarAvisoRegistros = true;
   
       
@@ -223,6 +231,7 @@ export class ImportarComponent implements OnInit {
           })
           this.cargasGr = resp;
           this.cargasView = resp;
+          localStorage.setItem("FirstTime",'true');
         })
         this.cancelarLayout();
       },err=>{
@@ -230,8 +239,10 @@ export class ImportarComponent implements OnInit {
         this.errorMensaje = err.error.mensaje;
       })
     }else if(extension == 'csv'){
+      this.espereUnMomento =true;
       this.cargaGrService.postCargasCSV(file).subscribe((resp:any) => {
         this.cantidadRegistrosImportados = resp.length;
+        this.espereUnMomento = false;
         this.mostrarAvisoRegistros = true;  
       
        setTimeout(() => {
@@ -251,6 +262,8 @@ export class ImportarComponent implements OnInit {
           })
           this.cargasGr = resp;
           this.cargasView = resp;
+          localStorage.setItem("FirstTime",'true');
+
         })
       },err=>{
         this.dispararAlertaError=true;

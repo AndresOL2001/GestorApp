@@ -10,5 +10,6 @@ import { cargaGr } from "./cargaGr";
 
     export interface Comentario {
         comentario: string;
+        fecha:string;
         cargas: CargaComentario[];
     }

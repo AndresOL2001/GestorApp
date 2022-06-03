@@ -1,4 +1,4 @@
-<div *ngIf="(!cargasGr || cargasGr.length== 0) && mostrarMensajeInicial" class="page__inner__home">
+<div *ngIf="(!cargasGr || cargasGr.length== 0) && mostrarMensajeInicial && primeraVez" class="page__inner__home">
   <div class="hi-dash-welcome-bac">Hola Administrador,</div>
   <h1 class="campaigns poppins-semi-bold-mirage-40px">
     <span class="span poppins-semi-bold-mirage-40px">Bienvenido</span><span class="span1">&nbsp;</span><span
@@ -17,6 +17,12 @@
   
   </div>
 </div>
+
+<div *ngIf="(!cargasGr || cargasGr.length== 0)" class="centrarLoader">
+  <div class="loadingio-spinner-ellipsis-oho0lnfcd0m"><div class="ldio-ehkjckhbtyt">
+    <div></div><div></div><div></div><div></div><div></div>
+    </div></div>
+  </div>
 
 <div *ngIf="cargasGr"class="page__inner2">
   <div id="pageContainer" class="page__container2">
@@ -47,17 +53,23 @@
               </ul> 
           </div>
 
-         <div class="select2">
-             <select (change)="cambioFiltroEstado($event.target.value)" [(ngModel)]="FiltroEstado" class="select-btn" name="Estatus" >
-              <option>Estado</option>
-              <option>Creado</option>
-              <option>Asignado</option>
-              <option>Notificado</option>
-              <option>Localizado</option>
-              <option>Gestoria en tramite</option>
-              <option>Validacion digital</option>
-              <option>Documentos entregados</option>
-              </select>
+          <div id="ulDrop3" class="dropdown btndropstyle">
+            <button class="feat-btn link btnconfig">
+              <div class="one">
+                <span style="font-size: 12px">{{ FiltroEstado }}</span>
+              </div>
+              <div class="two">
+                <span
+                  class="bx bx-chevron-down icone"
+                  style="font-size: 20px"
+                ></span>
+              </div>
+            </button>
+            <ul id="ulDrop4" class="dropdown-menu drop2" name="Days">
+              <li (click)="actualizarEstado(opcion2)" *ngFor="let opcion2 of dropdownOptionsEstados">
+                <span>{{opcion2}}</span>
+              </li>
+            </ul>
           </div>
 
           <div>
@@ -261,7 +273,7 @@
                             <h4 class="font_form">Proveedor:</h4>
     
                             <div class="select-table">
-                              <select (change)="cambiarProveedor($event.target.value)" class="select-btn" name="Estatus">
+                              <select [disabled]="cargaModal.proveedor != 'No Asignado'" (change)="cambiarProveedor($event.target.value)" class="select-btn" name="Estatus">
                                 <option>{{cargaModal.proveedor}}</option>
                                 <option *ngIf="cargaModal.proveedor != 1">1</option>
                                 <option *ngIf="cargaModal.proveedor != 2">2</option>
@@ -339,7 +351,7 @@
                     <div *ngFor="let comentario of comentarios" class="section-comment">
                       <img class="img-logo" src="../../../assets/AXXA.jpeg" />
                       <div class="section-text">
-                        <h4>Automatico <span>hace 16 minutos</span></h4>
+                        <h4>Automatico <span>{{comentario.fecha}}</span></h4>
                         <div class="field__wrap">
                           <h4 class="info__Estatus" [ngStyle]="{'color': comentario.color}">{{comentario.nombre}}</h4>
                         </div>
@@ -387,6 +399,21 @@
   </div>
 </div>
 
+<div *ngIf="estaSeguro" class="popup popup_success js-popup js-popup-success animation visible">
+  <div class="popup__overlay js-popup-overlay"></div>
+  <div class="popup__wrap js-popup-wrap">
+    <div class="success">
+      <div class="success__iconError"> ? </div>
+      <div class="success__info">Esta seguro que desea asignar proveedor?</div>
+      <div class=" h2 success__price ">Advertencia</div>
+      <div class="success__text">Una vez escogido el proveedor no podra volver a cambiarlo </div>
+      <button (click)="asignarProveedor()" class="button success__button"style="margin-right:2px;">Aceptar</button>
+      <button (click)="cerrarAlerta()" class="button-stroke users__button">Cancelar</button>
+
+    </div>
+  </div>
+</div>
+
 <div *ngIf="dispararAlerta" class="popup popup_success js-popup js-popup-success animation visible">
   <div class="popup__overlay js-popup-overlay"></div>
   <div class="popup__wrap js-popup-wrap">
@@ -415,3 +442,68 @@
 </div>
 </div>
 </div>
+
+
+<!--Animation-->
+<style type="text/css">
+  @keyframes ldio-ehkjckhbtyt {
+     0% { transform: translate(12px,80px) scale(0); }
+    25% { transform: translate(12px,80px) scale(0); }
+    50% { transform: translate(12px,80px) scale(1); }
+    75% { transform: translate(80px,80px) scale(1); }
+   100% { transform: translate(148px,80px) scale(1); }
+  }
+  @keyframes ldio-ehkjckhbtyt-r {
+     0% { transform: translate(148px,80px) scale(1): }
+   100% { transform: translate(148px,80px) scale(0); }
+  }
+  @keyframes ldio-ehkjckhbtyt-c {
+     0% { background: #398dff }
+    25% { background: #cae1ff }
+    50% { background: #a8cdff }
+    75% { background: #5ba1ff }
+   100% { background: #398dff }
+  }
+  .ldio-ehkjckhbtyt div {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    transform: translate(80px,80px) scale(1);
+    background: #398dff;
+    animation: ldio-ehkjckhbtyt 2.4390243902439024s infinite cubic-bezier(0,0.5,0.5,1);
+  }
+  .ldio-ehkjckhbtyt div:nth-child(1) {
+    background: #5ba1ff;
+    transform: translate(148px,80px) scale(1);
+    animation: ldio-ehkjckhbtyt-r 0.6097560975609756s infinite cubic-bezier(0,0.5,0.5,1), ldio-ehkjckhbtyt-c 2.4390243902439024s infinite step-start;
+  }.ldio-ehkjckhbtyt div:nth-child(2) {
+    animation-delay: -0.6097560975609756s;
+    background: #398dff;
+  }.ldio-ehkjckhbtyt div:nth-child(3) {
+    animation-delay: -1.2195121951219512s;
+    background: #5ba1ff;
+  }.ldio-ehkjckhbtyt div:nth-child(4) {
+    animation-delay: -1.8292682926829267s;
+    background: #a8cdff;
+  }.ldio-ehkjckhbtyt div:nth-child(5) {
+    animation-delay: -2.4390243902439024s;
+    background: #cae1ff;
+  }
+  .loadingio-spinner-ellipsis-oho0lnfcd0m {
+    width: 200px;
+    height: 200px;
+    display: inline-block;
+    overflow: hidden;
+  }
+  .ldio-ehkjckhbtyt {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform: translateZ(0) scale(1);
+    backface-visibility: hidden;
+    transform-origin: 0 0; /* see note above */
+  }
+  .ldio-ehkjckhbtyt div { box-sizing: content-box; }
+  /* generated by https://loading.io/ */
+  </style>

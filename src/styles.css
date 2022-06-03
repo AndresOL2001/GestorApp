@@ -33,6 +33,7 @@ html
 }
 
 
+
 *::-webkit-scrollbar-thumb:vertical {
   background-color: 
 #d8d8d8;
@@ -63,6 +64,7 @@ body.dark{
   --text-color: #ccc;
   
 }
+
 
 
 @charset "UTF-8";
@@ -14166,6 +14168,16 @@ body.dark .notification .actions__button {
     border-radius: 50%;
     background: #B5E4CA;
     font-size: 48px; }
+    .success__icon2 {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 128px;
+      height: 128px;
+      margin: 0 auto 20px;
+      border-radius: 50%;
+      background: #a2cbff;
+      font-size: 48px; }
     .success__iconError {
       display: flex;
       justify-content: center;

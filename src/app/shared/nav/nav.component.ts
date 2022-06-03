@@ -15,6 +15,7 @@ export class NavComponent implements OnInit{
    
   }
 
+
 mostrarLogout:boolean = false;
 
 MostrarLogout(){

@@ -92,11 +92,29 @@ export class ExportarComponent implements OnInit {
 
   ]
 
+  dropdownOptionsEstados = [
+    'Estado',
+    'Creado',
+    'Asignado',
+    'Notificado',
+    'Localizado',
+    'Gestoria en tramite',
+    'Validacion digital',
+    'Documentos entregados'
+  ]
+
+
   mostrarAvisoRegistros = false;
   mostrarMensajeInicial:boolean;
   abrirFooter = false;
 
+  primeraVez:boolean = false;
   ngOnInit(): void {
+    if(localStorage.getItem('FirstTime')){
+      this.primeraVez = false;
+    }else{
+      this.primeraVez = true;
+    }
     this.navService.show();
     window.addEventListener('click', function(e) {
       /*2. Si el div con id clickbox contiene a e. target*/
@@ -106,6 +124,17 @@ export class ExportarComponent implements OnInit {
       } else {
         //console.log("fuera");
         document.getElementById('ulDrop2').style.cssText = "visibility:hidden;"
+
+      }
+    })
+
+    window.addEventListener('click', function(e) {
+      if (document.getElementById('ulDrop3').contains(e.target as HTMLElement)) {
+        //console.log("dentro");
+        document.getElementById('ulDrop4').style.cssText = "visibility:visible;"
+      } else {
+        //console.log("fuera");
+        document.getElementById('ulDrop4').style.cssText = "visibility:hidden;"
 
       }
     })
@@ -600,5 +629,11 @@ export class ExportarComponent implements OnInit {
    private logEvent(message: string) {
        this.eventLog.unshift(`${new Date().toISOString()}: ${message}`)
    }
+
+   actualizarEstado(opcion){
+    this.FiltroEstado = opcion;
+    console.log(opcion);
+      this.cambioFiltroEstado(this.FiltroEstado)
+    }
 
 }

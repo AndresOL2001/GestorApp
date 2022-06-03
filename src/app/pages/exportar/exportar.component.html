@@ -1,34 +1,48 @@
-<div  *ngIf="(!cargasGr || cargasGr.length== 0) && mostrarMensajeInicial" class="page__inner__home">
+<div *ngIf="(!cargasGr || cargasGr.length == 0) && mostrarMensajeInicial && primeraVez"
+  class="page__inner__home"
+>
   <div class="hi-dash-welcome-bac">Hola Administrador,</div>
   <h1 class="campaigns poppins-semi-bold-mirage-40px">
-    <span class="span poppins-semi-bold-mirage-40px">Bienvenido</span><span class="span1">&nbsp;</span><span
-      class="span poppins-semi-bold-mirage-40px">👋</span>
+    <span class="span poppins-semi-bold-mirage-40px">Bienvenido</span
+    ><span class="span1">&nbsp;</span
+    ><span class="span poppins-semi-bold-mirage-40px">👋</span>
   </h1>
   <div class="import-Layour-center">
     <img class="img-import-layout" src="../../../assets/exceldatos.svg" />
     <p>Aún no hay información registrada.</p>
-    <p class="text-secondary">Empieza importando tu primer layout&nbsp;&nbsp;.xls<br />de Carga GR.</p>
-  <button class="buttonLayount-import">
-    <div  [routerLink]="'/home/importar'" class="contenido-button" >
-      <img  src="../../../assets/iconImportarLayout.svg" />
-      <div>Importar layout</div>
-    </div>
-  </button>
-  
+    <p class="text-secondary">
+      Empieza importando tu primer layout&nbsp;&nbsp;.xls<br />de Carga GR.
+    </p>
+    <button class="buttonLayount-import">
+      <div [routerLink]="'/home/importar'" class="contenido-button">
+        <img src="../../../assets/iconImportarLayout.svg" />
+        <div>Importar layout</div>
+      </div>
+    </button>
   </div>
 </div>
 
+<div *ngIf="(!cargasGr || cargasGr.length== 0)" class="centrarLoader">
+  <div class="loadingio-spinner-ellipsis-oho0lnfcd0m"><div class="ldio-ehkjckhbtyt">
+    <div></div><div></div><div></div><div></div><div></div>
+    </div></div>
+  </div>
+  
 
-<div *ngIf="cargasGr"class="page__inner2">
-  <div  class="page__container2">
+<div *ngIf="cargasGr" class="page__inner2">
+  <div class="page__container2">
     <div class="page__title h3">PT'S</div>
-    
-    <div  class="drafts card">
+
+    <div class="drafts card">
       <div class="card__title">Exportar y consultar</div>
 
       <div class="calendario-position">
-      <ngx-daterangepicker-material *ngIf="mostrarCalendario"(choosedDate)="choosedDate($event)" [showDropdowns]="true">
-      </ngx-daterangepicker-material>
+        <ngx-daterangepicker-material
+          *ngIf="mostrarCalendario"
+          (choosedDate)="choosedDate($event)"
+          [showDropdowns]="true"
+        >
+        </ngx-daterangepicker-material>
       </div>
       <!--   <div class="areas">
          <label class="color-label-calendar">Rango de fechas del:  
@@ -39,10 +53,9 @@
          <label>al:   </label>
          <input [min]="desdeCalendar" (change)="filtrarFechaPersonalizada($event)" [(ngModel)]="hastaCalendar" id="hastaCalendar"type="date" />
         </div> -->
-     
+
       <div class="card__head">
         <div id="homeTableId" class="wrapper1">
-          
           <div class="search">
             <div class="search__head">
               <button class="search__start">
@@ -55,7 +68,13 @@
                   <use xlink:href="#icon-arrow-left"></use>
                 </svg>
               </button>
-              <input #searchInput (keyup.enter)="buscar(searchInput.value)"class="search__input width_search" type="text" placeholder="Buscar">
+              <input
+                #searchInput
+                (keyup.enter)="buscar(searchInput.value)"
+                class="search__input width_search"
+                type="text"
+                placeholder="Buscar"
+              />
               <button class="search__close">
                 <svg class="icon icon-close-circle">
                   <use xlink:href="#icon-close-circle"></use>
@@ -67,13 +86,12 @@
             <div class="content">
               <div class="search1">
                 <i class="uil uil-search"></i>
-                <input spellcheck="false" type="text" placeholder="Search">
+                <input spellcheck="false" type="text" placeholder="Search" />
               </div>
               <ul class="options"></ul>
             </div>
           </div>
         </div>
-
 
         <!--   <div class="select1">
               <select style="width:200px" (change)="cambioFiltroFecha($event.target.value)" [(ngModel)]="FiltroFecha" class="select-btn" name="Days">
@@ -86,145 +104,229 @@
              </select>
           </div>
  -->
- <div id="ulDrop" class="dropdown btndropstyle">
-  <button  class="feat-btn link btnconfig">
-  <div class="one"><span style="font-size: 12px;">{{FiltroFecha.titulo}}</span></div>
-  <div class="two"><span class='bx bx-chevron-down icone' style="font-size: 20px;" ></span></div>
-  </button>
-  <ul id="ulDrop2" class="dropdown-menu drop2" name="Days">
+        <div id="ulDrop" class="dropdown btndropstyle">
+          <button class="feat-btn link btnconfig">
+            <div class="one">
+              <span style="font-size: 12px">{{ FiltroFecha.titulo }}</span>
+            </div>
+            <div class="two">
+              <span
+                class="bx bx-chevron-down icone"
+                style="font-size: 20px"
+              ></span>
+            </div>
+          </button>
+          <ul id="ulDrop2" class="dropdown-menu drop2" name="Days">
+            <li
+              (click)="actualizarFecha(opcion)"
+              *ngFor="let opcion of dropdownOptions"
+            >
+              <img class="dropdown-images-fechas" [src]="opcion.imagen" />
+              <span>{{ opcion?.titulo }}</span>
+            </li>
+          </ul>
+        </div>
 
-    <li (click)="actualizarFecha(opcion)"*ngFor="let opcion of dropdownOptions">
-    <img class="dropdown-images-fechas" [src]="opcion.imagen">
-    <span>{{opcion?.titulo}}</span>
-    </li>
-    </ul> 
-</div>
-
-         <div class="select2">
-             <select  (change)="cambioFiltroEstado($event.target.value)" [(ngModel)]="FiltroEstado" class="select-btn" name="Estatus" >
-              <option>Estado</option>
-              <option>Creado</option>
-              <option>Asignado</option>
-              <option>Notificado</option>
-              <option>Localizado</option>
-              <option>Gestoria en tramite</option>
-              <option>Validacion digital</option>
-              <option>Documentos entregados</option>
-              </select>
-          </div>
-          <div class="left-btn">
-            <button (click)="exportarCargas(this.cargasGr)" class="button-stroke users__button">
-              <img class="imgbtnprint" src="../../../assets/icono descarga.png">Exportar xlsx</button>
-            </div>    
+        <div id="ulDrop3" class="dropdown btndropstyle">
+          <button class="feat-btn link btnconfig">
+            <div class="one">
+              <span style="font-size: 12px">{{ FiltroEstado }}</span>
+            </div>
+            <div class="two">
+              <span
+                class="bx bx-chevron-down icone"
+                style="font-size: 20px"
+              ></span>
+            </div>
+          </button>
+          <ul id="ulDrop4" class="dropdown-menu drop2" name="Days">
+            <li
+              (click)="actualizarEstado(opcion2)"
+              *ngFor="let opcion2 of dropdownOptionsEstados"
+            >
+              <span>{{ opcion2 }}</span>
+            </li>
+          </ul>
+        </div>
+        <div class="left-btn">
+          <button
+            (click)="exportarCargas(this.cargasGr)"
+            class="button-stroke users__button"
+          >
+            <img
+              class="imgbtnprint"
+              src="../../../assets/icono descarga.png"
+            />Exportar xlsx
+          </button>
+        </div>
       </div>
-        
-        <div class="table-container2">
-        <table class="table-rwd2">
 
+      <div class="table-container2">
+        <table class="table-rwd2">
           <tr class="border-table">
             <th></th>
-            <th><div style="width: 0% !important;">#   
-              <i *ngIf="this.EstadoActual == 'NORMAL'" (click)="ordenarAlfabeticamente('#')" style="cursor:pointer;" class='bx bx-expand-vertical'></i>
-              <i *ngIf="this.EstadoActual == 'ASCENDENTE'" (click)="ordenarAlfabeticamente('#')" style="cursor:pointer;" class='bx bx-chevron-up'></i>
-              <i *ngIf="this.EstadoActual == 'DESCENDENTE'" (click)="ordenarAlfabeticamente('#')" style="cursor:pointer;" class='bx bx-chevron-down'></i>
-            </div>
+            <th>
+              <div style="width: 0% !important">
+                #
+                <i
+                  *ngIf="this.EstadoActual == 'NORMAL'"
+                  (click)="ordenarAlfabeticamente('#')"
+                  style="cursor: pointer"
+                  class="bx bx-expand-vertical"
+                ></i>
+                <i
+                  *ngIf="this.EstadoActual == 'ASCENDENTE'"
+                  (click)="ordenarAlfabeticamente('#')"
+                  style="cursor: pointer"
+                  class="bx bx-chevron-up"
+                ></i>
+                <i
+                  *ngIf="this.EstadoActual == 'DESCENDENTE'"
+                  (click)="ordenarAlfabeticamente('#')"
+                  style="cursor: pointer"
+                  class="bx bx-chevron-down"
+                ></i>
+              </div>
             </th>
-            <th><div class="normal" >Fecha de Asignacion
-              <i *ngIf="this.EstadoFecha == 'NORMAL'" (click)="ordenarFecha(head)" style="cursor:pointer;" class='bx bx-expand-vertical'></i>
-              <i *ngIf="this.EstadoFecha == 'ASCENDENTE'" (click)="ordenarFecha(head)" style="cursor:pointer;" class='bx bx-chevron-up'></i>
-              <i *ngIf="this.EstadoFecha == 'DESCENDENTE'" (click)="ordenarFecha(head)" style="cursor:pointer;" class='bx bx-chevron-down'></i>
-
-            </div></th>
-            <th class="left"  *ngFor="let head of pageHeaders">
-              <div class="normal">{{head}}
-              <i *ngIf="this.EstadoActual == 'NORMAL'" (click)="ordenarAlfabeticamente(head)" style="cursor:pointer;" class='bx bx-expand-vertical'></i>
-              <i *ngIf="this.EstadoActual == 'ASCENDENTE'" (click)="ordenarAlfabeticamente(head)" style="cursor:pointer;" class='bx bx-chevron-up'></i>
-              <i *ngIf="this.EstadoActual == 'DESCENDENTE'" (click)="ordenarAlfabeticamente(head)" style="cursor:pointer;" class='bx bx-chevron-down'></i>
-
-            </div>
-          </th>
-
+            <th>
+              <div class="normal">
+                Fecha de Asignacion
+                <i
+                  *ngIf="this.EstadoFecha == 'NORMAL'"
+                  (click)="ordenarFecha(head)"
+                  style="cursor: pointer"
+                  class="bx bx-expand-vertical"
+                ></i>
+                <i
+                  *ngIf="this.EstadoFecha == 'ASCENDENTE'"
+                  (click)="ordenarFecha(head)"
+                  style="cursor: pointer"
+                  class="bx bx-chevron-up"
+                ></i>
+                <i
+                  *ngIf="this.EstadoFecha == 'DESCENDENTE'"
+                  (click)="ordenarFecha(head)"
+                  style="cursor: pointer"
+                  class="bx bx-chevron-down"
+                ></i>
+              </div>
+            </th>
+            <th class="left" *ngFor="let head of pageHeaders">
+              <div class="normal">
+                {{ head }}
+                <i
+                  *ngIf="this.EstadoActual == 'NORMAL'"
+                  (click)="ordenarAlfabeticamente(head)"
+                  style="cursor: pointer"
+                  class="bx bx-expand-vertical"
+                ></i>
+                <i
+                  *ngIf="this.EstadoActual == 'ASCENDENTE'"
+                  (click)="ordenarAlfabeticamente(head)"
+                  style="cursor: pointer"
+                  class="bx bx-chevron-up"
+                ></i>
+                <i
+                  *ngIf="this.EstadoActual == 'DESCENDENTE'"
+                  (click)="ordenarAlfabeticamente(head)"
+                  style="cursor: pointer"
+                  class="bx bx-chevron-down"
+                ></i>
+              </div>
+            </th>
           </tr>
           <tbody>
-          <tr style="cursor: pointer;" class="trmargin" *ngFor="let carga of cargasGr | paginate: config; let i=index;">
-            <th (click)="$event.stopPropagation()"> 
-              <label class="checkbox">
-                <input (change)="conteoIdsEliminar()" [(ngModel)]="carga.checked" name="groupA"
-                  #checkboxes class="checkbox_input"
-                  type="checkbox"/><span class="checkboxinner"><span class="checkbox_tick"></span
-                ></span>
-              </label>
-          </th>
-            <td class="normalTd">{{ carga.index}}</td>
-            <td class="date normalTd" style="color:#707070;text-align: center;">{{carga.fecha_asignacion | date: 'yyyy-MM-dd':'GMT' }}</td>
-            <td class="left normalTd">{{carga.siniestro}}</td>
-            <td class="left normalTd"><div class="field__wrap">
-              <h4 class="info__Estatus" [ngStyle]="{'color': carga.color}">{{carga.nombreestado}}</h4>
-             </div></td>
-            <td class="left normalTd" >{{carga.origen}}</td>
-            <td  class="left normalTd">{{carga.niu}}</td>
-            <td  class="left normalTd">{{carga.ov}}</td>
-            <td  class="left normalTd">{{carga.personalizada}}</td>
-            <td  class="left normalTd">{{carga.nombre}}</td>
-            <td  class="left normalTd">{{carga.correo}}</td>
-            <td  class="left normalTd">{{carga.telefono1}}</td>
-            <td  class="left normalTd">{{carga.telefono2}}</td>
-            <td  class="left normalTd">{{carga.marca}}</td>
-            <td  class="left normalTd">{{carga.modelo}}</td>
-            <td  class="left normalTd">{{carga["año"]}}</td>
-            <td  class="left normalTd">{{carga.serie}}</td>
-            <td  class="left normalTd">{{carga.observaciones}}</td>
-            <td  class="left normalTd">{{carga.proveedor}}</td>
-
-          </tr>
-        </tbody>
+            <tr
+              style="cursor: pointer"
+              class="trmargin"
+              *ngFor="let carga of cargasGr | paginate: config; let i = index"
+            >
+              <th (click)="$event.stopPropagation()">
+                <label class="checkbox">
+                  <input
+                    (change)="conteoIdsEliminar()"
+                    [(ngModel)]="carga.checked"
+                    name="groupA"
+                    #checkboxes
+                    class="checkbox_input"
+                    type="checkbox"
+                  /><span class="checkboxinner"
+                    ><span class="checkbox_tick"></span
+                  ></span>
+                </label>
+              </th>
+              <td class="normalTd">{{ carga.index }}</td>
+              <td
+                class="date normalTd"
+                style="color: #707070; text-align: center"
+              >
+                {{ carga.fecha_asignacion | date: "yyyy-MM-dd":"GMT" }}
+              </td>
+              <td class="left normalTd">{{ carga.siniestro }}</td>
+              <td class="left normalTd">
+                <div class="field__wrap">
+                  <h4 class="info__Estatus" [ngStyle]="{ color: carga.color }">
+                    {{ carga.nombreestado }}
+                  </h4>
+                </div>
+              </td>
+              <td class="left normalTd">{{ carga.origen }}</td>
+              <td class="left normalTd">{{ carga.niu }}</td>
+              <td class="left normalTd">{{ carga.ov }}</td>
+              <td class="left normalTd">{{ carga.personalizada }}</td>
+              <td class="left normalTd">{{ carga.nombre }}</td>
+              <td class="left normalTd">{{ carga.correo }}</td>
+              <td class="left normalTd">{{ carga.telefono1 }}</td>
+              <td class="left normalTd">{{ carga.telefono2 }}</td>
+              <td class="left normalTd">{{ carga.marca }}</td>
+              <td class="left normalTd">{{ carga.modelo }}</td>
+              <td class="left normalTd">{{ carga["año"] }}</td>
+              <td class="left normalTd">{{ carga.serie }}</td>
+              <td class="left normalTd">{{ carga.observaciones }}</td>
+              <td class="left normalTd">{{ carga.proveedor }}</td>
+            </tr>
+          </tbody>
         </table>
-
-        
-
-
       </div>
       <div class="footer-table">
-      <span class="footer-text">Numero de registros activos: {{cargasGr.length}}</span>
-      <div class="footer-text-right">
-        <div class="footer-combobox">
-      <span class="footer-text">Mostrar registros por pagina </span>
+        <span class="footer-text"
+          >Numero de registros activos: {{ cargasGr.length }}</span
+        >
+        <div class="footer-text-right">
+          <div class="footer-combobox">
+            <span class="footer-text">Mostrar registros por pagina </span>
 
-          <select [(ngModel)]="config.itemsPerPage" class="select-btn-footer"  >
-            
-           <option *ngFor="let size of pageSizes" [value]="size" class="option-footer">
-            {{size}}
-          </option>
-           
-
-           </select>
-   
-    </div>
-    <pagination-controls [id]="config.id"
-    [maxSize]="maxSize"
-    [directionLinks]="directionLinks"
-    [autoHide]="autoHide"
-    [responsive]="responsive"
-    [previousLabel]="labels.previousLabel"
-    [nextLabel]="labels.nextLabel"
-    [screenReaderPaginationLabel]="labels.screenReaderPaginationLabel"
-    [screenReaderPageLabel]="labels.screenReaderPageLabel"
-    [screenReaderCurrentLabel]="labels.screenReaderCurrentLabel"
-    (pageChange)="onPageChange($event)"
-    (pageBoundsCorrection)="onPageBoundsCorrection($event)"></pagination-controls>
-  </div>
+            <select [(ngModel)]="config.itemsPerPage" class="select-btn-footer">
+              <option
+                *ngFor="let size of pageSizes"
+                [value]="size"
+                class="option-footer"
+              >
+                {{ size }}
+              </option>
+            </select>
+          </div>
+          <pagination-controls
+            [id]="config.id"
+            [maxSize]="maxSize"
+            [directionLinks]="directionLinks"
+            [autoHide]="autoHide"
+            [responsive]="responsive"
+            [previousLabel]="labels.previousLabel"
+            [nextLabel]="labels.nextLabel"
+            [screenReaderPaginationLabel]="labels.screenReaderPaginationLabel"
+            [screenReaderPageLabel]="labels.screenReaderPageLabel"
+            [screenReaderCurrentLabel]="labels.screenReaderCurrentLabel"
+            (pageChange)="onPageChange($event)"
+            (pageBoundsCorrection)="onPageBoundsCorrection($event)"
+          ></pagination-controls>
+        </div>
       </div>
     </div>
-    </div>
-    
-        
-      
-    
   </div>
-   
- 
+</div>
 
- <!-- <div *ngIf="dispararAlertaError" class="popup popup_success js-popup js-popup-success animation visible">
+<!-- <div *ngIf="dispararAlertaError" class="popup popup_success js-popup js-popup-success animation visible">
   <div class="popup__overlay js-popup-overlay"></div>
   <div class="popup__wrap js-popup-wrap">
     <div class="success">
@@ -263,33 +365,119 @@
   </div>
 </div> -->
 
- <div *ngIf="dispararAlerta" class="popup popup_success js-popup js-popup-success animation visible">
+<div
+  *ngIf="dispararAlerta"
+  class="popup popup_success js-popup js-popup-success animation visible"
+>
   <div class="popup__overlay js-popup-overlay"></div>
   <div class="popup__wrap js-popup-wrap">
     <div class="success">
       <div class="success__icon">
-        <img src="../../../assets/excelICono.png">
+        <img src="../../../assets/excelICono.png" />
       </div>
       <div class="success__info">Se ha generado el archivo</div>
-      <div class=" h2 success__price ">ReporteV.Xslx</div>
-      <div class="success__text">La exportación se ha realizado exitosamente.</div>
-      <button (click)="cerrarAlerta()" class="button success__button js-popup-close">De acuerdo</button>
+      <div class="h2 success__price">ReporteV.Xslx</div>
+      <div class="success__text">
+        La exportación se ha realizado exitosamente.
+      </div>
+      <button
+        (click)="cerrarAlerta()"
+        class="button success__button js-popup-close"
+      >
+        De acuerdo
+      </button>
     </div>
   </div>
 </div>
 
 <div *ngIf="abrirFooter" class="footer">
   <div class="contenedor_footer">
-<div  class="panel">
-  <div class="panel__info">
-    <svg class="icon icon-check-all">
-      <use xlink:href="#icon-check-all"></use>
-    </svg>Registros Seleccionados <span>{{this.count}}</span>
+    <div class="panel">
+      <div class="panel__info">
+        <svg class="icon icon-check-all">
+          <use xlink:href="#icon-check-all"></use></svg>Registros Seleccionados <span>{{ this.count }}</span>
+      </div>
+      <div class="panel__btns">
+        <button
+          (click)="cancelarEliminarIds()"
+          type="button"
+          class="button-stroke panel__button"
+        >
+          Cancelar
+        </button>
+        <button
+          (click)="eliminarIds()"
+          form="createForm"
+          type="submit"
+          class="button panel__button"
+        >
+          Eliminar
+        </button>
+      </div>
+    </div>
   </div>
-  <div class="panel__btns">
-    <button (click)="cancelarEliminarIds()" type="button" class="button-stroke panel__button">Cancelar</button>
-    <button (click)="eliminarIds()"form="createForm" type="submit" class="button panel__button">Eliminar</button>   
-  </div>
 </div>
-</div>
-</div>
+
+<!--Animation-->
+<style type="text/css">
+  @keyframes ldio-ehkjckhbtyt {
+     0% { transform: translate(12px,80px) scale(0); }
+    25% { transform: translate(12px,80px) scale(0); }
+    50% { transform: translate(12px,80px) scale(1); }
+    75% { transform: translate(80px,80px) scale(1); }
+   100% { transform: translate(148px,80px) scale(1); }
+  }
+  @keyframes ldio-ehkjckhbtyt-r {
+     0% { transform: translate(148px,80px) scale(1): }
+   100% { transform: translate(148px,80px) scale(0); }
+  }
+  @keyframes ldio-ehkjckhbtyt-c {
+     0% { background: #398dff }
+    25% { background: #cae1ff }
+    50% { background: #a8cdff }
+    75% { background: #5ba1ff }
+   100% { background: #398dff }
+  }
+  .ldio-ehkjckhbtyt div {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    transform: translate(80px,80px) scale(1);
+    background: #398dff;
+    animation: ldio-ehkjckhbtyt 2.4390243902439024s infinite cubic-bezier(0,0.5,0.5,1);
+  }
+  .ldio-ehkjckhbtyt div:nth-child(1) {
+    background: #5ba1ff;
+    transform: translate(148px,80px) scale(1);
+    animation: ldio-ehkjckhbtyt-r 0.6097560975609756s infinite cubic-bezier(0,0.5,0.5,1), ldio-ehkjckhbtyt-c 2.4390243902439024s infinite step-start;
+  }.ldio-ehkjckhbtyt div:nth-child(2) {
+    animation-delay: -0.6097560975609756s;
+    background: #398dff;
+  }.ldio-ehkjckhbtyt div:nth-child(3) {
+    animation-delay: -1.2195121951219512s;
+    background: #5ba1ff;
+  }.ldio-ehkjckhbtyt div:nth-child(4) {
+    animation-delay: -1.8292682926829267s;
+    background: #a8cdff;
+  }.ldio-ehkjckhbtyt div:nth-child(5) {
+    animation-delay: -2.4390243902439024s;
+    background: #cae1ff;
+  }
+  .loadingio-spinner-ellipsis-oho0lnfcd0m {
+    width: 200px;
+    height: 200px;
+    display: inline-block;
+    overflow: hidden;
+  }
+  .ldio-ehkjckhbtyt {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform: translateZ(0) scale(1);
+    backface-visibility: hidden;
+    transform-origin: 0 0; /* see note above */
+  }
+  .ldio-ehkjckhbtyt div { box-sizing: content-box; }
+  /* generated by https://loading.io/ */
+  </style>

@@ -16,7 +16,7 @@
       <ul class="menu-links">
 
         <li routerLinkActive="active" class="nav-link">
-          <a  routerLinkActive="active" [routerLink]="'/home/dashboard'">
+          <a  routerLinkActive="active"  [routerLink]="'/home/dashboard'">
             <img *ngIf="!oscuro" class="imagenesDashboard space-nav-text" src="../../../assets/IconDashboard.png">
             <img *ngIf="oscuro" class="imagenesDashboard space-nav-text" src="../../../assets/dashboardDark.png">
 
@@ -25,7 +25,7 @@
         </li>
 
         <li routerLinkActive="active" class="nav-link">
-          <a routerLinkActive="active" [routerLink]="'/home/importar'">
+          <a routerLinkActive="active"[routerLink]="'/home/importar'">
             <img *ngIf="!oscuro"class="imagenesDashboard space-nav-text" src="../../../assets/importarDashboard.png">
             <img *ngIf="oscuro" class="imagenesDashboard space-nav-text" src="../../../assets/darkImportar.png">
 

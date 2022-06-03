@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { inputs } from '@syncfusion/ej2-angular-richtexteditor/src/rich-text-editor/richtexteditor.component';
-import { filter } from 'rxjs/operators';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
@@ -12,7 +10,7 @@ export class SidebarComponent implements OnInit {
   abierto =false;
   posicionNavbar = false;
   
-  constructor() {}
+  constructor(private router:Router) {}
 
   ngOnInit(): void {
     this.oscuro = false;
@@ -68,6 +66,11 @@ export class SidebarComponent implements OnInit {
     }else{
       this.oscuro=true;
     }
+  }
+
+  navegar(ruta:string){
+    this.router.navigateByUrl('/', {skipLocationChange: true}).then(()=>
+    this.router.navigate([ruta]));
   }
 
 }
