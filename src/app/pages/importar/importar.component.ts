@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CargaGrService } from '../../services/carga-gr.service';
 import * as ClassicEditor from '../../../../ckeditor/build/ckEditor';
 import { NavbarService } from 'src/app/services/navbar.service';
@@ -78,7 +78,7 @@ export class ImportarComponent implements OnInit {
       // console.log(resp);
       this.cargasGr = resp;
       this.cargasView = resp;
-    //  this.mostrarMensajeInicial = false;
+      this.primeraVez = false;
        if(this.cargasGr.length>0){
       //  this.mostrarAvisoRegistros = true;
       } 

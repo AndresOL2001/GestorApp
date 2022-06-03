@@ -5,6 +5,7 @@ import { DatePipe } from '@angular/common';
 import { Comentario } from '../models/comentario';
 import { CargaGrConDetalle } from '../models/cargaGrConDetalle';
 import { cargaGrIds } from '../models/cargaGrIds';
+import { environment } from '../../environments/environment.prod';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class CargaGrService {
 
   constructor(private http:HttpClient,private datePipe:DatePipe) { }
 
-  //public url = "http://socialpets.club/api"; 
+  //public url = environment.url; 
   public url = "http://localhost:8080/api";
 
   cargasGr:cargaGrExp[] = [];

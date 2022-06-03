@@ -22,7 +22,7 @@
   </div>
 </div>
 
-<div *ngIf="(!cargasGr || cargasGr.length== 0) || mostrarMensajeInicial && !primeraVez" class="centrarLoader">
+<div *ngIf="(!cargasGr || cargasGr.length== 0) && mostrarMensajeInicial && !primeraVez" class="centrarLoader">
   <div class="loadingio-spinner-wedges-h3pm5668zt7"><div class="ldio-ydyq20jtl7f">
     <div><div><div></div></div><div><div></div></div><div><div></div></div><div><div></div></div></div>
     </div></div>
@@ -84,6 +84,18 @@
           </div>
         </div>
 
+        <div class="left-btn">
+          <button
+            (click)="exportarCargas(this.cargasGr)"
+            class="button-stroke users__button"
+          >
+            <img
+              class="imgbtnprint"
+              src="../../../assets/icono descarga.png"
+            />Exportar xlsx
+          </button>
+        </div>
+
         <!--   <div class="select1">
               <select style="width:200px" (change)="cambioFiltroFecha($event.target.value)" [(ngModel)]="FiltroFecha" class="select-btn" name="Days">
               <option>Fecha</option>
@@ -112,7 +124,6 @@
               (click)="actualizarFecha(opcion)"
               *ngFor="let opcion of dropdownOptions"
             >
-              <img class="dropdown-images-fechas" [src]="opcion.imagen" />
               <span>{{ opcion?.titulo }}</span>
             </li>
           </ul>
@@ -139,18 +150,9 @@
             </li>
           </ul>
         </div>
-        <div class="left-btn">
-          <button
-            (click)="exportarCargas(this.cargasGr)"
-            class="button-stroke users__button"
-          >
-            <img
-              class="imgbtnprint"
-              src="../../../assets/icono descarga.png"
-            />Exportar xlsx
-          </button>
-        </div>
+        
       </div>
+
 
       <div class="table-container2">
         <table class="table-rwd2">

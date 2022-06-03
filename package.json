@@ -23,6 +23,7 @@
     "@ckeditor/ckeditor5-build-classic": "^34.0.0",
     "@syncfusion/ej2-angular-richtexteditor": "^20.1.55",
     "jquery": "^3.6.0",
+    "moment": "^2.29.3",
     "ngx-colors": "^2.10.1",
     "ngx-daterangepicker-material": "^5.0.2",
     "ngx-pagination": "^5.1.1",

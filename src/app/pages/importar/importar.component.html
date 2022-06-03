@@ -1,4 +1,4 @@
-<div *ngIf="(!cargasGr || cargasGr.length== 0) && mostrarMensajeInicial && primeraVez" class="page__inner__home2 ">
+<div *ngIf="(!cargasGr || cargasGr.length== 0)  && primeraVez" class="page__inner__home2 ">
   <div class="hi-dash-welcome-bac">Hola Administrador,</div>
   <h1 class="campaigns poppins-semi-bold-mirage-40px">
     <span class="span poppins-semi-bold-mirage-40px">Bienvenido</span><span class="span1">&nbsp;</span><span
@@ -19,7 +19,7 @@
 
 </div>
 
-<div *ngIf="(!cargasGr || cargasGr.length== 0)" class="centrarLoader">
+<div *ngIf="(!cargasGr || cargasGr.length== 0) && !primeraVez" class="centrarLoader">
   <div class="loadingio-spinner-wedges-h3pm5668zt7"><div class="ldio-ydyq20jtl7f">
     <div><div><div></div></div><div><div></div></div><div><div></div></div><div><div></div></div></div>
     </div></div>
@@ -49,7 +49,7 @@
   </div>
 </div>
 
-<div *ngIf="dispararAlerta" class="popup popup_success js-popup js-popup-success animation visible">
+<!-- <div *ngIf="dispararAlerta" class="popup popup_success js-popup js-popup-success animation visible">
   <div class="popup__overlay js-popup-overlay"></div>
   <div class="popup__wrap js-popup-wrap">
     <div class="success">
@@ -61,7 +61,7 @@
     </div>
   </div>
 </div>
-
+ -->
 <div *ngIf="espereUnMomento"  class="popup popup_success js-popup js-popup-success animation visible">
   <div class="popup__overlay js-popup-overlay"></div>
   <div class="centrarLoader">
@@ -138,13 +138,19 @@
     <div id="importarSeccion" class="container espacio">
       <div class="create__card card">
         <div class="card__head">
-          <div class="title-blue card__title">
-            <h2>LayoutGr</h2>
+          <div class="card__title tittle-layout_one">
+            <div class="title-Layount">
+            <span class="title-top">Layout</span>
+            <span class="title-bottom">Gr</span>
+            </div>
+            <div class="image-picture-Layount">
+             <img class="img-picture-size" src="..\assets\excelICono.png">
+              </div>
+
           </div>
         </div>
         <div *ngIf="!banderaArchivoCargado" class="media__content">El Layout debe de ser un archivo .xls o cvs, debera
-          de
-          cumplir con los lineamientos y formatos indicados para su correcta importacion al sistema</div>
+          de cumplir con los lineamientos y formatos indicados para su correcta importacion al sistema. <a href="#" class="text-contetn-color-green">Descargar formato aqui.</a></div>
         <div *ngIf="!banderaArchivoCargado" class="file">
           <div class="file__label">LayoutGr
             <div class="tooltip" title="Maximum 100 characters. No HTML or emoji allowed">
@@ -184,7 +190,7 @@
     </div>
   </div>
 </div>
-<div *ngIf="cargasGr" class="page__inner2">
+<div *ngIf="cargasGr" class="page__inner2 page2">
   <div class="page__container2">
     <div class="drafts card">
       <div class="card__title">Listado de PT's</div>

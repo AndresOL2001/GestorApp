@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Estado } from '../models/estado';
+import { environment } from 'src/environments/environment.prod';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EstadosService {
- //public url = "http://socialpets.club/api"; 
+ //public url = environment.url; 
  public url = "http://localhost:8080/api";
   
   constructor(private http:HttpClient) {

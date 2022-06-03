@@ -4,6 +4,7 @@ import {
   ElementRef,
   OnInit,
   QueryList,
+  ViewChild,
   ViewChildren,
 } from '@angular/core';
 import { PaginationInstance } from 'ngx-pagination';
@@ -16,7 +17,6 @@ import { EstadosService } from 'src/app/services/estados.service';
 import { NavbarService } from 'src/app/services/navbar.service';
 import * as ClassicEditor from '../../../../ckeditor/build/ckEditor';
 import { Comentario, CargaComentario } from '../../models/comentario';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -27,6 +27,8 @@ export class HomeComponent implements OnInit {
   comentarios: any[] = [];
 
   public editor: any = ClassicEditor;
+  @ViewChild("ckeditor") ckeditor: any;
+
   cajaDescripcionComentario = ' ';
   checkboxRef;
   cargasGr: cargaGr[];
@@ -203,7 +205,7 @@ export class HomeComponent implements OnInit {
     this.listaEstados.append('Gestoria en tramite');
     this.listaEstados.append('Validacion digital');
     this.listaEstados.append('Documentos entregados');
-    this.mostrarMensajeInicial = true;
+
 
     this.estadoService.obtenerEstados().subscribe((resp: Estado[]) => {
       this.estadosComentarios = resp;
@@ -216,7 +218,7 @@ export class HomeComponent implements OnInit {
       //console.log(resp);
       this.cargasGr = resp;
       this.cargasView = resp;
-      this.mostrarMensajeInicial = false;
+      this.primeraVez = false;
       if (this.cargasGr.length > 0) {
         this.mostrarAvisoRegistros = true;
       }
@@ -548,6 +550,7 @@ export class HomeComponent implements OnInit {
         }
       }
     );
+
   }
 
   CerrarModal() {
@@ -562,6 +565,7 @@ export class HomeComponent implements OnInit {
 
   crearComentario(comentarioDescripcion: string, dispararAlerta: boolean) {
    // console.log(this.cargaModal.nombreestado);
+
     comentarioDescripcion = comentarioDescripcion.replace(/(<([^>]+)>)/gi, '');
 
     let estadoNuevoComentario = this.estadosComentarios.filter(
@@ -613,7 +617,7 @@ export class HomeComponent implements OnInit {
          // this.dispararAlerta = true;
           // console.log(resp);
         });
-        comentario.comentario = 'Registro asignado correctamente al proveedor No.'+this.cargaModal.proveedor
+        comentario.comentario = 'Registro asignado correctamente al proveedor No.'+this.cargaModal.proveedor + ' Nuevo estatus asignado'
         this.cargaService
         .crearComentario(comentario, estadoNuevoComentario[0]?.IdEstado)
         .subscribe((resp) => {
@@ -629,7 +633,6 @@ export class HomeComponent implements OnInit {
             this.cargasView = resp;
           });
         });
-
         return;
     } 
 
@@ -775,6 +778,9 @@ export class HomeComponent implements OnInit {
 
   proveedorAux;
   cambiarProveedor(event) {
+    if(event == 'No Asignado'){
+      return;
+    }
     this.estaSeguro = true;
     this.proveedorAux = event;
   }

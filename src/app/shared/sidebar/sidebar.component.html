@@ -17,8 +17,8 @@
 
         <li routerLinkActive="active" class="nav-link">
           <a  routerLinkActive="active"  [routerLink]="'/home/dashboard'">
-            <img *ngIf="!oscuro" class="imagenesDashboard space-nav-text" src="../../../assets/IconDashboard.png">
-            <img *ngIf="oscuro" class="imagenesDashboard space-nav-text" src="../../../assets/dashboardDark.png">
+            <i routerLinkActive="icones" class='bx bxs-dashboard iconeside'></i>            <!-- <img *ngIf="!oscuro" class="imagenesDashboard space-nav-text" src="../../../assets/IconDashboard.png">
+            <img *ngIf="oscuro" class="imagenesDashboard space-nav-text" src="../../../assets/dashboardDark.png"> -->
 
             <span routerLinkActive="sidebar-active-a" class="text nav-text space-nav-text ">Dashboard</span>
           </a>
@@ -26,8 +26,10 @@
 
         <li routerLinkActive="active" class="nav-link">
           <a routerLinkActive="active"[routerLink]="'/home/importar'">
-            <img *ngIf="!oscuro"class="imagenesDashboard space-nav-text" src="../../../assets/importarDashboard.png">
-            <img *ngIf="oscuro" class="imagenesDashboard space-nav-text" src="../../../assets/darkImportar.png">
+            <i  routerLinkActive="icones"  class='bx bx-car iconeside'></i>
+
+            <!-- <img *ngIf="!oscuro"class="imagenesDashboard space-nav-text" src="../../../assets/importarDashboard.png">
+            <img *ngIf="oscuro" class="imagenesDashboard space-nav-text" src="../../../assets/darkImportar.png"> -->
 
             <span routerLinkActive="sidebar-active-a" class="text nav-text space-nav-text">Importar Layout</span>
           </a>
@@ -35,8 +37,8 @@
 
         <li routerLinkActive="active" class="nav-link">
           <a routerLinkActive="active" [routerLink]="'/home/exportar'">
-            <img *ngIf="!oscuro"class="imagenesDashboard space-nav-text" src="../../../assets/exportarDashboard.png">
-            <img *ngIf="oscuro" class="imagenesDashboard space-nav-text" src="../../../assets/darkExportar.png">
+            <i routerLinkActive="icones" class='bx bx-bar-chart-square iconeside'></i>            <!-- <img *ngIf="!oscuro"class="imagenesDashboard space-nav-text" src="../../../assets/exportarDashboard.png">
+            <img *ngIf="oscuro" class="imagenesDashboard space-nav-text" src="../../../assets/darkExportar.png"> -->
 
             <span routerLinkActive="sidebar-active-a" class="text nav-text space-nav-text" >Exportar</span>
           </a>

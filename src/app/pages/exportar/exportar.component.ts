@@ -4,7 +4,7 @@ import { CargaGrService } from 'src/app/services/carga-gr.service';
 import { NavbarService } from 'src/app/services/navbar.service';
 import { DatePipe } from '@angular/common';
 import { PaginationInstance } from 'ngx-pagination';
-import { drop } from '@syncfusion/ej2-angular-richtexteditor';
+
 
 @Component({
   selector: 'app-exportar',

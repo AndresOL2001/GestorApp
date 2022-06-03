@@ -17,7 +17,8 @@ import localePy from '@angular/common/locales/es-PY';
 import localePt from '@angular/common/locales/pt';
 import localeEn from '@angular/common/locales/en';
 import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
-
+import * as moment from 'moment';
+moment.locale('es');
 registerLocaleData(localePy, 'es');
 registerLocaleData(localePt, 'pt');
 registerLocaleData(localeEn, 'en')
@@ -33,7 +34,14 @@ registerLocaleData(localeEn, 'en')
     SharedModule,
     NgxPaginationModule,
     FormsModule,
-    NgxDaterangepickerMd.forRoot()
+    NgxDaterangepickerMd.forRoot({
+      separator: ' - ',
+      applyLabel: 'Aplicar',
+      daysOfWeek: moment.weekdaysMin(),
+      monthNames: moment.monthsShort(),
+      firstDay: moment.localeData().firstDayOfWeek()
+  })
+
     
   ],
   providers: [DatePipe,{ provide: LOCALE_ID, useValue: 'es' }]

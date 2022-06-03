@@ -1,4 +1,4 @@
-<div *ngIf="(!cargasGr || cargasGr.length== 0) && mostrarMensajeInicial && primeraVez" class="page__inner__home">
+<div *ngIf="(!cargasGr || cargasGr.length== 0)  && primeraVez" class="page__inner__home">
   <div class="hi-dash-welcome-bac">Hola Administrador,</div>
   <h1 class="campaigns poppins-semi-bold-mirage-40px">
     <span class="span poppins-semi-bold-mirage-40px">Bienvenido</span><span class="span1">&nbsp;</span><span
@@ -18,7 +18,7 @@
   </div>
 </div>
 
-<div *ngIf="(!cargasGr || cargasGr.length== 0) && mostrarMensajeInicial && !primeraVez" class="centrarLoader">
+<div *ngIf="(!cargasGr || cargasGr.length== 0) && !primeraVez" class="centrarLoader">
   <div class="loadingio-spinner-wedges-h3pm5668zt7"><div class="ldio-ydyq20jtl7f">
     <div><div><div></div></div><div><div></div></div><div><div></div></div><div><div></div></div></div>
     </div></div>
@@ -30,7 +30,7 @@
     <div  class="drafts card">
       <div class="card__title">Listado de PT's</div>
       <div class="calendario-position">
-        <ngx-daterangepicker-material *ngIf="mostrarCalendario"(choosedDate)="choosedDate($event)" [showDropdowns]="true">
+        <ngx-daterangepicker-material *ngIf="mostrarCalendario"(choosedDate)="choosedDate($event)" [showDropdowns]="true" >
         </ngx-daterangepicker-material>
         </div>
       <div class="card__head">
@@ -45,7 +45,6 @@
             <ul id="ulDrop2" class="dropdown-menu drop2" name="Days">
           
               <li (click)="actualizarFecha(opcion)"*ngFor="let opcion of dropdownOptions">
-              <img class="dropdown-images-fechas" [src]="opcion.imagen">
               <span>{{opcion?.titulo}}</span>
               </li>
             
@@ -341,7 +340,7 @@
                         </svg>
                         <span class="tooltiptext">El valor de la caja no puede ser nulo</span>
                       </div>
-                      <ckeditor name="editorComentario" [(ngModel)]="cajaDescripcionComentario" [editor]="editor"></ckeditor>
+                      <ckeditor id="ckeditor" name="editorComentario" [(ngModel)]="cajaDescripcionComentario" [editor]="editor"></ckeditor>
                     </div>
                     <div class="header__btns2">
                       <button (click)="crearComentario(this.cajaDescripcionComentario)" class="button">Guardar</button>
@@ -404,11 +403,10 @@
   <div class="popup__wrap js-popup-wrap">
     <div class="success">
       <div class="success__iconError"> ? </div>
-      <div class="success__info">Esta seguro que desea asignar proveedor?</div>
-      <div class=" h2 success__price ">Advertencia</div>
-      <div class="success__text">Una vez escogido el proveedor no podra volver a cambiarlo </div>
-      <button (click)="asignarProveedor()" class="button success__button"style="margin-right:2px;">Aceptar</button>
-      <button (click)="cerrarAlerta()" class="button-stroke users__button">Cancelar</button>
+      <div class="success__info">¿Esta seguro que desea asignar proveedor?</div>
+      <div class="success__text">Una vez asignado el proveedor no podra volver a cambiarlo </div>
+      <button (click)="cerrarAlerta()" class="button-stroke users__button" style="margin-right:10px;">Cancelar</button>
+      <button (click)="asignarProveedor()" class="button success__button">Aceptar</button>
 
     </div>
   </div>
