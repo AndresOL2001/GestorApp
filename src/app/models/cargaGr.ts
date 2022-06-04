@@ -3,6 +3,7 @@ export interface cargaGr {
     index:number;
     id:string;
     fecha_asignacion:string;
+    fecha_creacion:string;
     siniestro:string;
     origen:string;
     niu:string;

@@ -1368,7 +1368,7 @@ html {
   
   .ngx-pagination .current,
   .btn-info {
-    background: #17a2b8 !important;
+    background: #0069f6 !important;
     border: transparent !important;
   }
 
@@ -2622,9 +2622,6 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-handle {
     justify-content: right;
     margin-top: 13px;
 }
-.ngx-pagination :hover{
-    background: transparent !important;
-}
 
 .ngx-pagination .pagination-next a::after, .ngx-pagination .pagination-next.disabled::after {
   content: '' !important;
@@ -3204,9 +3201,9 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-handle {
   display: inline-flex;
   justify-content: center;
   align-items: center;
+  background-color: var(--primary-color);
   height: 48px;
   padding: 0 20px;
-  background: #2A85FF;
   border-radius: 12px;
   font-size: 15px;
   font-weight: 700;
@@ -3215,7 +3212,7 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-handle {
   color: #FCFCFC;
   transition: all .2s; }
   [class^="button"]:hover {
-    background: #0069f6; }
+     background: #0069f6;  }
   [class^="button"].disabled {
     opacity: .5;
     pointer-events: none; }
@@ -3223,9 +3220,30 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-handle {
     fill: #FCFCFC;
     transition: all .2s; }
   [class^="button"]:not([class^="button-square"]) svg:first-child {
-    margin-right: 8px; }
+    margin-right: 8px;
+    margin-bottom: 6px; }
   [class^="button"]:not([class^="button-square"]) svg:last-child {
     margin-left: 8px; }
+
+    .md-drppicker .btn.btn-default .clear {
+      width:30px;
+      background-color:transparent !important;
+
+  }
+
+  .md-drppicker .clear {
+    box-shadow: none;
+     background-color:transparent !important;
+}
+.md-drppicker .buttons {
+  /* text-align: right; */
+  /* margin: 0 5px 5px 0; */
+  color: white;
+  background: white;
+}
+.buttons_input{
+  background-color: transparent !important;
+}
 
 .button-stroke,
 .button-stroke-red {
@@ -3730,6 +3748,13 @@ hr{
           height: 100%;
           align-items: center;
       }
+
+      .btnDropdownTablas{
+        display: flex;
+        width: 100%;
+        height: 100%;
+        align-items: center;
+      }
       
         /* ===== Sidebar ===== */
       .sidebar {
@@ -4040,10 +4065,13 @@ hr{
         transform: translateY(-10px);
         transition: opacity 150ms ease-in-out , transform 150ms ease-in-out;
         text-align: center;
-      width: 100%;
-      align-items: center;
-      height: 100%;
+        width: 100%;
+        align-items: center;
+        height: 100%;
       }
+
+      
+
       .dropdown-menu a,.dropdown-menu button{
       display: flex;
       align-items: center;
@@ -5789,6 +5817,63 @@ body.dark .imagenesDashboard{
   margin-bottom: 16px;
   font-weight: 500;
   color: #6F767E; 
+}
+
+.ck.ck-editor_main>.ck-editor_editable:not(.ck-focused) {
+  border-color: var(--ck-color-base-border);
+  background: white !important;
+}
+
+.ck-rounded-corners .ck.ck-editor_main>.ck-editoreditable, .ck.ck-editormain>.ck-editor_editable.ck-rounded-corners {
+  background:white !important;
+color:black !important;
+}
+
+ body.dark .btndropstyle{
+  background:#272B30;
+}
+ 
+body.dark .drop2{
+  background:#272B30;
+}
+ 
+
+
+body.dark *::-webkit-scrollbar{
+background:black;
+}
+
+body.dark *::-webkit-scrollbar-thumb {
+  background-color: 
+#272B30;
+}
+
+
+body.dark .ck.ck-editor_main>.ck-editor_editable:not(.ck-focused) {
+  border-color: var(--ck-color-base-border);
+  background: #191c1e59 !important;
+  color: white !important;
+}
+
+
+
+body.dark .ck-rounded-corners .ck.ck-editor_main>.ck-editoreditable, .ck.ck-editormain>.ck-editor_editable.ck-rounded-corners {
+  background:#191c1e59 !important;
+color:white !important;
+}
+
+body.dark .ck.ck-icon, .ck.ck-icon * {
+  color: white;
+}
+
+body.dark .ck-rounded-corners .ck.ck-editor_top .ck-sticky-panel .ck-toolbar, .ck.ck-editor_top .ck-sticky-panel .ck-toolbar.ck-rounded-corners {
+
+  background: #0000001a !important;
+}
+
+body.dark .select-table .select-btn,  .select-table option{
+
+  background: #0000001a !important;
 }
 
 .sidebar li a i.icones{

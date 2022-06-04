@@ -38,7 +38,7 @@ export class ImportarComponent implements OnInit {
 
   pageHeaders = [
     'SINIESTRO',
-    'ESTADO',
+    'ESTATUS',
     'ORIGEN',
     'NIU',
     'OV',
@@ -78,6 +78,8 @@ export class ImportarComponent implements OnInit {
       // console.log(resp);
       this.cargasGr = resp;
       this.cargasView = resp;
+      this.cargasGr.sort((a, b) => b.index - a.index);
+
       this.primeraVez = false;
        if(this.cargasGr.length>0){
       //  this.mostrarAvisoRegistros = true;
@@ -88,11 +90,13 @@ export class ImportarComponent implements OnInit {
 
   ordenarAlfabeticamente(head: string) {
   
-    if (head == 'ESTADO') {
+    //console.log(this.FiltroEstado);
+
+    if (head == 'ESTATUS') {
       head = 'nombreestado';
     }
 
-    if(head == '#'){
+    if (head == '#') {
       head = 'index';
     }
 
@@ -100,7 +104,7 @@ export class ImportarComponent implements OnInit {
       this.EstadoActual = 'ASCENDENTE';
 
       this.cargasGr.sort(function (a, b) {
-        if (a[head.toLowerCase()] > b[head.toLowerCase()]) {
+        if (b[head.toLowerCase()] < a[head.toLowerCase()]) {
           return 1;
         }
         if (a[head.toLowerCase()] < b[head.toLowerCase()]) {
@@ -109,8 +113,7 @@ export class ImportarComponent implements OnInit {
         return 0;
       });
 
-
-      // console.log(this.EstadoActual);
+    
     } else if (this.EstadoActual == 'ASCENDENTE') {
       //console.log("entraste aqui")
 
@@ -125,26 +128,24 @@ export class ImportarComponent implements OnInit {
       });
       this.EstadoActual = 'DESCENDENTE';
 
-
+    
     } else {
-      this.cargaGrService.getCargas().subscribe((resp: cargaGr[]) => {
-        resp = resp.filter(carga => carga.nombreestado == 'Creado');
-        resp.forEach((carga,i) => {
-          carga.index = i+1;
-        })
-
-        this.cargasView = resp;
-       
-          this.cargasGr = resp;
-      
-        // this.obtenerTotalIndicesTabla();
+      this.cargasGr.sort(function (a, b) {
+        if (a[head.toLowerCase()] < b[head.toLowerCase()]) {
+          return 1;
+        }
+        if (a[head.toLowerCase()] > b[head.toLowerCase()]) {
+          return -1;
+        }
+        return 0;
       });
+
       this.EstadoActual = 'NORMAL';
     }
   }
 
   ordenarFecha() {
-   
+  
 
     if (this.EstadoFecha == 'NORMAL') {
       this.cargasGr.sort(
@@ -152,24 +153,22 @@ export class ImportarComponent implements OnInit {
           Date.parse(b.fecha_asignacion) - Date.parse(a.fecha_asignacion)
       );
       this.EstadoFecha = 'ASCENDENTE';
- 
+    
     } else if (this.EstadoFecha == 'ASCENDENTE') {
       this.cargasGr.sort(
         (a, b) =>
           Date.parse(a.fecha_asignacion) - Date.parse(b.fecha_asignacion)
       );
       this.EstadoFecha = 'DESCENDENTE';
-   
+     
     } else {
-      this.cargaGrService.getCargas().subscribe((resp: cargaGr[]) => {
-        resp = resp.filter(carga => carga.nombreestado == 'Creado');
-        resp.forEach((carga,i) => {
-          carga.index = i+1;
-        })
-        this.cargasView = resp;
-        this.cargasGr = resp;
+      this.cargasGr.sort(
+        (a, b) =>
+          Date.parse(b.fecha_asignacion) - Date.parse(a.fecha_asignacion)
+      );
+
+
         // this.obtenerTotalIndicesTabla();
-      });
       this.EstadoFecha = 'NORMAL';
     }
   }
@@ -183,6 +182,8 @@ export class ImportarComponent implements OnInit {
         carga.index = i+1;
       })
       this.cargasGr = resp;
+      this.cargasGr.sort((a, b) => b.index - a.index);
+
     });
   }
 

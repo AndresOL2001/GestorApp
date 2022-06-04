@@ -39,7 +39,7 @@ registerLocaleData(localeEn, 'en')
       applyLabel: 'Aplicar',
       daysOfWeek: moment.weekdaysMin(),
       monthNames: moment.monthsShort(),
-      firstDay: moment.localeData().firstDayOfWeek()
+      firstDay: moment.localeData().firstDayOfWeek(),
   })
 
     

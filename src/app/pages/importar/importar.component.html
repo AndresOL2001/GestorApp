@@ -150,7 +150,7 @@
           </div>
         </div>
         <div *ngIf="!banderaArchivoCargado" class="media__content">El Layout debe de ser un archivo .xls o cvs, debera
-          de cumplir con los lineamientos y formatos indicados para su correcta importacion al sistema. <a href="#" class="text-contetn-color-green">Descargar formato aqui.</a></div>
+          de cumplir con los lineamientos y formatos indicados para su correcta importacion al sistema. <a class="text-contetn-color-green" style="cursor:pointer;">Descargar formato aqui.</a></div>
         <div *ngIf="!banderaArchivoCargado" class="file">
           <div class="file__label">LayoutGr
             <div class="tooltip" title="Maximum 100 characters. No HTML or emoji allowed">
@@ -219,7 +219,7 @@
                   <use xlink:href="#icon-arrow-left"></use>
                 </svg>
               </button>
-              <input #searchInput (keyup.enter)="buscar(searchInput.value)" class="search__input" type="text"
+              <input #searchInput (keyup)="buscar(searchInput.value)" class="search__input" type="text"
                 placeholder="Buscar">
               <button class="search__close">
                 <svg class="icon icon-close-circle">

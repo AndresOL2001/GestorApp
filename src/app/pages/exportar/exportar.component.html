@@ -37,14 +37,10 @@
       <div class="card__title">Exportar y consultar</div>
 
       <div class="calendario-position">
-        <ngx-daterangepicker-material
-          *ngIf="mostrarCalendario"
-          (choosedDate)="choosedDate($event)"
-          [showDropdowns]="true"
-        >
+        <ngx-daterangepicker-material *ngIf="mostrarCalendario"(choosedDate)="choosedDate($event)" [showClearButton]="true" [showDropdowns]="true" >
         </ngx-daterangepicker-material>
       </div>
- 
+      
       <div class="card__head">
         <div id="homeTableId" class="wrapper1">
           <div class="search">
@@ -61,7 +57,7 @@
               </button>
               <input
                 #searchInput
-                (keyup.enter)="buscar(searchInput.value)"
+                (keyup)="buscar(searchInput.value)"
                 class="search__input width_search"
                 type="text"
                 placeholder="Buscar"
@@ -84,17 +80,7 @@
           </div>
         </div>
 
-        <div class="left-btn">
-          <button
-            (click)="exportarCargas(this.cargasGr)"
-            class="button-stroke users__button"
-          >
-            <img
-              class="imgbtnprint"
-              src="../../../assets/icono descarga.png"
-            />Exportar xlsx
-          </button>
-        </div>
+        
 
         <!--   <div class="select1">
               <select style="width:200px" (change)="cambioFiltroFecha($event.target.value)" [(ngModel)]="FiltroFecha" class="select-btn" name="Days">
@@ -129,28 +115,38 @@
           </ul>
         </div>
 
-        <div id="ulDrop3" class="dropdown btndropstyle">
-          <button class="feat-btn link btnconfig">
-            <div class="one">
-              <span style="font-size: 12px">{{ FiltroEstado }}</span>
-            </div>
-            <div class="two">
-              <span
-                class="bx bx-chevron-down icone"
-                style="font-size: 20px"
-              ></span>
-            </div>
-          </button>
-          <ul id="ulDrop4" class="dropdown-menu drop2" name="Days">
-            <li
-              (click)="actualizarEstado(opcion2)"
-              *ngFor="let opcion2 of dropdownOptionsEstados"
-            >
-              <span>{{ opcion2 }}</span>
-            </li>
-          </ul>
-        </div>
+
+         <div  class="dropdown btndropstyle">
+               <button (click)="abrirDropdown($event)" id="ulDrop3" class="btnDropdownTablas">
+              <div class="one">
+                <span style="font-size: 12px;color:#666666">{{ FiltroEstado.titulo }}</span>
+              </div>
+              <div class="two">
+                <span
+                  class="bx bx-chevron-down icone"
+                  style="font-size: 20px;color:#666666"
+                ></span>
+              </div>
+            </button>
+            <ul  id="ulDrop4" class="dropdownTablas drop2" name="Days">
+              <li *ngFor="let opcion of dropdownOptionsEstados" >
+             <input [(ngModel)]="opcion.checked" (change)="cambioFiltroEstado($event)" type="checkbox">   <span>{{ opcion.titulo }}</span>
+              </li>
+            </ul>
+          </div>
         
+      </div>
+
+      <div class="left-btn">
+        <button
+          (click)="exportarCargas(this.cargasGr)"
+          class="button-stroke users__button"
+        >
+          <img
+            class="imgbtnprint"
+            src="../../../assets/icono descarga.png"
+          />Exportar xlsx
+        </button>
       </div>
 
 
@@ -337,6 +333,20 @@
     </button>
   </div>
 </div> -->
+<div *ngIf="dispararAlertaNoCargas" class="popup popup_success js-popup js-popup-success animation visible">
+  <div class="popup__overlay js-popup-overlay"></div>
+  <div class="popup__wrap js-popup-wrap">
+    <div class="success">
+      <div class="success__iconError"> ❌ </div>
+      <div class="success__info">{{mensajeError}}</div>
+      <div class=" h2 success__price ">Error</div>
+      <div class="success__text">Escoja otros filtros o de click en el boton de recargar. </div>
+      <button (click)="cerrarAlerta()" class="button-stroke users__button">De acuerdo</button>
+
+    </div>
+  
+  </div>
+</div>
 
 <div
   *ngIf="dispararAlerta"

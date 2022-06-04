@@ -333,6 +333,16 @@
         display: block;
       }
 
+      .left-btn{
+        position: relative;
+        left: 874px;
+        top: -90px;
+      }
+      
+     /*  .ngx-pagination .current, .btn-info {
+        background: #17a2b8 !important;
+        border: transparent !important;
+    } */
       .page__inner2.page2 {
         margin-top: -120px !important;
       }
